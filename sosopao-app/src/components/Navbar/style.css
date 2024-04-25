@@ -5,84 +5,121 @@ body{
     font-family: 'Poppins', sans-serif;
 }
 
-header{
+nav{
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 15vh;
-    background-color: #A2CFCF;
-    padding: 0 2rem;
+    background: #A2CFCF;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    box-shadow: 0 5px 15px rgba(0,0,0, 0.06);
 }
 
-header img{
-    height: 100%;
+nav img{
+    height: 15vh;
     width: auto;
 }
 
-header nav{
+nav h4{
+    text-align: center;
+    font-size: medium;
+}
+
+#navbar{
+    width: 100%;
     display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 0;
 }
 
-nav a{
-    margin: 0 2rem;
-    color: white;
+#navbar li{
+    list-style: none;
+    padding: 0.2% 1%;
+    margin: 1% 1%;
+}
+
+.active{
+    background: rgba(3, 140, 140, 0.44);
+    text-shadow: 1px 2px 4px #038C8C; /* shadow de cor 3, 140, 140 e blur de 25px */
+    border-radius: 23px;
+}
+
+.active a:hover{
+    color: #FFFFFF !important;
+}
+
+#navbar li a{
     text-decoration: none;
+    white-space: nowrap;
+    opacity: 1;
+    font-weight: regular;
+    font-size: 1.3rem;
+    color: #FFFFFF;
+    transition: 0.3s ease-in-out;
 }
 
-/* Icones sanduiche e X */
-header .nav-btn{
-    padding: 5px;
-    cursor: pointer;
-    background: transparent;
-    border: none;
-    outline: none;
+#navbar li a:hover{
     color: #038C8C;
-    /* Deixa ele invisivel por padrao */
-    display: none;
-    visibility: hidden;
-    opacity: 0;
-    font-size: 2.5rem;
 }
 
-/* Tela mobile - PRECISA INVERTER */
-@media only screen and (max-width: 1024px){
-    header .nav-btn{
-        display: block;
-        visibility: visible;
-        opacity: 1;
-    }
+#mobile {
+    display: none;
+    color: #038C8C;
+    font-size: 3rem;
+}
 
-    header nav{
-        position: fixed;
-        top: 0;
-        left: 0;
-        height: 100%;
-        width: 100%;
+@media screen and (max-width: 762px){
+    #navbar{
         display: flex;
         flex-direction: column;
+        justify-content: flex-start;
         align-items: center;
+        position: fixed;
+        top: -100vh;
+        left: 0px;
+        width: 100%;
+        height: 85vh;
+        transition: 0.5s ease;
+    } 
+
+    .active a:hover{
+        color: #038C8C !important;
+    }
+
+    #navbar.visible{ 
+        top: 14vh;
+    }
+
+    #logout {
+        border: none !important;
+    }
+    #navbar li {
+        width: 80%;
+        padding-top: 3%;
+        border-bottom: #038C8C 2px solid;
+        display: flex;
         justify-content: center;
-        gap: 1.5rem;
-        background-color: #ffffff;
-        transform: translateY(-100vh);
+        background: none;
+        border-radius: 0;
     }
-
-    /* Faz voltar ao normal ao colocar essa classe */
-    header .responsive_nav{
-        transform: none;
-    }
-    nav a{
+    
+    #navbar li a{
         color: #038C8C;
+        font-size: 1.3rem;
+        margin-bottom: 1%;
+        margin-top: 1%;
+        text-shadow: none;
+        font-weight: 500;
     }
 
-    nav .nav-close-btn{
-        position: absolute;
-        top: 2rem;
-        right: 2rem;
+    nav h4{
+        display: none;
     }
 
-    nav a{
-        font-size: 1.5rem;
-        
+    #mobile{
+        display: block;
+        padding-right: 2%;
     }
 }

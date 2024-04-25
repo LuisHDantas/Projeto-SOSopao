@@ -1,41 +1,86 @@
-
 import logo from '../../assets/images/logo.png'
 import {FaBars, FaTimes} from 'react-icons/fa'
-import { useRef } from 'react';
-
+import { useState } from 'react'
 
 
 import './style.css'
+//import { useLocation } from 'react-router-dom';
 
+/* 
+    PROPRIEDADES OBRIGATORIAS:
+    type: string    ->  Indica qual item da navbar vai estar marcado
+*/
+export function Navbar(props){
+    const [mobileButton, setMobileButton] = useState(false);
 
-export function Navbar(){
-    //useRef = uma informação que não precisa ser redenrizada
-    const navRef = useRef();
-
-    //Fica trocando a classe da navbar ao clicar no botão
-    const showNavBar = () =>{
-        navRef.current.classList.toggle("responsive_nav");
-    }
+    //const currentUrl = useLocation().pathname;
 
     return (
         <header>
-            <img src={logo} alt="Logo SOS Sopão" />
-            <nav ref={navRef}>
-                <a href="/#">HOME</a>
-                <a href="/#">ESTOQUE DE ALIMENTOS</a>
-                <a href="/#">ESTOQUE DE ITENS</a>
-                <a href="/#">EVENTOS</a>
-                <a href="/#">ROTAS</a>
-                <a href="/#">GERENCIAR</a>
-                <a href="/#">LOGOUT</a>
-
-                <button className='nav-btn nav-close-btn' onClick={showNavBar}>
-                    <FaTimes />
-                </button>
+            <nav>
+                <img src={logo} alt="Logo SOS Sopão" />
+                <ul id='navbar' 
+                    className={
+                        mobileButton ?
+                        "#navbar visible":
+                        "navbar"
+                    }
+                >
+                    <li className={props.type === 'home'? "active" : ""}>
+                        <a  href="/#">Home</a>
+                    </li>
+                    <li className={props.type === 'alimentos'? 'active' : ''}>
+                        <a  href="/#">Alimentos</a>
+                    </li>
+                    <li className={props.type === 'itens'? 'active' : ''}>
+                        <a  href="/#">Itens</a>
+                    </li>
+                    <li className={props.type === 'eventos'? 'active' : ''}>
+                        <a  href="/#">Eventos</a>
+                    </li>
+                    <li className={props.type === 'gerenciar'? 'active' : ''}>
+                        <a  href="/#">Gerenciar</a>
+                    </li>
+                    <li className={props.type === 'rotas'? 'active' : ''}>
+                        <a  href="/#">Rotas</a>
+                    </li>
+                    <li id="logout">
+                        <a  href="/#">Logout</a>
+                    </li>
+                </ul>
+                <h4>Olá, Nome</h4>
+                <div id='mobile'>
+                    {
+                        mobileButton ? 
+                        <FaTimes onClick={() => setMobileButton(!mobileButton)}/> :
+                        <FaBars onClick={() =>setMobileButton(!mobileButton)}/>
+                    }
+                </div>
             </nav>
-            <button className='nav-btn' onClick={showNavBar}>
-                <FaBars />
-            </button>
         </header>
     );
 }
+
+/* 
+                    <li className={/^\//.test(currentUrl)? "active" : ""}>
+                        <a  href="/#">Home</a>
+                    </li>
+                    <li className={/^\/alimentos/.test(currentUrl)? 'active' : ''}>
+                        <a  href="/#">Alimentos</a>
+                    </li>
+                    <li className={/^\/itens/.test(currentUrl)? 'active' : ''}>
+                        <a  href="/#">Itens</a>
+                    </li>
+                    <li className={/^\/eventos/.test(currentUrl)? 'active' : ''}>
+                        <a  href="/#">Eventos</a>
+                    </li>
+                    <li className={/^\/gerenciar/.test(currentUrl)? 'active' : ''}>
+                        <a  href="/#">Gerenciar</a>
+                    </li>
+                    <li className={/^\/rotas/.test(currentUrl)? 'active' : ''}>
+                        <a  href="/#">Rotas</a>
+                    </li>
+                    <li id="logout">
+                        <a  href="/#">Logout</a>
+                    </li>
+*/
