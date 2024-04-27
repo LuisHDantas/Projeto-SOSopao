@@ -1,0 +1,7 @@
+#add-search{
+    padding: 3% 5%;
+    background-color: #F9F9F9;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
