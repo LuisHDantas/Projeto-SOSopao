@@ -83,7 +83,7 @@ nav h4{
         width: 100%;
         height: 85vh;
         transition: 0.5s ease;
-        background-color: #FFFFFF
+        background-color: #FFFFFF;
     } 
 
     .active a:hover{
