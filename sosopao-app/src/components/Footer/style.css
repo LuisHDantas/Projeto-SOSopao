@@ -1,0 +1,38 @@
+footer{
+    background-color: #A2CFCF;
+    width: 100%;
+    height: auto;
+}
+
+footer h3 {
+    padding-left: 10px;
+    padding-top: 10px;
+
+}
+
+footer p {
+    padding-left: 10px;
+}
+
+.contato-container {
+    display: flex;
+    align-items: center;
+    padding-left: 5px;
+}
+
+.redes-sociais {
+    display: flex;
+    align-items: center;
+    padding-left: 5px;
+}
+
+@media screen and (min-width: 763px) {
+    .contato {
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .icones-redes-sociais > * {
+        padding: 10px;
+    }
+}

@@ -1,8 +1,11 @@
 import { Navbar } from "../components/Navbar";
-
+import { Footer } from "../components/Footer";
 
 export function Home(){
     return(
-        <Navbar type='home'/>
+        <body>
+            <Navbar type='home'/>
+            <Footer/>
+        </body>
     );
 }
