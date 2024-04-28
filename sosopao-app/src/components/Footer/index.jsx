@@ -3,10 +3,7 @@ import { contatos } from '../../constants';
 import { BsTelephoneFill } from "react-icons/bs";
 import { MdAlternateEmail } from "react-icons/md";
 import { IoLocationSharp } from "react-icons/io5";
-import { IoIosGlobe } from "react-icons/io";
-import { IoLogoWhatsapp } from "react-icons/io";
-import { IoLogoFacebook } from "react-icons/io";
-import { IoLogoInstagram } from "react-icons/io";
+import { IoIosGlobe, IoLogoWhatsapp, IoLogoFacebook, IoLogoInstagram } from "react-icons/io";
 import { IconContext } from "react-icons";
 
 export function Footer(){
