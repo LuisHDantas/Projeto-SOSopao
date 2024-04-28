@@ -4,10 +4,11 @@ footer{
     height: auto;
 }
 
-footer h3 {
+footer h2 {
     padding-left: 10px;
     padding-top: 10px;
-
+    /* center */
+    text-align: center;
 }
 
 footer p {
@@ -26,10 +27,44 @@ footer p {
     padding-left: 5px;
 }
 
+.icones-redes-sociais {
+    display: flex; 
+    flex-direction: column;    
+}
+
+.icones-redes-sociais > * {
+    padding: 10px;
+}
+
+.contato {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px;
+}
+
 @media screen and (min-width: 763px) {
     .contato {
         display: flex;
-        justify-content: space-around;
+        justify-content: space-evenly;
+        padding: 10px;
+    }
+
+    #informacoes-contato {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        width: auto;
+    }
+
+    .contato-container {
+        display: flex;
+        align-items: center;
+        padding-left: 2vw;
+    }
+
+    .icones-redes-sociais {
+        display: flex; 
+        flex-direction: row;    
     }
 
     .icones-redes-sociais > * {
