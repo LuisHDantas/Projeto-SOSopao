@@ -1,7 +1,14 @@
 #add-search{
     padding: 3% 5%;
     background-color: #F9F9F9;
-    display: flex;
+    display:flex;
     justify-content: space-between;
     align-items: center;
+}
+
+@media (min-width: 992px){
+    
+    #add-search{
+        padding: 1% 10%;
+    }
 }

@@ -1,5 +1,7 @@
 .add{
-    padding: 3% 2%;
+    cursor: pointer;
+    width: 20vh;
+    height: 7vh;
     background-color: #038C8C;
     color: white;
     font-size: 16px;
@@ -7,4 +9,11 @@
     border:none;
     font-weight: 500;
     font-family: 'Poppins', sans-serif;
+}
+
+@media (min-width: 992px){
+    .add{
+        width: 21vh;
+        height: 8vh;
+    }
 }
