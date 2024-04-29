@@ -1,0 +1,52 @@
+#add-search{
+    padding: 3% 5%;
+    background-color: #F9F9F9;
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* To center all h1 in the screen */
+.titulos-eventos{ 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.titulos-eventos h1{
+    font-family: 'Poppins', sans-serif;
+    font-weight: 350;
+    font-size: 25px;
+}
+
+.container-eventos {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.container-eventos > * {
+    margin-bottom: 5px;
+}
+
+.container-eventos + footer {
+    margin-top: 20px;
+}
+
+@media (min-width: 992px){
+
+    #add-search{
+        padding: 1% 10%;
+    }
+
+    /* To left align all h1 */
+    .titulos-eventos{ 
+        display: flex;
+        justify-content: left;
+        align-items: left;
+        height: 100%;
+        margin-left: 32px;
+    }
+
+}
