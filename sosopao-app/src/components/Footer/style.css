@@ -8,16 +8,17 @@ footer h2 {
     padding-left: 10px;
     padding-top: 10px;
     text-align: center;
+    margin: 0px;
 }
 
 footer p {
-    padding-left: 10px;
+    margin: 0;
+    padding-left: 5px;
 }
 
 .contato-container {
     display: flex;
     align-items: center;
-    padding-left: 5px;
 }
 
 .redes-sociais {
@@ -37,8 +38,15 @@ footer p {
 
 .contato {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     padding: 10px;
+}
+
+#informacoes-contato {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
 }
 
 @media screen and (min-width: 992px) {

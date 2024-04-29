@@ -53,7 +53,7 @@ export function Footer(){
 
 
                 <div className='redes-sociais'>
-                    <IconContext.Provider value={{ color: "#038C8C", size: "2em", className: "global-class-name" }}>
+                    <IconContext.Provider value={{ color: "#038C8C", size: "1.5em", className: "global-class-name" }}>
                         <div className='icones-redes-sociais'>
                             <IoLogoWhatsapp />
                             <IoLogoFacebook />
