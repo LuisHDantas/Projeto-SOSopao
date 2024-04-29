@@ -4,10 +4,10 @@ import './style.css';
 export function ButtonSearch(){
     return(
     
-        <button className="search">
-            <IoIosSearch />
-            <input class="search-txt" type="text" placeholder="Pesquisar..."/>
-        </button>
+        <div className="search">
+            <button className="btn-search"> <IoIosSearch /> </button>
+            <input className="txt-search" type="text" placeholder="Pesquisar..."/>
+        </div>
               
     );
 }
