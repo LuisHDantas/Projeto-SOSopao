@@ -7,7 +7,6 @@ footer{
 footer h2 {
     padding-left: 10px;
     padding-top: 10px;
-    /* center */
     text-align: center;
 }
 
@@ -42,7 +41,7 @@ footer p {
     padding: 10px;
 }
 
-@media screen and (min-width: 763px) {
+@media screen and (min-width: 992px) {
     .contato {
         display: flex;
         justify-content: space-evenly;
