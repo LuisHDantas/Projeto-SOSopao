@@ -1,0 +1,25 @@
+#add-search{
+    padding: 3% 5%;
+    background-color: #F9F9F9;
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#title{
+    display: flex;
+    justify-content: center;
+    font-weight: none;
+    font-family: 'Poppins', sans-serif;
+}
+
+#title h1{
+    font-weight: 400;
+}
+
+@media (min-width: 992px){
+    
+    #add-search{
+        padding: 1% 10%;
+    }
+}
