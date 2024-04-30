@@ -30,6 +30,10 @@
     width: 100%;
 }
 
+.btns-modal-deletar button .icon-excluir-evento {
+    vertical-align: -10%; 
+}
+
 .btns-modal-deletar > button {
     border-radius: 25px;
     color: white;
