@@ -3,7 +3,7 @@
     flex-direction: column;
     justify-content: center;
     box-shadow: 2px 3px 8px rgba(0, 0, 0, 0.25);
-    min-width: 90%;
+    width: 90%;
     margin-top: 1rem; 
 }
 
@@ -54,6 +54,8 @@
     font-family: 'Poppins', sans-serif;
     font-weight: 400;
     font-size: 0.875rem;
+    max-width: 80%;
+    word-wrap: break-word;
 }
 
 .button-add-itenzinho{
@@ -118,5 +120,6 @@
 
     .info-alimentos p{
         font-size: 1rem;
+        max-width: 400px;
     }
 }
