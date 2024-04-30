@@ -1,0 +1,17 @@
+.btn-cancelar {
+    background-color: #A8A8B3;
+    color: white;
+    border-radius: 8px;
+    width: 25vw;
+    height: 6vh;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.2rem;
+    border: 0;
+}
+
+@media screen and (min-width: 992px) {
+    .btn-cancelar {
+        width: 100%;
+    }
+    
+}

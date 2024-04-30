@@ -1,6 +1,6 @@
 import './style.css';
 import { TbLetterX } from "react-icons/tb";
-
+import { BotaoCinza } from '../BotaoCinza';
 
 export function DeletarEvento({fechaDeletar}){
     return(
@@ -8,7 +8,7 @@ export function DeletarEvento({fechaDeletar}){
             <p>Deseja EXCLUIR esse evento?</p>
             <div className='btns-modal-deletar'>
                 <button id='btn-excluir-evento'> <TbLetterX className='icon-excluir-evento'/> Excluir</button>
-                <button id='btn-cancelar-excluir-evento' onClick={fechaDeletar}>Cancelar</button>
+                <BotaoCinza onClick={fechaDeletar}>Cancelar</BotaoCinza>
             </div>
             
         </div>

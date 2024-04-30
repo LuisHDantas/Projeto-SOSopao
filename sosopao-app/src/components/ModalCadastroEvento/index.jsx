@@ -1,7 +1,10 @@
 import './style.css'
 import { MdEdit } from "react-icons/md";
-import { BotaoConfirmar } from '../BotaoConfirmar';
+import { BotaoLaranja } from '../BotaoLaranja';
+import { BotaoCinza } from '../BotaoCinza';
 import { useState } from 'react';
+import { BiColor } from 'react-icons/bi';
+import { TbBackground } from 'react-icons/tb';
 
 export function CadastroEvento({fechaCadastro, dados, setDados}){
     
@@ -33,7 +36,7 @@ export function CadastroEvento({fechaCadastro, dados, setDados}){
 
     return(
         <div className="cadastrar-evento-modal">
-            <forms>
+            <form>
                 <div className='campo-cadastro-evento'>
                     <label>Nome:</label>
                     <input placeholder="Nome" name="nome" onChange={handleChange}/>
@@ -60,17 +63,23 @@ export function CadastroEvento({fechaCadastro, dados, setDados}){
                     <MdEdit className='icon-cadastro-evento'/>
                 </div>
 
-                <div style={{width: '50%'}}>  
-                    <BotaoConfirmar onClick={()=>{
+                <div id='container-btns-cadastro-evento'>  
+                    <BotaoLaranja onClick={()=>{
                         setDados([...dados, {
                             nome: formData.nome,
                             data: formatDate(formData.data),
                             descricao: formData.descricao,
                             url_imagem: formData.url_imagem,
                         }]);
-                    }}/>
+
+                        fechaCadastro();
+                    }}
+                    >
+                        Confirmar
+                    </BotaoLaranja>
+                    <BotaoCinza onClick={fechaCadastro}>Cancelar</BotaoCinza>
                 </div>
-            </forms>
+            </form>
         </div>
     )
 }

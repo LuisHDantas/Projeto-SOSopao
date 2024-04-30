@@ -47,10 +47,6 @@
     background-color: #F21616;
 }
 
-#btn-cancelar-excluir-evento {
-    background-color: #A8A8B3;
-}
-
 @media screen and (min-width: 992px) {
     .deletar-evento-modal {
         width: 40%;
