@@ -1,8 +1,8 @@
 import './style.css'
-import { MdEdit } from "react-icons/md";
 
-export function ButtonEditEstoque(){
+
+export function ButtonEditEstoque({children = null, ...props}){
     return (
-        <button className="btn-edit-estoque"> <MdEdit /> </button>
+        <button className="btn-edit-estoque" {...props}> {children} </button>
     );
 }
