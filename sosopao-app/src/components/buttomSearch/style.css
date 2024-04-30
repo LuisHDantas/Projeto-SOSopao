@@ -46,13 +46,17 @@
 
 @media (min-width: 992px){
 
-    .txt-search{
-        width: 300px;
-        padding-left: 15px;
-    }
+  .btn-search:focus ~ .txt-search{
+    width: 300px;
+  }
 
-    .txt-search:focus{
-        width: 300px;
-        padding-left: 15px;
-    }
+  .txt-search{
+    width: 300px;
+    padding-left: 15px;
+  }
+
+  .txt-search:focus{
+    width: 300px;
+    padding-left: 15px;
+  }
 }
