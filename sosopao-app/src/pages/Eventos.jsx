@@ -5,13 +5,14 @@ import { DeletarEvento } from "../components/ModalDeletarEvento";
 import { CadastroEvento } from "../components/ModalCadastroEvento";
 import { ButtonAdd } from "../components/buttonAdd";
 import { ButtonSearch } from "../components/buttonSearch";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import '../styles/eventos.css';
 
 export function Eventos(){
-    const [dados, setDados] = useState([{nome: 'Natal 2025', data:'10-04-2025', descricao: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi. Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum diam nisl sit amet erat. Duis semper. Duis arcu massa, scelerisque vitae, consequat in, pretium a, enim. Pellentesque congue. Ut in risus volutpat libero pharetra tempor. Cras vestibulum bibendum augue.', url_imagem: 'https://www.receiteria.com.br/wp-content/uploads/sopa-de-carne-rotated.jpeg'},
-    {nome: 'Dia das crianças', data: '12-10-2025', descricao: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi. ', url_imagem: 'https://www.receiteria.com.br/wp-content/uploads/sopa-de-carne-rotated.jpeg'},
-    {nome: 'Dia dos pais', data: '08-08-2025', descricao: 'O melhor dia dos pais da sua vida', url_imagem: 'https://www.receiteria.com.br/wp-content/uploads/sopa-de-carne-rotated.jpeg'},
+    const [dados, setDados] = useState([{
+    nome: 'Natal 2022', data:'25-12-2022', descricao: '', url_imagem: 'https://cdn.saocarlosagora.com.br/img/pc/780/530/dn_noticia/2019/12/138cd517-451b-484d-9558-db55861594bb-1.jpg?c=1'},
+    {nome: 'Distribuição de marmitas', data: '12-10-2025', descricao: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi. ', url_imagem: 'https://instagram.fcpq2-1.fna.fbcdn.net/v/t39.30808-6/425658710_18045439750607931_6875790801116318969_n.jpg?stp=dst-jpg_e15&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi4xMDYzeDEzMjkuc2RyLmYzMDgwOCJ9&_nc_ht=instagram.fcpq2-1.fna.fbcdn.net&_nc_cat=103&_nc_ohc=JosUI2e0-pEQ7kNvgGh0E69&edm=ANTKIIoAAAAA&ccb=7-5&oh=00_AfCbI4wtVbyMM3Q1sZ12RbN8UBsdb_ysjNKRn_43Z7FO4w&oe=66371787&_nc_sid=cf751b'},
+    {nome: 'Aniversário do SOSopão', data: '08-08-2025', descricao: 'Parabéns!', url_imagem: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThQj27o7h70o5xq8D4-8gH6sdh_WyFqXQ_ygCTUKnlgQ&s'},
     ]);
 
     const [abreDeletar, setAbreDeletar] = useState(false);
@@ -22,11 +23,41 @@ export function Eventos(){
 
     // converte data DD-MM-YYYY para objeto Date
     function parseDate(dateString) {
+        if (!dateString) {
+            return new Date();
+        }
+
         const dateParts = dateString.split('-');
         let dateObject = new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]); 
         return dateObject;
     }
 
+    function handleDelete(index) {
+        const updatedData = dados.filter((_, i) => i !== index);
+        setDados(updatedData);
+        setAbreDeletar(false);
+
+        if (index === selectedCardIndex) {
+            setSelectedCardIndex(null); // Deselect the deleted card
+        }
+    }
+
+
+    const updateDados = (index, newDados) => {
+        setDados(prevState => prevState.map((item, i) => i === index ? newDados : item));
+    };
+
+    const handleUpdateCard = (index, newDados) => {
+
+
+        updateDados(index, newDados);
+        setSelectedCardIndex(null);
+    };
+
+    //use effect to see dados
+    useEffect(() => {
+        console.log(dados);
+    }, [dados]);
 
     return(
         <div>
@@ -39,7 +70,13 @@ export function Eventos(){
                 <ButtonSearch />
             </div>
 
-            {abreDeletar && <DeletarEvento fechaDeletar={() => setAbreDeletar(!abreDeletar)}/>}
+            {abreDeletar && (
+                <DeletarEvento
+                    fechaDeletar={() => setAbreDeletar(!abreDeletar)}
+                    index={selectedCardIndex}
+                    onDelete={handleDelete}
+                />
+            )}
             {abreCadastro && <CadastroEvento fechaCadastro={() => setAbreCadastro(!abreCadastro)} dados={dados} setDados={setDados}/>}
 
             <div className='tela-fundo-branco' style={{
@@ -58,19 +95,26 @@ export function Eventos(){
                             return(
                                 <CardEvento 
                                     key={index} 
+                                    index={index}
                                     nome={evento.nome} 
                                     data={evento.data} 
                                     descricao={evento.descricao} 
                                     url_imagem={evento.url_imagem}
+                                    finalizaEdicao={handleUpdateCard}
+                                    
                                     abreEditar={() => {
                                         setAbreEditar(!abreEditar);
                                         setSelectedCardIndex(index);
                                     }}
-                                    abreDeletar={() => setAbreDeletar(!abreDeletar)}   
+                                    abreDeletar={() => {
+                                        setAbreDeletar(!abreDeletar);
+                                        setSelectedCardIndex(index);
+                                        } 
+                                    }  
                                     isSelectedEdit={selectedCardIndex === index} 
                                 />
                             );
-                        }
+                        }else { return null;}
                     })}
                 </div>
 
@@ -85,16 +129,26 @@ export function Eventos(){
                             return(
                                 <CardEvento 
                                     key={index} 
+                                    index={index}
                                     nome={evento.nome} 
                                     data={evento.data} 
                                     descricao={evento.descricao} 
                                     url_imagem={evento.url_imagem}
-                                    abreEditar={() => setAbreEditar(!abreEditar)}
-                                    abreDeletar={() => setAbreDeletar(!abreDeletar)}   
+                                    finalizaEdicao={handleUpdateCard}
+                                    
+                                    abreEditar={() => {
+                                        setAbreEditar(!abreEditar);
+                                        setSelectedCardIndex(index);
+                                    }}
+                                    abreDeletar={() => {
+                                        setAbreDeletar(!abreDeletar);
+                                        setSelectedCardIndex(index);
+                                        } 
+                                    }  
                                     isSelectedEdit={selectedCardIndex === index} 
                                 />
                             );
-                        }
+                        }else { return null;}
                     })}
                 </div>
             </div>

@@ -53,12 +53,24 @@
     margin-top: auto;
 }
 
+#descricao-evento textarea{
+    resize: none;
+    width: 98%;
+    height: 12vh;
+    overflow: hidden;
+}
+
 #url-imagem-evento {
     text-align: left;
     font-family: 'Poppins', sans-serif;
     overflow: hidden;
     overflow-wrap: break-word;
     max-width: 100%;
+}
+
+#url-imagem-evento > input {
+    width: 98%;
+    height: 4vh;
 }
 
 #url-imagem-evento h3 {
@@ -93,7 +105,23 @@
     border-radius: 8px;
 }
 
+#data-evento-editavel {
+    border-radius: 8px;
+    border: 1px solid #038C8C;
+    font-weight: bold;
+}
 
+.input-editavel-card-evento {
+    border-radius: 8px;
+    border: 1px solid #038C8C;
+    font-weight: bold;
+    color: #757575;
+}
+
+.dado-evento input {
+    width:fit-content;
+    height: 4vh;
+}
 
 @media screen and (min-width: 992px) {
     .btn-evento img {
@@ -122,6 +150,11 @@
         align-items: center;
     }
 
+    .btn-evento-selected > div{
+        width: 100%;
+        margin-top: 5px;
+    }
+
     .card-evento {
         display: flex;
         flex-direction: column;
@@ -141,6 +174,14 @@
     .dado-evento p {
         font-size: medium;
         margin-bottom: auto;
+    }
+
+    .dado-evento input {
+        margin-bottom: 5px;
+    }
+
+    #url-imagem-evento > input{
+        margin-bottom: 5px;
     }
 
     .card-evento h3 {
