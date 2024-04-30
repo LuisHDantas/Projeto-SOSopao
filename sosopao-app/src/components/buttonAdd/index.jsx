@@ -1,9 +1,10 @@
 import './style.css';
+import { Children } from 'react';
 
-export function ButtonAdd(){
+export function ButtonAdd({children}, {...props}){
     return(
-        <button className="add">
-            Add Alimento
+        <button className="add" {...props}>
+            {children}
         </button>
     );
 }

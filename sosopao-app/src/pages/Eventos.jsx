@@ -3,8 +3,8 @@ import { Footer } from "../components/Footer";
 import { CardEvento } from "../components/CardEvento";
 import { DeletarEvento } from "../components/ModalDeletarEvento";
 import { CadastroEvento } from "../components/ModalCadastroEvento";
-// import { ButtonSearch } from "../components/buttomSearch";
-// import { ButtonAdd, ButtonAddEvento } from "../components/buttonAddEvento";
+import { ButtonAdd } from "../components/buttonAdd";
+import { ButtonSearch } from "../components/buttonSearch";
 import { useState } from 'react';
 import '../styles/eventos.css';
 
@@ -31,9 +31,10 @@ export function Eventos(){
             <Navbar type='eventos'/>
 
             <div id="add-search">
-                <button onClick={() => setAbreCadastro(!abreCadastro)}>Adicionar evento</button>
-                {/* <ButtonAddEvento />
-                <ButtonSearch /> */}
+                <ButtonAdd onClick={() => setAbreCadastro(!abreCadastro)}>
+                    Adicionar evento
+                </ButtonAdd>
+                <ButtonSearch />
             </div>
 
             {abreDeletar && <DeletarEvento fechaDeletar={() => setAbreDeletar(!abreDeletar)}/>}

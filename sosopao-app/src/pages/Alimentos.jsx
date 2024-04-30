@@ -1,6 +1,6 @@
 import { Navbar } from "../components/Navbar";
 import { CardAlimentos } from "../components/CardAlimentos";
-import { ButtonSearch } from "../components/buttomSearch";
+import { ButtonSearch } from "../components/buttonSearch";
 import { ButtonAdd } from "../components/buttonAdd";
 import '../styles/alimentos.css';
 
@@ -10,7 +10,9 @@ export function Alimentos(){
         <div>
             <Navbar type='alimentos'/>
             <div id="add-search">
-                <ButtonAdd />
+                <ButtonAdd>
+                    Adicionar alimento
+                </ButtonAdd>
                 <ButtonSearch />
             </div>
 

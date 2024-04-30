@@ -1,5 +1,5 @@
 import { Navbar } from "../components/Navbar";
-import { ButtonSearch } from "../components/buttomSearch";
+import { ButtonSearch } from "../components/buttonSearch";
 import { ButtonAdd } from "../components/buttonAdd";
 import '../styles/itens.css';
 
@@ -9,7 +9,9 @@ export function Itens(){
         <div>
             <Navbar type='itens'/>
             <div id="add-search">
-                <ButtonAdd />
+                <ButtonAdd>
+                    Adicionar item
+                </ButtonAdd>
                 <ButtonSearch />
             </div>
             <div id="title">
