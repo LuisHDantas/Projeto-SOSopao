@@ -17,7 +17,7 @@ export function Navbar(props){
 
     return (
         <header>
-            <nav>
+            <nav className="nav-navbar">
                 <img src={logo} alt="Logo SOS Sopão" />
                 <ul id='navbar' 
                     className={

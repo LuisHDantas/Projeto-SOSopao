@@ -1,0 +1,97 @@
+.card-alimentos{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: 2px 3px 8px rgba(0, 0, 0, 0.25);
+    min-width: 90%;
+    margin-bottom: 1rem;
+}
+
+.foto-btns-alimentos{
+    margin-top: 1rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.foto-btns-alimentos img{
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+}
+
+.infos-alimentos{
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 0.5rem;
+}
+
+
+.sub-info-alimentos{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    margin: 0 1%;
+}
+
+.info-alimentos{
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.info-alimentos h4{
+    padding: 0 3%;
+    margin: 1em 0;
+    color: #038C8C;
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.info-alimentos p{
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    font-size: 0.875rem;
+}
+
+
+@media screen and (min-width: 992px){
+    .card-alimentos{
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .foto-btns-alimentos{
+        width: 20%;
+        margin-bottom: 1rem;
+    }
+
+    .infos-alimentos{
+        width: 80%;
+    }
+
+    .sub-info-alimentos{
+        flex-direction: row;
+        width: 50%;
+        justify-content: space-around;
+        margin: 0 1%;
+    }
+    
+    .info-alimentos{
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .info-alimentos h4{
+        margin: 1rem 0 0 0;
+        font-weight: bold;
+        font-size: 1.2rem;
+    }
+
+    .info-alimentos p{
+        font-size: 1rem;
+    }
+}
