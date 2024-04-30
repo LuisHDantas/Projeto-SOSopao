@@ -4,7 +4,7 @@
     justify-content: center;
     box-shadow: 2px 3px 8px rgba(0, 0, 0, 0.25);
     min-width: 90%;
-    margin-bottom: 1rem;
+    margin-top: 1rem; 
 }
 
 .foto-btns-alimentos{
@@ -54,6 +54,31 @@
     font-family: 'Poppins', sans-serif;
     font-weight: 400;
     font-size: 0.875rem;
+}
+
+.button-add-itenzinho{
+    cursor: pointer;
+    width: 90%;
+    margin-top: 0.6rem;
+    padding: 0.6rem 0;
+    background-color: #038C8C;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 400;
+    font-family: roboto , sans-serif;
+    font-size: 16px;
+}
+
+.new-container-alimentos{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: rgba(217, 217, 217, 0.5);
+    width: 90%;
+    margin-top: 5px;
+    margin-bottom: 1rem;
 }
 
 
