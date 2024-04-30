@@ -3,8 +3,21 @@ import { EditarDeletar } from '../EditarDeletar';
 import { useState } from 'react';
 
 
-export function CardEvento({nome, data, descricao, url_imagem}){
+export function CardEvento({nome, data, descricao, url_imagem, abreEditar, abreDeletar}){
     const [toggle, setToggle] = useState(false);
+
+    // Função para formatar a data de DD-MM-YYYY para DD/MM/YYYY
+    function formatDate(dateString) {
+        const parts = dateString.split('-');
+        if (parts.length === 3) {
+            const day = parts[0];
+            const month = parts[1];
+            const year = parts[2];
+            return `${day}/${month}/${year}`;
+        } else {
+            return 'Invalid date format';
+        }
+    }
 
     return(
 
@@ -24,7 +37,7 @@ export function CardEvento({nome, data, descricao, url_imagem}){
                 </div>
                 <div className='dado-evento'>
                     <h3>Data:</h3>
-                    <p>{data}</p>
+                    <p>{formatDate(data)}</p>
                 </div>
             </div>
 
@@ -40,7 +53,7 @@ export function CardEvento({nome, data, descricao, url_imagem}){
     </button>
 
     
-    {toggle ? <EditarDeletar/> : <></>}
+    {toggle ? <EditarDeletar abreEditar={abreEditar} abreDeletar={abreDeletar}/> : <></>}
     </>
 
     );

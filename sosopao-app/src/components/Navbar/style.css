@@ -42,7 +42,7 @@ nav h4{
 
 .active{
     background: rgba(3, 140, 140, 0.44);
-    text-shadow: 1px 2px 4px #038C8C; /* shadow de cor 3, 140, 140 e blur de 25px */
+    text-shadow: 1px 2px 4px #038C8C; 
     border-radius: 23px;
 }
 
