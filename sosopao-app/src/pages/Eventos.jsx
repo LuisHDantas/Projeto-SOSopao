@@ -17,6 +17,8 @@ export function Eventos(){
     const [abreDeletar, setAbreDeletar] = useState(false);
     const [abreEditar, setAbreEditar] = useState(false);
     const [abreCadastro, setAbreCadastro] = useState(false);
+    const [selectedCardIndex, setSelectedCardIndex] = useState(null);
+
 
     // converte data DD-MM-YYYY para objeto Date
     function parseDate(dateString) {
@@ -38,12 +40,11 @@ export function Eventos(){
             </div>
 
             {abreDeletar && <DeletarEvento fechaDeletar={() => setAbreDeletar(!abreDeletar)}/>}
-            {/* {abreEditar && <EditarEvento fechaEditar={() => setAbreEditar(!abreEditar)}/>} */}
             {abreCadastro && <CadastroEvento fechaCadastro={() => setAbreCadastro(!abreCadastro)} dados={dados} setDados={setDados}/>}
 
             <div className='tela-fundo-branco' style={{
             // borra o fundo quando modal está aberto
-            filter: abreCadastro || abreDeletar || abreEditar ? 'blur(5px)' : 'none',
+            filter: abreCadastro || abreDeletar ? 'blur(5px)' : 'none',
             }}>
                 
                 <div className="titulos-eventos">
@@ -61,8 +62,12 @@ export function Eventos(){
                                     data={evento.data} 
                                     descricao={evento.descricao} 
                                     url_imagem={evento.url_imagem}
-                                    abreEditar={() => setAbreEditar(!abreEditar)}
-                                    abreDeletar={() => setAbreDeletar(!abreDeletar)}    
+                                    abreEditar={() => {
+                                        setAbreEditar(!abreEditar);
+                                        setSelectedCardIndex(index);
+                                    }}
+                                    abreDeletar={() => setAbreDeletar(!abreDeletar)}   
+                                    isSelectedEdit={selectedCardIndex === index} 
                                 />
                             );
                         }
@@ -85,7 +90,8 @@ export function Eventos(){
                                     descricao={evento.descricao} 
                                     url_imagem={evento.url_imagem}
                                     abreEditar={() => setAbreEditar(!abreEditar)}
-                                    abreDeletar={() => setAbreDeletar(!abreDeletar)}    
+                                    abreDeletar={() => setAbreDeletar(!abreDeletar)}   
+                                    isSelectedEdit={selectedCardIndex === index} 
                                 />
                             );
                         }

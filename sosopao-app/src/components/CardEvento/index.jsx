@@ -3,7 +3,7 @@ import { EditarDeletar } from '../EditarDeletar';
 import { useState } from 'react';
 
 
-export function CardEvento({nome, data, descricao, url_imagem, abreEditar, abreDeletar}){
+export function CardEvento({nome, data, descricao, url_imagem, abreEditar, abreDeletar, isSelectedEdit}){
     const [toggle, setToggle] = useState(false);
 
     // Função para formatar a data de DD-MM-YYYY para DD/MM/YYYY
@@ -19,10 +19,12 @@ export function CardEvento({nome, data, descricao, url_imagem, abreEditar, abreD
         }
     }
 
+    
+
     return(
 
     <>
-    <button className='btn-evento' onClick={() => {
+    <button className={`btn-evento${isSelectedEdit ? '-selected' : ''}`} onClick={() => {
         setToggle(prev => {
             return !prev;
         });
@@ -49,11 +51,20 @@ export function CardEvento({nome, data, descricao, url_imagem, abreEditar, abreD
                 <h3>Descrição:</h3>
                 <p>{descricao}</p>
             </div>
+
+            <div id='url-imagem-evento' 
+            style={{
+                display: isSelectedEdit ? "" : "none"
+            }}
+            >
+                <h3>URL da imagem:</h3>
+                <p>{url_imagem}</p>
+            </div>
         </div>
     </button>
 
     
-    {toggle ? <EditarDeletar abreEditar={abreEditar} abreDeletar={abreDeletar}/> : <></>}
+    {toggle ? <EditarDeletar abreEditar={abreEditar} abreDeletar={abreDeletar} isSelectedEdit={isSelectedEdit}/> : <></>}
     </>
 
     );
