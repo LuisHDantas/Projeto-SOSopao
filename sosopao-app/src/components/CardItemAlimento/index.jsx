@@ -1,3 +1,4 @@
+import { ButtonRemoveEstoque } from '../buttomRemoveEstoque';
 import './style.css'
 
 export function CardItemAlimento(){
@@ -29,7 +30,7 @@ export function CardItemAlimento(){
                 
             </div>
            
-           <button>oi</button>
+           <ButtonRemoveEstoque/>
         </div>
     );
 }
