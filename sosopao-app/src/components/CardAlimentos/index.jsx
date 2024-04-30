@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ButtonAdd } from '../buttonAdd';
+import { ButtonEditEstoque } from '../buttomEditEstoque';
 import { CardItemAlimento } from '../CardItemAlimento';
 import './style.css'
 
@@ -12,6 +12,7 @@ export function CardAlimentos(){
             <div className="card-alimentos" onClick={() => setIsOpen(!isOpen)}>
                 <div className="foto-btns-alimentos">
                     <img src="https://avatars.githubusercontent.com/u/45525241?v=4" alt="foto de perfil" />
+                    <ButtonEditEstoque />
                 </div>
                 
                 <div className='infos-alimentos'>
