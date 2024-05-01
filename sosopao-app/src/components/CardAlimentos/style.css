@@ -3,15 +3,16 @@
     flex-direction: column;
     justify-content: center;
     box-shadow: 2px 3px 8px rgba(0, 0, 0, 0.25);
-    min-width: 90%;
-    margin-bottom: 1rem;
+    width: 90%;
+    margin-top: 1rem; 
 }
 
 .foto-btns-alimentos{
     margin-top: 1rem;
     width: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
+    align-items: center;
 }
 
 .foto-btns-alimentos img{
@@ -54,6 +55,49 @@
     font-family: 'Poppins', sans-serif;
     font-weight: 400;
     font-size: 0.875rem;
+    max-width: 80%;
+    word-wrap: break-word;
+}
+
+.info-alimentos input{
+    margin: 0;
+    max-width: 80%;
+    border-radius: 8px;
+    border: 2px solid #038C8C;
+    padding: 0.4rem 0.3rem;
+}
+
+.input-alimento:focus {
+    outline: none;
+}
+
+.button-add-itenzinho{
+    cursor: pointer;
+    width: 90%;
+    margin-top: 0.6rem;
+    padding: 0.6rem 0;
+    background-color: #038C8C;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 400;
+    font-family: roboto , sans-serif;
+    font-size: 16px;
+}
+
+.new-container-alimentos{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: rgba(217, 217, 217, 0.5);
+    width: 90%;
+    margin-top: 5px;
+    margin-bottom: 1rem;
+}
+
+.btns-web{
+    display: none;
 }
 
 
@@ -64,12 +108,13 @@
     }
 
     .foto-btns-alimentos{
-        width: 20%;
+        width: 10%;
         margin-bottom: 1rem;
+        margin-left: 0.2rem;
     }
 
     .infos-alimentos{
-        width: 80%;
+        width: 70%;
     }
 
     .sub-info-alimentos{
@@ -83,6 +128,7 @@
         flex-direction: row;
         justify-content: center;
         align-items: center;
+        width: fit-content;
     }
 
     .info-alimentos h4{
@@ -93,5 +139,26 @@
 
     .info-alimentos p{
         font-size: 1rem;
+        max-width: 400px;
+    }
+
+    #btn-edit-estoque{
+        display: none;
+    }
+
+    #btn-remove-estoque{
+        display: none;
+    }
+
+
+    .btns-web{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .btns-web button{
+        margin: 0 1rem;
     }
 }

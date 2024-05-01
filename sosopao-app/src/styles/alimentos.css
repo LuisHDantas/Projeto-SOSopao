@@ -11,6 +11,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin-bottom: 1rem;
 }
 
 #titulo-alimentos{
@@ -24,5 +25,10 @@
     
     #add-search{
         padding: 1% 10%;
+    }
+
+    #titulo-alimentos{
+        width: 90%;
+        text-align: start;   
     }
 }

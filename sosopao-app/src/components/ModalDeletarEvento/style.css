@@ -1,0 +1,68 @@
+.deletar-evento-modal {
+    border: 1px solid #F27127;
+    border-radius: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 60%;
+    height: 30vh;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    z-index: 1000;
+}
+
+.deletar-evento-modal p {
+    width: 80%;
+    font-size: 18px;
+}
+
+.btns-modal-deletar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+}
+
+.btns-modal-deletar button .icon-excluir-evento {
+    vertical-align: -10%; 
+}
+
+.btns-modal-deletar > button {
+    border-radius: 25px;
+    color: white;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1rem;
+    height: 7vh;
+    width: 15vw;
+}
+
+#btn-excluir-evento {
+    background-color: #F21616;
+}
+
+@media screen and (min-width: 992px) {
+    .deletar-evento-modal {
+        width: 40%;
+    }
+
+    .deletar-evento-modal p {
+        font-size: 21px;
+    }
+
+    .btns-modal-deletar {
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+
+
+    .btns-modal-deletar > button {
+        width: 10vw;
+    }
+}

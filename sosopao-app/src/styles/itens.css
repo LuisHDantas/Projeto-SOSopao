@@ -6,14 +6,18 @@
     align-items: center;
 }
 
-#title{
+#conteudo-itens{
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    font-weight: none;
-    font-family: 'Poppins', sans-serif;
+    align-items: center;
+    margin-bottom: 1rem;
 }
 
-#title h1{
+#titulo-itens{
+    width: 100%;
+    text-align: center;   
+    font-family: 'Poppins', sans-serif;
     font-weight: 400;
 }
 
@@ -21,5 +25,10 @@
     
     #add-search{
         padding: 1% 10%;
+    }
+
+    #titulo-itens{
+        width: 90%;
+        text-align: start;   
     }
 }
