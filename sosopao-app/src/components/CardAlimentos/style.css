@@ -59,6 +59,18 @@
     word-wrap: break-word;
 }
 
+.info-alimentos input{
+    margin: 0;
+    max-width: 80%;
+    border-radius: 8px;
+    border: 2px solid #038C8C;
+    padding: 0.4rem 0.3rem;
+}
+
+.input-alimento:focus {
+    outline: none;
+}
+
 .button-add-itenzinho{
     cursor: pointer;
     width: 90%;

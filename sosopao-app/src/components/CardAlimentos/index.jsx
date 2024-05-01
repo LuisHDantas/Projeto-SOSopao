@@ -11,9 +11,16 @@ import './style.css'
 export function CardAlimentos(){
     const [isOpen, setIsOpen] = useState(false);
     const [isEdit, setIsEdit] = useState(false);
+
+
+    const [nameText, setNameText] = useState('Macarrão');
+    const [goalText, setGoalText] = useState(20);
     
     const urlFotoTeste = 'https://s2-receitas.glbimg.com/JAZaJrRJpVfXRP1BZwbAsUcuYLw=/0x0:1280x800/984x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_1f540e0b94d8437dbbc39d567a1dee68/internal_photos/bs/2022/R/X/Lj3rwSQpm7BgzSEvJ1Mw/macarrao-simples-como-fazer.jpg';
     function openControllerCard(){
+        if(isEdit)
+            return null;
+
         if(isOpen){
             return null;
         }else{
@@ -22,6 +29,9 @@ export function CardAlimentos(){
     }
 
     function openControllerInfos(){
+        if(isEdit)
+            return null;
+
         if(isOpen){
             return setIsOpen(!isOpen);
         }else{
@@ -62,12 +72,24 @@ export function CardAlimentos(){
                     <div className="sub-info-alimentos">
                         <div className="info-alimentos">
                             <h4>Nome:</h4>
-                            <p>Macarrão</p>
+                            {
+                                (
+                                    isEdit ?
+                                    <input type="text" className='input-alimento' value={nameText} name='nome' onChange={event => setNameText(event.target.value)}/>:
+                                    <p>{nameText}</p>
+                                )
+                            }
                         </div>
 
                         <div className="info-alimentos">
                             <h4>Meta:</h4>
-                            <p>20</p>
+                            {
+                                (
+                                    isEdit ?
+                                    <input type="number" className='input-alimento' value={goalText} name='meta' onChange={event => setGoalText(event.target.value)}/>:
+                                    <p>{goalText}</p>
+                                )
+                            }
                         </div>
                     </div>
                     
