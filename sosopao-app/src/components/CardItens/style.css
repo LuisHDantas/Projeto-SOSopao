@@ -1,0 +1,43 @@
+.card-itens{   
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: 2px 3px 8px rgba(0, 0, 0, 0.25);
+    width: 90%;
+    margin-top: 1rem; 
+    padding-bottom: 1rem;
+}
+
+.card-itens h4{
+    padding: 0 3%;
+    margin: 1em 0;
+    color: #038C8C;
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+    font-size: 1rem; 
+}
+
+.card-itens p{
+    margin: 0;
+    padding: 0 3%;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    font-size: 0.875rem;
+    max-width: 90%;
+    word-wrap: break-word;
+    text-align: justify;
+}
+
+.new-container-itens{
+    display: flex;
+    justify-content: space-around;
+    padding: 3% 0;
+    width: 90%;
+    background-color: rgba(217, 217, 217, 0.5);
+}
+
+@media (min-width: 992px){
+    .new-container-itens{
+        padding: 1% 0;
+    }
+}

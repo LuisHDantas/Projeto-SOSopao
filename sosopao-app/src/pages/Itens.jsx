@@ -1,4 +1,5 @@
 import { Navbar } from "../components/Navbar";
+import { CardItens } from "../components/CardItens";
 import { ButtonSearch } from "../components/buttomSearch";
 import { ButtonAdd } from "../components/buttonAdd";
 import '../styles/itens.css';
@@ -12,8 +13,10 @@ export function Itens(){
                 <ButtonAdd />
                 <ButtonSearch />
             </div>
-            <div id="title">
-                <h1>Itens no Estoque:</h1>
+            <div id="conteudo-itens">
+                <h2 id="titulo-itens">Itens no Estoque:</h2>
+                <CardItens/>
+                <CardItens/>
             </div>
             
             
