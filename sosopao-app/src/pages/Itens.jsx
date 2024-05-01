@@ -1,11 +1,12 @@
 import { Navbar } from "../components/Navbar";
 import { CardItens } from "../components/CardItens";
-import { ButtonSearch } from "../components/buttomSearch";
+import { ButtonSearch } from "../components/buttonSearch";
 import { ButtonAdd } from "../components/buttonAdd";
 import { DeletarEvento } from "../components/ModalDeletarEvento";
 import { AddItem } from "../components/ModalAddItem";
 import { useState, useEffect } from 'react';
 import '../styles/itens.css';
+import { Footer } from "../components/Footer";
 
 export function Itens(){
     const [abreDeletar, setAbreDeletar] = useState(false);
@@ -63,7 +64,7 @@ export function Itens(){
             </div>
             
             
-            
+            <Footer/>
         </div>
     );
 }
