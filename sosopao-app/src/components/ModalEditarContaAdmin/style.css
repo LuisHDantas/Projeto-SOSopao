@@ -1,4 +1,4 @@
-.cadastrar-evento-modal {
+.editar-admin-modal {
     border: 1px solid #F27127;
     border-radius: 25px;
     display: flex;
@@ -6,7 +6,7 @@
     justify-content: center;
     align-items: center;
     width: 80%;
-    height: 70vh;
+    height: 50vh;
     font-family: 'Poppins', sans-serif;
 
     position: fixed;
@@ -17,7 +17,7 @@
     z-index: 1000;
 }
 
-.cadastrar-evento-modal form {
+.editar-admin-modal form {
     width: 80%;
     display: flex;
     flex-direction: column;
@@ -25,18 +25,14 @@
     align-items: center;
 }
 
-.campo-cadastro-evento {
+.campo-edicao-admin {
     display: flex;
     flex-direction: column;
     width: 100%;
     margin-bottom: 5px;
 }
 
-.campo-cadastro-evento textarea {
-    resize: none;
-}
-
-.campo-cadastro-evento input {
+.campo-edicao-admin input {
     border: 1px solid #F27127;
     border-radius: 8px;
     height: 4vh;
@@ -44,50 +40,31 @@
     padding-left: 10px;
     font-family: 'Poppins', sans-serif;
 }
-.campo-cadastro-evento textarea {
-    font-family: 'Poppins', sans-serif;
-    border: 1px solid #F27127;
-    border-radius: 8px;
-    height: 17vh;
-    font-size: 12px;
-    padding: 10px 10px;
-}
 
-input[type="date"]{
-    color: #737380;
-    font-size: 12px;
-    font-family: 'Poppins', sans-serif;
-    text-transform: uppercase;
-}
-
-::-webkit-calendar-picker-indicator {
-    filter: invert(1);
-}
-
-.icon-cadastro-evento {
+.icon-edicao-admin {
     position: relative;
     left: 90%;
     bottom: 35%;
     color: #F27127;
 }
 
-#container-btns-cadastro-evento {
+#container-btns-edicao-admin {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     width: 100%;
 }
 
-#container-btns-cadastro-evento > button {
+#container-btns-edicao-admin > button {
     max-width: 40%;
 }
 
 @media screen and (min-width: 992px) {
-    .cadastrar-evento-modal {
+    .editar-admin-modal {
         width: 40%;
     }
 
-    .icon-cadastro-evento {
+    .icon-edicao-admin {
         left: 95%;
     }
 }

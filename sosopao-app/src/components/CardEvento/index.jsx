@@ -151,7 +151,7 @@ export function CardEvento({index, nome, data, descricao, url_imagem, finalizaEd
     </button>
 
     
-    {toggle ? <EditarDeletar finalizaEdicao={handleSave} abreEditar={abreEditar} abreDeletar={() => {abreDeletar();  setToggle(false);}} isSelectedEdit={isSelectedEdit}/> : <></>}
+    {toggle ? <EditarDeletar finalizaEdicao={handleSave} abreEditar={abreEditar} abreDeletar={() => {abreDeletar(); setToggle(false);}} isSelectedEdit={isSelectedEdit}/> : <></>}
     </>
 
     );

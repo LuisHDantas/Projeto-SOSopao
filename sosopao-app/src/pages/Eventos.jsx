@@ -1,7 +1,7 @@
 import { Navbar } from "../components/Navbar";
 import { Footer } from "../components/Footer";
 import { CardEvento } from "../components/CardEvento";
-import { DeletarEvento } from "../components/ModalDeletarEvento";
+import { ModalDeletar } from "../components/ModalDeletar";
 import { CadastroEvento } from "../components/ModalCadastroEvento";
 import { ButtonAdd } from "../components/buttonAdd";
 import { ButtonSearch } from "../components/buttonSearch";
@@ -71,11 +71,16 @@ export function Eventos(){
             </div>
 
             {abreDeletar && (
-                <DeletarEvento
-                    fechaDeletar={() => setAbreDeletar(!abreDeletar)}
+                <ModalDeletar
+                    fechaDeletar={() => {
+                        setAbreDeletar(!abreDeletar);
+                        setSelectedCardIndex(null);
+                    }}
                     index={selectedCardIndex}
                     onDelete={handleDelete}
-                />
+                >
+                    Deseja EXCLUIR esse evento?
+                </ModalDeletar>
             )}
             {abreCadastro && <CadastroEvento fechaCadastro={() => setAbreCadastro(!abreCadastro)} dados={dados} setDados={setDados}/>}
 
