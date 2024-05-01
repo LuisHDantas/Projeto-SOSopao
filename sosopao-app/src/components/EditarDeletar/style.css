@@ -20,6 +20,15 @@
     margin: 10px;
 }
 
+.btn-deletar-ofuscado {
+    background-color: #F21616;
+    border-radius: 100%;
+    border: 1px solid black;
+    margin: 10px;
+    opacity: 0.5;
+}
+
+
 @media screen and (min-width: 992px) {
     .editar-deletar {
         width: 95%;
