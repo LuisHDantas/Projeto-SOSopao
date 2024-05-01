@@ -20,6 +20,7 @@ export function Alimentos(){
 
                 <CardAlimentos />
                 <CardAlimentos />
+                <CardAlimentos />
 
             </div>
 
