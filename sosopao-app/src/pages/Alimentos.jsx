@@ -26,7 +26,7 @@ export function Alimentos(){
     }
 
     return(
-        <div>
+        <>
             <Navbar type='alimentos'/>
             <div id="add-search">
                 <ButtonAdd  onClick={() => setAbreAddAlimento(!abreAddAlimento)}>
@@ -61,6 +61,7 @@ export function Alimentos(){
             <div className='tela-fundo-branco' style={{
                 // borra o fundo quando modal está aberto
                 filter: abreAddItemAlimento || abreAddAlimento || abreDeletar ? 'blur(5px)' : 'none',
+                margin: 0,
             }}>
 
                 <div id="conteudo-alimentos">
@@ -105,7 +106,7 @@ export function Alimentos(){
 
                 <Footer/>
             </div>
-        </div>
+        </>
     );
 }
 

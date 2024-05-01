@@ -60,6 +60,11 @@ export function Itens(){
                             setAbreDeletar(!abreDeletar);
                         }}
                     />
+                    <CardItens
+                        abreDeletar={() => {
+                            setAbreDeletar(!abreDeletar);
+                        }}
+                    />
                 </div>
             </div>
             

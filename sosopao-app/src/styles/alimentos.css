@@ -26,4 +26,9 @@
     #add-search{
         padding: 1% 10%;
     }
+
+    #titulo-alimentos{
+        width: 90%;
+        text-align: start;   
+    }
 }
