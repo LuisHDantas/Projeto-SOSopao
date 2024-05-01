@@ -1,7 +1,7 @@
 import { ButtonRemoveEstoque } from '../buttomRemoveEstoque';
 import './style.css'
 
-export function CardItemAlimento(){
+export function CardItemAlimento({abreDeletar = null}){
 
     return(
         <div className="card-item-alimento">
@@ -30,7 +30,7 @@ export function CardItemAlimento(){
                 
             </div>
            
-           <ButtonRemoveEstoque/>
+           <ButtonRemoveEstoque onClick={abreDeletar}/>
         </div>
     );
 }

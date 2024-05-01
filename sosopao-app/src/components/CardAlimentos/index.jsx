@@ -8,7 +8,7 @@ import { FaCheck } from "react-icons/fa";
 import './style.css'
 
 
-export function CardAlimentos(){
+export function CardAlimentos({abreDeletar=null, abreAddItemAlimento = null}){
     const [isOpen, setIsOpen] = useState(false);
     const [isEdit, setIsEdit] = useState(false);
 
@@ -48,7 +48,7 @@ export function CardAlimentos(){
                             (
                                 isEdit?
                                 <ButtonRemoveEstoque style={{'opacity': 0.5}}/> :
-                                <ButtonRemoveEstoque onClick={() => console.log("PAGINA DE DELETAR")}/>
+                                <ButtonRemoveEstoque onClick={abreDeletar}/>
                             )
                         }
                     </div>
@@ -111,7 +111,7 @@ export function CardAlimentos(){
                         (
                             isEdit?
                             <ButtonRemoveEstoque style={{'opacity': 0.5}}/> :
-                            <ButtonRemoveEstoque onClick={() => console.log("PAGINA DE DELETAR")}/>
+                            <ButtonRemoveEstoque onClick={abreDeletar}/>
                         )
                     }
 
@@ -131,8 +131,10 @@ export function CardAlimentos(){
             {
                 isOpen && 
                 <div className='new-container-alimentos'>
-                    <button className='button-add-itenzinho'>+ Adicionar Item</button>
-                    <CardItemAlimento/>
+                    <button className='button-add-itenzinho' onClick={abreAddItemAlimento}>+ Adicionar Item</button>
+                    <CardItemAlimento 
+                        abreDeletar = {abreDeletar}
+                    />
                 </div>
             }
 
