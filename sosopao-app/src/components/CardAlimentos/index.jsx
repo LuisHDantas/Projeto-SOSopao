@@ -33,25 +33,29 @@ export function CardAlimentos(){
         <>
             <div className="card-alimentos" onClick={openControllerCard}>
                 <div className="foto-btns-alimentos">
-                    { isOpen && 
-                        (
-                            isEdit?
-                            <ButtonRemoveEstoque style={{'opacity': 0.5}}/> :
-                            <ButtonRemoveEstoque onClick={() => console.log("PAGINA DE DELETAR")}/>
-                        )
-                    }
+                    <div id='btn-remove-estoque'>
+                        { isOpen && 
+                            (
+                                isEdit?
+                                <ButtonRemoveEstoque style={{'opacity': 0.5}}/> :
+                                <ButtonRemoveEstoque onClick={() => console.log("PAGINA DE DELETAR")}/>
+                            )
+                        }
+                    </div>
                     
                     <img src={urlFotoTeste} alt="foto de perfil" onClick={openControllerInfos}/>
                     
-                    { isOpen && 
-                        (<ButtonEditEstoque onClick={() => setIsEdit(!isEdit)}>
-                            {
-                                isEdit ?
-                                <FaCheck/>:
-                                <MdEdit/>
-                            }
-                        </ButtonEditEstoque>)
-                    }
+                    <div id='btn-edit-estoque'>
+                        { isOpen && 
+                            (<ButtonEditEstoque onClick={() => setIsEdit(!isEdit)}>
+                                {
+                                    isEdit ?
+                                    <FaCheck/>:
+                                    <MdEdit/>
+                                }
+                            </ButtonEditEstoque>)
+                        }
+                    </div>
                 </div>
                 
                 <div className='infos-alimentos' onClick={openControllerInfos}>
@@ -78,6 +82,27 @@ export function CardAlimentos(){
                             <p>10</p>
                         </div>
                     </div>
+                </div>
+
+                <div className='btns-web'>
+                    { isOpen && 
+                        (
+                            isEdit?
+                            <ButtonRemoveEstoque style={{'opacity': 0.5}}/> :
+                            <ButtonRemoveEstoque onClick={() => console.log("PAGINA DE DELETAR")}/>
+                        )
+                    }
+
+                    { isOpen && 
+                        (<ButtonEditEstoque onClick={() => setIsEdit(!isEdit)}>
+                            {
+                                isEdit ?
+                                <FaCheck/>:
+                                <MdEdit/>
+                            }
+                        </ButtonEditEstoque>)
+                    }
+
                 </div>
             </div>
             
