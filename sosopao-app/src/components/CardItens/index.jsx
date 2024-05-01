@@ -5,7 +5,7 @@ import { MdEdit } from "react-icons/md";
 import { FaCheck } from "react-icons/fa";
 import './style.css'
 
-export function CardItens(){
+export function CardItens({abreDeletar=null}){
 
     const [isOpen, setIsOpen] = useState(false);
     const [isEdit, setIsEdit] = useState(false);
@@ -53,7 +53,7 @@ export function CardItens(){
                     </ButtonEditEstoque>
                     { isEdit?
                         <ButtonRemoveEstoque style={{'opacity': 0.5}}/>:
-                        <ButtonRemoveEstoque/>
+                        <ButtonRemoveEstoque onClick={abreDeletar}/>
                     }
                 </div>)
             }
