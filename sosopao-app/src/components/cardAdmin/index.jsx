@@ -8,7 +8,7 @@ export function CardAdmin({nome, email, abreDeletar}){
 
     <>
     <div className='card-admin'>
-        <div>
+        <div style={{maxWidth:'75%'}}>
             <div className='dado-admin'>
                 <h3>Nome:</h3>
                 <p>{nome}</p>

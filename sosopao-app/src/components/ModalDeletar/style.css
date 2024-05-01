@@ -40,7 +40,7 @@
     font-family: 'Roboto', sans-serif;
     font-size: 1rem;
     height: 7vh;
-    width: 15vw;
+    width: 20vw;
 }
 
 #btn-excluir-modal {
@@ -63,6 +63,6 @@
 
 
     .btns-modal-deletar > button {
-        width: 10vw;
+        width: 12vw;
     }
 }

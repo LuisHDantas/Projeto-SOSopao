@@ -3,8 +3,6 @@ import { MdEdit } from "react-icons/md";
 import { BotaoLaranja } from '../BotaoLaranja';
 import { BotaoCinza } from '../BotaoCinza';
 import { useState } from 'react';
-import { BiColor } from 'react-icons/bi';
-import { TbBackground } from 'react-icons/tb';
 
 export function CadastroEvento({fechaCadastro, dados, setDados}){
     
