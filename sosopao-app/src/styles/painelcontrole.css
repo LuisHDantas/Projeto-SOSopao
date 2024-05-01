@@ -1,0 +1,58 @@
+#btn-editar-minha-conta{
+    padding: 3% 5%;
+    background-color: #F4F4F4;
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.titulos-admin{ 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.titulos-admin h1{
+    font-family: 'Poppins', sans-serif;
+    font-weight: 350;
+    font-size: 25px;
+}
+
+.container-admins {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#addbtn-admin-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#container-funcoes-admin{
+    background-color: #F4F4F4;
+}
+
+.container-btn-funcoes{
+    display: flex;
+    justify-content: space-around;
+    padding-bottom: 10px;
+}
+
+@media (min-width: 992px){
+
+    .titulos-admin{ 
+        display: flex;
+        justify-content: left;
+        align-items: left;
+        height: 100%;
+        margin-left: 32px;
+    }
+
+}

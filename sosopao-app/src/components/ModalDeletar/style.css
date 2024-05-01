@@ -1,4 +1,4 @@
-.deletar-evento-modal {
+.deletar-modal {
     border: 1px solid #F27127;
     border-radius: 25px;
     display: flex;
@@ -18,7 +18,7 @@
     z-index: 1000;
 }
 
-.deletar-evento-modal p {
+.deletar-modal p {
     width: 80%;
     font-size: 18px;
 }
@@ -30,7 +30,7 @@
     width: 100%;
 }
 
-.btns-modal-deletar button .icon-excluir-evento {
+.btns-modal-deletar button .icon-excluir-modal {
     vertical-align: -10%; 
 }
 
@@ -43,16 +43,16 @@
     width: 15vw;
 }
 
-#btn-excluir-evento {
+#btn-excluir-modal {
     background-color: #F21616;
 }
 
 @media screen and (min-width: 992px) {
-    .deletar-evento-modal {
+    .deletar-modal {
         width: 40%;
     }
 
-    .deletar-evento-modal p {
+    .deletar-modal p {
         font-size: 21px;
     }
 
