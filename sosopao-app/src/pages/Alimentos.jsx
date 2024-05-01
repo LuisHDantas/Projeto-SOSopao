@@ -2,6 +2,7 @@ import { Navbar } from "../components/Navbar";
 import { CardAlimentos } from "../components/CardAlimentos";
 import { ButtonSearch } from "../components/buttomSearch";
 import { ButtonAdd } from "../components/buttonAdd";
+import {Footer} from "../components/Footer"
 import '../styles/alimentos.css';
 
 
@@ -21,7 +22,8 @@ export function Alimentos(){
                 <CardAlimentos />
 
             </div>
-            
+
+            <Footer/>
         </div>
     );
 }

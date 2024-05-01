@@ -51,3 +51,35 @@
     width: 100%;
     word-wrap: break-word;
 }
+
+@media screen and (min-width: 992px){
+
+    .card-item-alimento-info{
+        justify-content: center;
+    }
+
+    .card-marca-data{
+        flex-direction: row;
+        justify-content: center;
+        width: 50%;
+    }
+
+    .card-validade-uniMed{
+        flex-direction: row;
+        justify-content: center;
+        width: 50%;
+    }
+
+    .item-alimento{
+        justify-content: center;
+        align-items: center;
+        width: 50%;
+    }
+    .item-alimento h4{
+        width: fit-content;
+    }
+    .item-alimento p{
+        width: fit-content;
+        max-width: 100%;
+    }
+}
