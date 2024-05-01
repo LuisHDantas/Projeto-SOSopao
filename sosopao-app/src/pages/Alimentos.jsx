@@ -1,6 +1,6 @@
 import { Navbar } from "../components/Navbar";
 import { CardAlimentos } from "../components/CardAlimentos";
-import { ButtonSearch } from "../components/buttomSearch";
+import { ButtonSearch } from "../components/buttonSearch";
 import { ButtonAdd } from "../components/buttonAdd";
 import {Footer} from "../components/Footer";
 import {DeletarEvento} from "../components/ModalDeletarEvento";

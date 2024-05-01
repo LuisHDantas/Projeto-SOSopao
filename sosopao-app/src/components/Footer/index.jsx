@@ -47,7 +47,7 @@ export function Footer(){
                                 <IoIosGlobe />
                             </div>
                         </IconContext.Provider>
-                        <p>{contatos.SITE}</p>
+                        <p>{contatos.CIDADE}</p>
                     </div>
                 </div>
 
@@ -55,9 +55,9 @@ export function Footer(){
                 <div className='redes-sociais'>
                     <IconContext.Provider value={{ color: "#038C8C", size: "1.5em", className: "global-class-name" }}>
                         <div className='icones-redes-sociais'>
-                            <IoLogoWhatsapp />
-                            <IoLogoFacebook />
-                            <IoLogoInstagram />
+                            <a href={contatos.WHATSAPP} target="_blank" rel="noreferrer"><IoLogoWhatsapp /></a>
+                            <a href={contatos.FACEBOOK} target="_blank" rel="noreferrer"><IoLogoFacebook /></a>
+                            <a href={contatos.INSTAGRAM} target="_blank" rel="noreferrer"><IoLogoInstagram /></a>
                         </div>
                     </IconContext.Provider>
                 </div>
