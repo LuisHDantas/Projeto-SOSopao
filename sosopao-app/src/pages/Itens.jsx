@@ -10,7 +10,9 @@ export function Itens(){
         <div>
             <Navbar type='itens'/>
             <div id="add-search">
-                <ButtonAdd />
+                <ButtonAdd>
+                    Adicionar Item
+                </ButtonAdd>
                 <ButtonSearch />
             </div>
             <div id="conteudo-itens">

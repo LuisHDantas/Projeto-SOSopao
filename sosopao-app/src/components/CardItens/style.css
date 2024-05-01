@@ -36,6 +36,39 @@
     background-color: rgba(217, 217, 217, 0.5);
 }
 
+.input-editavel-nome-itens{
+    margin: 0 3%;
+    padding: 0.4rem 0.3rem;
+    max-width: 80%;
+    border-radius: 8px;
+    border: 2px solid #038C8C;
+    font-family: 'Poppins', sans-serif;
+}
+
+.input-editavel-nome-itens:focus{
+    outline: none;
+}
+
+.input-editavel-descricao-itens{
+    box-sizing: border-box;
+    margin: 0 3%;
+    padding: 0.4rem 0.3rem;
+    max-width: 93%;
+    min-width: 93%;
+    min-height: 10vh;
+    display: flex;
+    justify-content: start;
+    align-items: start;
+    height:150px;
+    border-radius: 8px;
+    border: 2px solid #038C8C;
+    font-family: 'Poppins', sans-serif;
+}
+
+.input-editavel-descricao-itens:focus{
+    outline: none;
+}
+
 @media (min-width: 992px){
     .new-container-itens{
         padding: 1% 0;
