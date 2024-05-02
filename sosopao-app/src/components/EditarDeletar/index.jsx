@@ -1,8 +1,8 @@
 import './style.css'
 import { MdEdit } from "react-icons/md";
-import { MdDelete } from "react-icons/md";
-import { IconContext } from "react-icons";
-import { IoMdCheckmark } from "react-icons/io";
+import { ButtonEditEstoque } from '../buttomEditEstoque';
+import { ButtonRemoveEstoque } from '../buttomRemoveEstoque';
+import { FaCheck } from "react-icons/fa";
 
 
 export function EditarDeletar({finalizaEdicao, abreEditar, abreDeletar, isSelectedEdit}){
@@ -10,15 +10,21 @@ export function EditarDeletar({finalizaEdicao, abreEditar, abreDeletar, isSelect
 
     return(
         <div className='editar-deletar'>
-            <IconContext.Provider value={{ color: "#FFFFFF", size:'2em', className: "global-class-name" }}>
-                <button className='btn-editar' onClick={isSelectedEdit ? finalizaEdicao : abreEditar}>
-                    {isSelectedEdit ? <IoMdCheckmark /> : <MdEdit/>}
-                </button>
-            </IconContext.Provider>
+            <ButtonEditEstoque style={{margin: '10px'}} onClick={isSelectedEdit ? finalizaEdicao : abreEditar}>
+                {
+                    isSelectedEdit ?
+                    <FaCheck/>:
+                    <MdEdit/>
+                }
+            </ButtonEditEstoque>
+            
+            { 
+                isSelectedEdit?
+                (<ButtonRemoveEstoque  style={{opacity: '0.5', margin: '10px'}}/>) :
+                (<ButtonRemoveEstoque style={{margin: '10px'}} onClick={isSelectedEdit ? ()=>{} : abreDeletar}/>)
+            
+            }
 
-            <IconContext.Provider value={{ color: "FFFFFF", size:'2em', className: "global-class-name" }}>
-                <button className={`btn-deletar${isSelectedEdit ? '-ofuscado' : ''}`} onClick={isSelectedEdit ? ()=>{} : abreDeletar}><MdDelete/></button>
-            </IconContext.Provider>
         </div>
     )
 }
