@@ -1,6 +1,7 @@
 import logo from '../../assets/images/logo.png'
 import {FaBars, FaTimes} from 'react-icons/fa'
 import { useState } from 'react'
+import {Link} from 'react-router-dom'
 
 
 import './style.css'
@@ -27,25 +28,25 @@ export function Navbar(props){
                     }
                 >
                     <li className={props.type === 'home'? "active" : ""}>
-                        <a  href="/#">Home</a>
+                        <Link to={'/'} className='link-navbar'>Home</Link>
                     </li>
                     <li className={props.type === 'alimentos'? 'active' : ''}>
-                        <a  href="/#">Alimentos</a>
+                        <Link to={'/alimentos'} className='link-navbar'>Alimentos</Link>
                     </li>
                     <li className={props.type === 'itens'? 'active' : ''}>
-                        <a  href="/#">Itens</a>
+                        <Link to={'/itens'} className='link-navbar'>Itens</Link>
                     </li>
                     <li className={props.type === 'eventos'? 'active' : ''}>
-                        <a  href="/#">Eventos</a>
+                        <Link to={'/eventos'} className='link-navbar'>Eventos</Link>
                     </li>
                     <li className={props.type === 'gerenciar'? 'active' : ''}>
-                        <a  href="/#">Gerenciar</a>
+                        <Link to={'/gerenciar'} className='link-navbar'>Gerenciar</Link>
                     </li>
                     <li className={props.type === 'rotas'? 'active' : ''}>
-                        <a  href="/#">Rotas</a>
+                        <Link to={'/rotas'} className='link-navbar'>Rotas</Link>
                     </li>
                     <li id="logout">
-                        <a  href="/#">Logout</a>
+                        <Link to={'/logout'} className='link-navbar'>Logout</Link>
                     </li>
                 </ul>
                 <h4>Olá, Nome</h4>

@@ -58,7 +58,7 @@ body{
     justify-content: center;
 }
 
-#navbar li a{
+.link-navbar{
     text-decoration: none;
     color: #038C8C;
     font-size: 1.3rem;
