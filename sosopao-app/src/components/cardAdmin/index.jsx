@@ -1,11 +1,9 @@
 import './style.css';
-import { MdDelete } from "react-icons/md";
-import { IconContext } from "react-icons";
+import { ButtonRemoveEstoque } from '../buttomRemoveEstoque';
 
 export function CardAdmin({nome, email, abreDeletar}){
 
     return(
-
     <>
     <div className='card-admin'>
         <div style={{maxWidth:'75%'}}>
@@ -20,9 +18,7 @@ export function CardAdmin({nome, email, abreDeletar}){
         </div>
 
         <div id="container-icone-deletar-adm">
-            <IconContext.Provider value={{ color: "#FFFFFF", size:'1.5em', className: "global-class-name" }}>
-                <MdDelete onClick={abreDeletar} className='btn-deletar'/>
-            </IconContext.Provider>
+            <ButtonRemoveEstoque style={{margin: '10px'}} onClick={abreDeletar} />
         </div>
 
     </div>
