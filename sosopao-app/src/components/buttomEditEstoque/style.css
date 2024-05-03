@@ -1,0 +1,20 @@
+.btn-edit-estoque{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 11vw;
+    height: 11vw;
+    max-width: 60px;
+    max-height: 60px;
+
+    min-width: 30px;
+    min-height: 30px;
+
+
+    border-radius: 50%;
+    color: white;
+    background-color:#038C8C;
+    font-size: 1.6rem;
+    border: none;
+}

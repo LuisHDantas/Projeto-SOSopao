@@ -1,0 +1,34 @@
+#add-search{
+    padding: 3% 5%;
+    background-color: #F9F9F9;
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#conteudo-alimentos{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+#titulo-alimentos{
+    width: 100%;
+    text-align: center;   
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+}
+
+@media (min-width: 992px){
+    
+    #add-search{
+        padding: 1% 10%;
+    }
+
+    #titulo-alimentos{
+        width: 90%;
+        text-align: start;   
+    }
+}

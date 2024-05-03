@@ -1,0 +1,13 @@
+.titulo-inscricoes {
+    background-color: #F4F4F4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.titulo-inscricoes h1 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 350;
+}

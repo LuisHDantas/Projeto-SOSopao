@@ -1,0 +1,85 @@
+.card-item-alimento{
+    display:flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    margin: 17px 20px 10px 20px;
+    border-radius: 30px;
+    background-color: white;
+    width: 90%;
+}
+
+.card-item-alimento-info{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 80%;
+}
+
+.card-marca-data{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    max-width: 50%;
+}
+
+.card-validade-uniMed{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    max-width: 50%;
+}
+
+.item-alimento{
+    display:flex;
+    flex-direction: column;
+    align-items: start;
+    margin: 1.2rem;
+    max-width: 90%;
+}
+
+.item-alimento h4{
+    margin: 0.3rem 0;
+    color: #038C8C;
+
+}
+
+.item-alimento p{
+    margin: 0;
+    width: 100%;
+    word-wrap: break-word;
+}
+
+@media screen and (min-width: 992px){
+
+    .card-item-alimento-info{
+        justify-content: center;
+    }
+
+    .card-marca-data{
+        flex-direction: row;
+        justify-content: center;
+        width: 50%;
+    }
+
+    .card-validade-uniMed{
+        flex-direction: row;
+        justify-content: center;
+        width: 50%;
+    }
+
+    .item-alimento{
+        justify-content: center;
+        align-items: center;
+        width: 50%;
+    }
+    .item-alimento h4{
+        width: fit-content;
+    }
+    .item-alimento p{
+        width: fit-content;
+        max-width: 100%;
+    }
+}

@@ -1,0 +1,164 @@
+.card-alimentos{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: 2px 3px 8px rgba(0, 0, 0, 0.25);
+    width: 90%;
+    margin-top: 1rem; 
+}
+
+.foto-btns-alimentos{
+    margin-top: 1rem;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.foto-btns-alimentos img{
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+}
+
+.infos-alimentos{
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 0.5rem;
+}
+
+
+.sub-info-alimentos{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    margin: 0 1%;
+}
+
+.info-alimentos{
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.info-alimentos h4{
+    padding: 0 3%;
+    margin: 1em 0;
+    color: #038C8C;
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.info-alimentos p{
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    font-size: 0.875rem;
+    max-width: 80%;
+    word-wrap: break-word;
+}
+
+.info-alimentos input{
+    margin: 0;
+    max-width: 80%;
+    border-radius: 8px;
+    border: 2px solid #038C8C;
+    padding: 0.4rem 0.3rem;
+}
+
+.input-alimento:focus {
+    outline: none;
+}
+
+.button-add-itenzinho{
+    cursor: pointer;
+    width: 90%;
+    margin-top: 0.6rem;
+    padding: 0.6rem 0;
+    background-color: #038C8C;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 400;
+    font-family: roboto , sans-serif;
+    font-size: 16px;
+}
+
+.new-container-alimentos{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: rgba(217, 217, 217, 0.5);
+    width: 90%;
+    margin-top: 5px;
+    margin-bottom: 1rem;
+}
+
+.btns-web{
+    display: none;
+}
+
+
+@media screen and (min-width: 992px){
+    .card-alimentos{
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .foto-btns-alimentos{
+        width: 10%;
+        margin-bottom: 1rem;
+        margin-left: 0.2rem;
+    }
+
+    .infos-alimentos{
+        width: 70%;
+    }
+
+    .sub-info-alimentos{
+        flex-direction: row;
+        width: 50%;
+        justify-content: space-around;
+        margin: 0 1%;
+    }
+    
+    .info-alimentos{
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        width: fit-content;
+    }
+
+    .info-alimentos h4{
+        margin: 1rem 0 0 0;
+        font-weight: bold;
+        font-size: 1.2rem;
+    }
+
+    .info-alimentos p{
+        font-size: 1rem;
+        max-width: 400px;
+    }
+
+    #btn-edit-estoque{
+        display: none;
+    }
+
+    #btn-remove-estoque{
+        display: none;
+    }
+
+
+    .btns-web{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .btns-web button{
+        margin: 0 1rem;
+    }
+}
