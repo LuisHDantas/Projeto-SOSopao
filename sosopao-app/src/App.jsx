@@ -7,6 +7,7 @@ import { Alimentos } from './pages/Alimentos';
 import { Itens } from './pages/Itens';
 import { PainelControle } from './pages/PainelControle';
 import { Inscricoes } from './pages/Inscricoes';
+import { Rotas } from './pages/Rotas'
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path='/itens' Component={Itens}/>
         <Route path='/gerenciar' Component={PainelControle}/>
         <Route path='/gerenciar/inscricoes' Component={Inscricoes}/>
+        <Route path='/rotas' Component={Rotas}/>
       </Routes>
     </BrowserRouter>
   );
