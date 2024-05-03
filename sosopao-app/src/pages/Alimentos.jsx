@@ -3,7 +3,7 @@ import { CardAlimentos } from "../components/CardAlimentos";
 import { ButtonSearch } from "../components/buttonSearch";
 import { ButtonAdd } from "../components/buttonAdd";
 import {Footer} from "../components/Footer";
-import {DeletarEvento} from "../components/ModalDeletarEvento";
+import {ModalDeletar} from "../components/ModalDeletar";
 import '../styles/alimentos.css';
 import { useState } from "react";
 import { AddAlimento } from "../components/ModalAddAlimento";
@@ -36,11 +36,13 @@ export function Alimentos(){
             </div>
 
             {abreDeletar && (
-                <DeletarEvento
+                <ModalDeletar
                     fechaDeletar={() => setAbreDeletar(!abreDeletar)}
                     index={0}
                     onDelete={handleDelete}
-                />
+                >
+                    Deseja EXCLUIR esse alimento?
+                </ModalDeletar>
             )}
 
             {
