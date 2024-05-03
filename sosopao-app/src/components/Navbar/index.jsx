@@ -19,7 +19,7 @@ export function Navbar(props){
     return (
         <header>
             <nav className="nav-navbar">
-                <img src={logo} alt="Logo SOS Sopão" />
+                <Link to={'/'}><img src={logo} alt="Logo SOS Sopão" /></Link>
                 <ul id='navbar' 
                     className={
                         mobileButton ?
@@ -46,7 +46,7 @@ export function Navbar(props){
                         <Link to={'/rotas'} className='link-navbar'>Rotas</Link>
                     </li>
                     <li id="logout">
-                        <Link to={'/logout'} className='link-navbar'>Logout</Link>
+                        <Link to={'/'} className='link-navbar'>Logout</Link>
                     </li>
                 </ul>
                 <h4>Olá, Nome</h4>

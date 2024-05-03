@@ -1,0 +1,45 @@
+#btn-add-parada{
+    padding: 3% 5%;
+    background-color: #F4F4F4;
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.titulos-rotas{ 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.titulos-rotas h1{
+    font-family: 'Poppins', sans-serif;
+    font-weight: 350;
+    font-size: 25px;
+}
+
+.container-paradas {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.container-paradas img{
+    width: 90%;
+    height: auto;
+    margin-bottom: 1rem;
+}
+
+@media (min-width: 992px){
+
+    .titulos-rotas{ 
+        display: flex;
+        justify-content: left;
+        align-items: left;
+        height: 100%;
+        margin-left: 32px;
+    }
+
+}
