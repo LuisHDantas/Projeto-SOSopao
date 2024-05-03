@@ -56,7 +56,6 @@ export function Eventos(){
 
     //use effect to see dados
     useEffect(() => {
-        console.log(dados);
     }, [dados]);
 
     return(
