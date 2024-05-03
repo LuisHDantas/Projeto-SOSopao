@@ -30,9 +30,9 @@ export function UpdateQRCode({fechaUpdate, dados, setDados}){
 
                 <div id='container-btns-update-qrcode'>  
                     <BotaoLaranja onClick={()=>{
-                        setDados([...dados, {
+                        /* setDados([...dados, {
                             url: formData.url
-                        }]);
+                        }]); */
                         fechaUpdate();
                     }}
                     >

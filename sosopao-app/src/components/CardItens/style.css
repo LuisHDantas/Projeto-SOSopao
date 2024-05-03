@@ -22,7 +22,7 @@
     padding: 0 3%;
     font-family: 'Poppins', sans-serif;
     font-weight: 400;
-    font-size: 0.875rem;
+    font-size: large;
     max-width: 90%;
     word-wrap: break-word;
     text-align: justify;
@@ -72,9 +72,5 @@
 @media (min-width: 992px){
     .new-container-itens{
         padding: 1% 0;
-    }
-
-    .card-itens p{
-        font-size: 1rem;
     }
 }

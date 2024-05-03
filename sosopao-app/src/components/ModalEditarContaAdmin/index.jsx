@@ -51,12 +51,12 @@ export function EditarContaAdmin({fechaEdicao, dados, setDados}){
 
                 <div id='container-btns-edicao-admin'>  
                     <BotaoLaranja onClick={()=>{
-                        setDados([...dados, {
+                        /* setDados([...dados, {
                             nome: formData.nome,
                             email: formData.email,
                             senha: formData.senha,
                             novaSenha: formData.novaSenha,
-                        }]);
+                        }]); */
                         fechaEdicao();
                     }}
                     >
