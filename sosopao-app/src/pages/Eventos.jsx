@@ -5,7 +5,7 @@ import { ModalDeletar } from "../components/ModalDeletar";
 import { CadastroEvento } from "../components/ModalCadastroEvento";
 import { ButtonAdd } from "../components/buttonAdd";
 import { ButtonSearch } from "../components/buttonSearch";
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import '../styles/eventos.css';
 
 export function Eventos(){
@@ -54,9 +54,7 @@ export function Eventos(){
         setSelectedCardIndex(null);
     };
 
-    //use effect to see dados
-    useEffect(() => {
-    }, [dados]);
+
 
     return(
         <div>
