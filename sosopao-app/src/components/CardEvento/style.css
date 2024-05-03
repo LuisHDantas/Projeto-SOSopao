@@ -19,8 +19,8 @@
 
 .card-evento p {
     font-size: large;
-    font-weight: bold;
-    color: #757575;
+    font-weight: 400;
+    color: black;
     margin-top: auto;
 }
 
@@ -48,9 +48,10 @@
 
 #descricao-evento p {
     font-size: medium;
-    font-weight: 600;
-    color: #757575;
+    font-weight: 400;
+    color: black;
     margin-top: auto;
+    text-align: justify;
 }
 
 #descricao-evento textarea{
