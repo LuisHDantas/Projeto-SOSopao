@@ -2,9 +2,9 @@ import { Navbar } from "../components/Navbar";
 import { CardItens } from "../components/CardItens";
 import { ButtonSearch } from "../components/buttonSearch";
 import { ButtonAdd } from "../components/buttonAdd";
-import { DeletarEvento } from "../components/ModalDeletarEvento";
+import { ModalDeletar } from "../components/ModalDeletar";
 import { AddItem } from "../components/ModalAddItem";
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import '../styles/itens.css';
 import { Footer } from "../components/Footer";
 
@@ -32,11 +32,13 @@ export function Itens(){
                 <ButtonSearch />
             </div>
             {abreDeletar && (
-                <DeletarEvento
+                <ModalDeletar
                     fechaDeletar={() => setAbreDeletar(!abreDeletar)}
                     index={0}
                     onDelete={handleDelete}
-                />
+                >
+                    Deseja EXCLUIR esse item?
+                </ModalDeletar>
             )} 
 
             {abreAddItem && 
