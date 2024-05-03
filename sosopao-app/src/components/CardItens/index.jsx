@@ -23,8 +23,8 @@ export function CardItens({abreDeletar=null}){
 
     return(
         <>
-            <div class="card-itens" onClick={() => openControllerCard()}>
-                <div class="item-nome">
+            <div className="card-itens" onClick={() => openControllerCard()}>
+                <div className="item-nome">
                     <h4>Nome:</h4>
                     { isEdit ?(
                         <input className="input-editavel-nome-itens" type="text" value={nameText} name="nome" onChange={event => setNameText(event.target.value)} />
@@ -33,7 +33,7 @@ export function CardItens({abreDeletar=null}){
                     
                     
                 </div>
-                <div class="item-descricao">
+                <div className="item-descricao">
                     <h4>Descrição:</h4>
                     { isEdit ?(
                         <textarea className="input-editavel-descricao-itens" value={descriptionText} name="descricao" onChange={event => setDescriptionText(event.target.value)}></textarea>
