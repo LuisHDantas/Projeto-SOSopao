@@ -28,6 +28,7 @@
     flex-direction: row;
     justify-content: space-around;
     width: 100%;
+    border: none;
 }
 
 .btns-modal-deletar button .icon-excluir-modal {
@@ -41,11 +42,11 @@
     font-size: 1rem;
     height: 7vh;
     width: 20vw;
+    border: none;
 }
 
 #btn-excluir-modal {
     background-color: #F21616;
-    border: none;
 }
 
 @media screen and (min-width: 992px) {
@@ -65,5 +66,6 @@
 
     .btns-modal-deletar > button {
         width: 12vw;
+        border: none;
     }
 }

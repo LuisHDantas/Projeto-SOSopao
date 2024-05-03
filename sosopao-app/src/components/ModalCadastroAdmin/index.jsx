@@ -44,11 +44,11 @@ export function CadastroAdmin({fechaCadastro, dados, setDados}){
 
                 <div id='container-btns-cadastro-admin'>  
                     <BotaoLaranja onClick={()=>{
-                        setDados([...dados, {
+                        /* setDados([...dados, {
                             nome: formData.nome,
                             email: formData.email,
                             senha: formData.senha,
-                        }]);
+                        }]); */
                         fechaCadastro();
                     }}
                     >

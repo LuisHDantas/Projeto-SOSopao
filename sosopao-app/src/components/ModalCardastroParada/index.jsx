@@ -30,9 +30,9 @@ export function CadastroParada({fechaCadastro, dados, setDados}){
 
                 <div id='container-btns-cadastro-parada'>  
                     <BotaoLaranja onClick={()=>{
-                        setDados([...dados, {
+                        /* setDados([...dados, {
                             parada: formData.parada,
-                        }]);
+                        }]); */
 
                         fechaCadastro();
                     }}

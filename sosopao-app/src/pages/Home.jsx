@@ -9,7 +9,7 @@ export function Home(){
             <Navbar type='home'/>
 
             <div id="tituloUsuario">
-                <h1>Olá, *usuário*</h1>
+                <h1>Olá, *Nome*</h1>
             </div>
 
             <div id="conteudoGuia">

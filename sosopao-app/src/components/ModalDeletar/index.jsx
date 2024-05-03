@@ -4,7 +4,7 @@ import { BotaoCinza } from '../BotaoCinza';
 
 export function ModalDeletar({fechaDeletar, index, onDelete, children}){
     function handleDelete() {
-        onDelete(index); // Call onDelete function with the index
+        //onDelete(index); // Call onDelete function with the index
         fechaDeletar(); // Close the delete modal
     }
 
