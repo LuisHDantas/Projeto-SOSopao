@@ -13,7 +13,7 @@ function findAll(request, response) {
 
 function findById(request, response) {
   Alimento
-    .findByPk(request.params.id_alimento)
+    .findByPk(request.params.id)
     .then(res => {
       if (res) {
         response.status(200).json(res);
@@ -33,7 +33,7 @@ function create(request, response) {
       data: request.body.data,
       validade: request.body.validade,
       quantidade: request.body.quantidade,
-      SuperalimentoNome: request.body.SuperalimentoNome // Note que isso pode mudar dependendo do nome da chave estrangeira no seu modelo
+      superalimentoNome: request.body.superalimentoNome,
     })
     .then(res => {
       response.status(201).json(res);
@@ -45,7 +45,7 @@ function create(request, response) {
 
 function deleteByPk(request, response) {
   Alimento
-    .destroy({ where: { id_alimento: request.params.id_alimento } })
+    .destroy({ where: { id_alimento: request.params.id } })
     .then(res => {
       if (res) {
         response.status(200).send();
@@ -66,9 +66,9 @@ function update(request, response) {
         data: request.body.data,
         validade: request.body.validade,
         quantidade: request.body.quantidade,
-        SuperalimentoNome: request.body.SuperalimentoNome // Note que isso pode mudar dependendo do nome da chave estrangeira no seu modelo
+        superalimentoNome: request.body.superalimentoNome,
       },
-      { where: { id_alimento: request.params.id_alimento } }
+      { where: { id_alimento: request.params.id } }
     )
     .then(res => {
       if (res[0] > 0) {
