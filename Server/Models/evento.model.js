@@ -7,7 +7,7 @@ Evento.init(
     {
         id_evento: {type: DataTypes.INTEGER, autoIncrement:true, primaryKey:true},
         nome: {type: DataTypes.STRING, allowNull: false},
-        data: {type: DataTypes.DATE, allowNull: false},
+        data: {type: DataTypes.DATEONLY, allowNull: false},
         descricao: {type: DataTypes.STRING, allowNull: true},
         url_imagem: {type: DataTypes.STRING, allowNull: true}
     },
