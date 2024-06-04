@@ -23,17 +23,18 @@ Alimento.init(
     { sequelize, timestamps: false }
 );
 
+Superalimento.hasMany(Alimento, {
+    foreignKey: 'superalimentoNome',
+    sourceKey: 'nome',
+    onUpdate: 'CASCADE',
+    onDelete: 'CASCADE',
+    hooks: true
+});
+
 // Definindo as relações
 Alimento.belongsTo(Superalimento, {
     foreignKey: 'superalimentoNome',
     targetKey: 'nome',
-    onUpdate: 'CASCADE',
-    onDelete: 'CASCADE'
-});
-
-Superalimento.hasMany(Alimento, {
-    foreignKey: 'superalimentoNome',
-    sourceKey: 'nome',
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE'
 });
