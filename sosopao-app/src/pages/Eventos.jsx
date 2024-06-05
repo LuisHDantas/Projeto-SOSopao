@@ -5,21 +5,46 @@ import { ModalDeletar } from "../components/ModalDeletar";
 import { CadastroEvento } from "../components/ModalCadastroEvento";
 import { ButtonAdd } from "../components/buttonAdd";
 import { ButtonSearch } from "../components/buttonSearch";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 import '../styles/eventos.css';
 
+const DataFetcher = async (setDados, setLoading, setError) => {
+    try {
+        const response = await axios.get('eventos');
+        setDados(response.data);
+        setLoading(false);
+    } catch (error) {
+        setError(error);
+        setLoading(false);
+    }
+};
+
 export function Eventos(){
-    const [dados, setDados] = useState([{
-    nome: 'Natal 2022', data:'25-12-2022', descricao: '', url_imagem: 'https://cdn.saocarlosagora.com.br/img/pc/780/530/dn_noticia/2019/12/138cd517-451b-484d-9558-db55861594bb-1.jpg?c=1'},
-    {nome: 'Distribuição de marmitas', data: '12-10-2025', descricao: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi. ', url_imagem: 'https://instagram.fcpq2-1.fna.fbcdn.net/v/t39.30808-6/425658710_18045439750607931_6875790801116318969_n.jpg?stp=dst-jpg_e15&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi4xMDYzeDEzMjkuc2RyLmYzMDgwOCJ9&_nc_ht=instagram.fcpq2-1.fna.fbcdn.net&_nc_cat=103&_nc_ohc=JosUI2e0-pEQ7kNvgGh0E69&edm=ANTKIIoAAAAA&ccb=7-5&oh=00_AfCbI4wtVbyMM3Q1sZ12RbN8UBsdb_ysjNKRn_43Z7FO4w&oe=66371787&_nc_sid=cf751b'},
-    {nome: 'Aniversário do SOSopão', data: '08-08-2025', descricao: 'Parabéns!', url_imagem: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThQj27o7h70o5xq8D4-8gH6sdh_WyFqXQ_ygCTUKnlgQ&s'},
-    ]);
+
+    const [dados, setDados] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        DataFetcher(setDados, setLoading, setError);
+    }, []);
+
+
+
+    // const [dados, setDados] = useState([{
+    // nome: 'Natal 2022', data:'25-12-2022', descricao: '', url_imagem: 'https://cdn.saocarlosagora.com.br/img/pc/780/530/dn_noticia/2019/12/138cd517-451b-484d-9558-db55861594bb-1.jpg?c=1'},
+    // {nome: 'Distribuição de marmitas', data: '12-10-2025', descricao: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi. ', url_imagem: 'https://instagram.fcpq2-1.fna.fbcdn.net/v/t39.30808-6/425658710_18045439750607931_6875790801116318969_n.jpg?stp=dst-jpg_e15&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi4xMDYzeDEzMjkuc2RyLmYzMDgwOCJ9&_nc_ht=instagram.fcpq2-1.fna.fbcdn.net&_nc_cat=103&_nc_ohc=JosUI2e0-pEQ7kNvgGh0E69&edm=ANTKIIoAAAAA&ccb=7-5&oh=00_AfCbI4wtVbyMM3Q1sZ12RbN8UBsdb_ysjNKRn_43Z7FO4w&oe=66371787&_nc_sid=cf751b'},
+    // {nome: 'Aniversário do SOSopão', data: '08-08-2025', descricao: 'Parabéns!', url_imagem: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThQj27o7h70o5xq8D4-8gH6sdh_WyFqXQ_ygCTUKnlgQ&s'},
+    // ]);
 
     const [abreDeletar, setAbreDeletar] = useState(false);
     const [abreEditar, setAbreEditar] = useState(false);
     const [abreCadastro, setAbreCadastro] = useState(false);
     const [selectedCardIndex, setSelectedCardIndex] = useState(null);
 
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>Error: {error.message}</p>;
 
     // converte data DD-MM-YYYY para objeto Date
     function parseDate(dateString) {
@@ -128,6 +153,7 @@ export function Eventos(){
                 <div className='container-eventos'>
                     {dados?.map((evento, index) => {
                         if(parseDate(evento.data) <= new Date()){
+                            console.log(evento.data)
                             return(
                                 <CardEvento 
                                     key={index} 

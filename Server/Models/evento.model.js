@@ -14,6 +14,16 @@ Evento.init(
     {sequelize: sequelize, timestamps: false }
 );
 
+// Deletando a tabela Evento
+// (async () => {
+//     try {
+//         await Evento.drop();
+//         console.log('Tabela Evento deletada com sucesso.');
+//     } catch (error) {
+//         console.error('Erro ao deletar a tabela Evento:', error);
+//     }
+// })();
+
 // Verifica se a tabela Eventos já não existe
 (async () => {
     try {

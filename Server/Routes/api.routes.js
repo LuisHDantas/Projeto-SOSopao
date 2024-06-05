@@ -1,4 +1,5 @@
 import express from "express";
+import cors from 'cors';
 import usuarioController from "../Controllers/usuario.controller.js";
 import eventoController from "../Controllers/evento.controller.js";
 import qrcodeController from "../Controllers/qrcode.controller.js";
@@ -8,7 +9,10 @@ import pontoParadaController from '../Controllers/pontoParada.controller.js';
 import superalimentoController from '../Controllers/superalimento.controller.js';
 import alimentoController from '../Controllers/alimento.controller.js';
 
+const app = express();
 const router = express.Router();
+
+app.use(cors());
 
 // Rotas para a tabela "Usuarios"
 router.get("/usuarios", usuarioController.findAll);
