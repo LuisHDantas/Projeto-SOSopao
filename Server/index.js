@@ -8,7 +8,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(apirouter);
 app.use(cors());
 
-const port = 3000;
+const port = process.env["API_PORT"];
 app.listen(port, function () {
   console.log("Serviço executanto na porta " + port);
 });

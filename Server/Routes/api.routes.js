@@ -7,10 +7,16 @@ import voluntarioController from "../Controllers/voluntario.controller.js";
 import pontoParadaController from '../Controllers/pontoParada.controller.js';
 import superalimentoController from '../Controllers/superalimento.controller.js';
 import alimentoController from '../Controllers/alimento.controller.js';
+import authController from "../Controllers/auth.controller.js";
 
 const router = express.Router();
 
+//Rotas para autenticação
+router.post("/signup", authController.register);
+router.post("/signin", authController.login);
+
 // Rotas para a tabela "Usuarios"
+router.all("/usuarios", authController.validateToken);
 router.get("/usuarios", usuarioController.findAll);
 router.get("/usuarios/:id", usuarioController.findById);
 router.post("/usuarios", usuarioController.create);
@@ -20,25 +26,26 @@ router.put("/usuarios/:id", usuarioController.update);
 // Rotas para a tabela "Eventos"
 router.get("/eventos", eventoController.findAll);
 router.get("/eventos/:id", eventoController.findById);
-router.post("/eventos", eventoController.create);
-router.delete("/eventos/:id", eventoController.deleteByPk);
-router.put("/eventos/:id", eventoController.update);
+router.post("/eventos", authController.validateToken, eventoController.create);
+router.delete("/eventos/:id", authController.validateToken, eventoController.deleteByPk);
+router.put("/eventos/:id", authController.validateToken, eventoController.update);
 
 // Rotas para a tabela "QrCode"
 router.get("/qrcode", qrcodeController.findAll);
 router.get("/qrcode/:id", qrcodeController.findById);
-router.post("/qrcode", qrcodeController.create);
-router.delete("/qrcode/:id", qrcodeController.deleteByPk);
-router.put("/qrcode/:id", qrcodeController.update);
+router.post("/qrcode", authController.validateToken, qrcodeController.create);
+router.delete("/qrcode/:id", authController.validateToken, qrcodeController.deleteByPk);
+router.put("/qrcode/:id", authController.validateToken, qrcodeController.update);
 
 // Rotas para a tabela "Item"
 router.get("/item", itemController.findAll);
 router.get("/item/:nome", itemController.findByNome);
-router.post("/item", itemController.create);
-router.delete("/item/:nome", itemController.deleteByPk);
-router.put("/item/:nome", itemController.update);
+router.post("/item", authController.validateToken, itemController.create);
+router.delete("/item/:nome", authController.validateToken, itemController.deleteByPk);
+router.put("/item/:nome", authController.validateToken, itemController.update);
 
 // Rotas para a tabela "Voluntario"
+router.all("/voluntario", authController.validateToken);
 router.get("/voluntario", voluntarioController.findAll);
 router.get("/voluntario/:nome/:email", voluntarioController.findByPk);
 router.post("/voluntario", voluntarioController.create);
@@ -46,6 +53,7 @@ router.delete("/voluntario/:nome/:email", voluntarioController.deleteByPk);
 router.put("/voluntario/:nome/:email", voluntarioController.update);
 
 // Rotas para a tabela "PontoParada"
+router.all("/pontoparada", authController.validateToken);
 router.get("/pontoparada", pontoParadaController.findAll);
 router.get("/pontoparada/:posicao", pontoParadaController.findByPosicao);
 router.post("/pontoparada", pontoParadaController.create);
@@ -55,15 +63,15 @@ router.put("/pontoparada/:posicao", pontoParadaController.update);
 // Rotas para a tabela "Superalimento"
 router.get('/superalimento', superalimentoController.findAll);
 router.get('/superalimento/:nome', superalimentoController.findByNome);
-router.post('/superalimento', superalimentoController.create);
-router.delete('/superalimento/:nome', superalimentoController.deleteByPk);
-router.put('/superalimento/:nome', superalimentoController.update);
+router.post('/superalimento', authController.validateToken, superalimentoController.create);
+router.delete('/superalimento/:nome', authController.validateToken, superalimentoController.deleteByPk);
+router.put('/superalimento/:nome', authController.validateToken, superalimentoController.update);
 
 // Rotas para a tabela "Alimento"
 router.get("/alimento", alimentoController.findAll);
 router.get("/alimento/:id", alimentoController.findById);
-router.post("/alimento", alimentoController.create);
-router.put("/alimento/:id", alimentoController.update);
-router.delete("/alimento/:id", alimentoController.deleteByPk);
+router.post("/alimento", authController.validateToken, alimentoController.create);
+router.put("/alimento/:id", authController.validateToken, alimentoController.update);
+router.delete("/alimento/:id", authController.validateToken, alimentoController.deleteByPk);
 
 export default router;
