@@ -3,10 +3,11 @@ import { EditarDeletar } from '../EditarDeletar';
 import { useState } from 'react';
 
 
-export function CardEvento({index, nome, data, descricao, url_imagem, finalizaEdicao, abreEditar, abreDeletar, isSelectedEdit}){
+export function CardEvento({index, id_evento, nome, data, descricao, url_imagem, finalizaEdicao, abreEditar, abreDeletar, isSelectedEdit}){
     const [toggle, setToggle] = useState(false);
     const [cardDados, setCardDados] = useState(
         {
+            id_evento: id_evento,
             nome: nome,
             data: data,
             descricao: descricao,
@@ -30,7 +31,6 @@ export function CardEvento({index, nome, data, descricao, url_imagem, finalizaEd
         } else {
             return 'Invalid date format';
         }
-
     }
 
     function formatDateToInput(dateString) {
@@ -69,7 +69,7 @@ export function CardEvento({index, nome, data, descricao, url_imagem, finalizaEd
 
     // Transforma DATEONLY em DD/MM/YYYY
     function parseDateFromDB(dateString) {
-        const dateParts = dateString.split('-');
+        const dateParts = dateString.split('-'); 
         if (dateParts.length !== 3) {
             throw new Error('Formato de data inválido. Esperado YYYY-MM-DD.');
         }

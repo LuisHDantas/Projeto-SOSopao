@@ -30,14 +30,6 @@ export function Eventos(){
         DataFetcher(setDados, setLoading, setError);
     }, []);
 
-
-
-    // const [dados, setDados] = useState([{
-    // nome: 'Natal 2022', data:'25-12-2022', descricao: '', url_imagem: 'https://cdn.saocarlosagora.com.br/img/pc/780/530/dn_noticia/2019/12/138cd517-451b-484d-9558-db55861594bb-1.jpg?c=1'},
-    // {nome: 'Distribuição de marmitas', data: '12-10-2025', descricao: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi. ', url_imagem: 'https://instagram.fcpq2-1.fna.fbcdn.net/v/t39.30808-6/425658710_18045439750607931_6875790801116318969_n.jpg?stp=dst-jpg_e15&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi4xMDYzeDEzMjkuc2RyLmYzMDgwOCJ9&_nc_ht=instagram.fcpq2-1.fna.fbcdn.net&_nc_cat=103&_nc_ohc=JosUI2e0-pEQ7kNvgGh0E69&edm=ANTKIIoAAAAA&ccb=7-5&oh=00_AfCbI4wtVbyMM3Q1sZ12RbN8UBsdb_ysjNKRn_43Z7FO4w&oe=66371787&_nc_sid=cf751b'},
-    // {nome: 'Aniversário do SOSopão', data: '08-08-2025', descricao: 'Parabéns!', url_imagem: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThQj27o7h70o5xq8D4-8gH6sdh_WyFqXQ_ygCTUKnlgQ&s'},
-    // ]);
-
     const [abreDeletar, setAbreDeletar] = useState(false);
     const [abreEditar, setAbreEditar] = useState(false);
     const [abreCadastro, setAbreCadastro] = useState(false);
@@ -46,40 +38,82 @@ export function Eventos(){
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error: {error.message}</p>;
 
-    // converte data DD-MM-YYYY para objeto Date
+    // converte data YYYY-MM-DD para objeto Date
     function parseDate(dateString) {
         if (!dateString) {
             return new Date();
         }
 
         const dateParts = dateString.split('-');
-        let dateObject = new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]); 
+        let dateObject = new Date(+dateParts[0], dateParts[1] - 1, +dateParts[2]); 
         return dateObject;
     }
 
-    function handleDelete(index) {
-        const updatedData = dados.filter((_, i) => i !== index);
-        setDados(updatedData);
-        setAbreDeletar(false);
-
-        if (index === selectedCardIndex) {
-            setSelectedCardIndex(null); // Deselect the deleted card
+    const handleDeleteRequest = async (id) => {
+        try {
+            console.log(`eventos/${id}`);
+            await axios.delete(`eventos/${id}`);
+            return true;
+        } catch (error) {
+            console.error("Erro ao deletar o evento:", error);
+            return false;
         }
-    }
+    };
+
+    const handleDelete = async (index) => {
+        const eventoId = dados[index].id_evento;
+        const deleteSuccess = await handleDeleteRequest(eventoId);
+
+        if (deleteSuccess) {
+            const updatedData = dados.filter((_, i) => i !== index);
+            setDados(updatedData);
+            setAbreDeletar(false);
+
+            if (index === selectedCardIndex) {
+                setSelectedCardIndex(null);
+            }
+        }
+    };
 
 
     const updateDados = (index, newDados) => {
         setDados(prevState => prevState.map((item, i) => i === index ? newDados : item));
     };
 
-    const handleUpdateCard = (index, newDados) => {
+    function formatDateToInput(dateString) {
+        if (!dateString) {
+            return 'Invalid date format';
+        }
 
+        const parts = dateString.split('-');
+        if (parts.length === 3) {
+            const day = parts[0];
+            const month = parts[1];
+            const year = parts[2];
+        
+            return `${year}-${month}-${day}`;
+        } else {
+            return 'Invalid date format';
+        }
+    }
 
-        updateDados(index, newDados);
-        setSelectedCardIndex(null);
+    const handleUpdateCard = async (index, newDados) => {
+        try {
+            newDados.data = formatDateToInput(newDados.data);
+            const { id_evento, ...dadosParaAtualizar } = newDados;
+            const response = await axios.put(`eventos/${id_evento}`, dadosParaAtualizar);
+    
+            if (response.status === 200) {
+                // Se a atualização for bem-sucedida, atualiza os dados no estado local
+                updateDados(index, newDados);
+                setSelectedCardIndex(null);
+            } else {
+                console.error('Erro ao atualizar o evento:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Erro ao atualizar o evento:', error);
+        }
     };
-
-
 
     return(
         <div>
@@ -104,6 +138,7 @@ export function Eventos(){
                     Deseja EXCLUIR esse evento?
                 </ModalDeletar>
             )}
+
             {abreCadastro && <CadastroEvento fechaCadastro={() => setAbreCadastro(!abreCadastro)} dados={dados} setDados={setDados}/>}
 
             <div className='tela-fundo-branco' style={{
@@ -123,6 +158,7 @@ export function Eventos(){
                                 <CardEvento 
                                     key={index} 
                                     index={index}
+                                    id_evento={evento.id_evento}
                                     nome={evento.nome} 
                                     data={evento.data} 
                                     descricao={evento.descricao} 
@@ -153,11 +189,11 @@ export function Eventos(){
                 <div className='container-eventos'>
                     {dados?.map((evento, index) => {
                         if(parseDate(evento.data) <= new Date()){
-                            console.log(evento.data)
                             return(
                                 <CardEvento 
                                     key={index} 
                                     index={index}
+                                    id_evento={evento.id_evento}
                                     nome={evento.nome} 
                                     data={evento.data} 
                                     descricao={evento.descricao} 
