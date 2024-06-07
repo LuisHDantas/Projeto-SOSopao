@@ -17,7 +17,11 @@ O objetivo do projeto será elaborar e desenvolver um sistema para a ONG S.O.Sop
 
 > cd sosopao-app/src
 
-2. Inicialize o app.
+2. Baixe as dependências
+
+> npm i
+
+3. Inicialize o app.
 
 > npm start
 
@@ -27,6 +31,10 @@ O objetivo do projeto será elaborar e desenvolver um sistema para a ONG S.O.Sop
 
 > cd server/
 
-2. Inicialize o app.
+2. Baixe as dependências
+
+> npm i
+
+3. Inicialize o app.
 
 > npm run dev
