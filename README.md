@@ -35,6 +35,11 @@ O objetivo do projeto será elaborar e desenvolver um sistema para a ONG S.O.Sop
 
 > npm i
 
-3. Inicialize o app.
+3. Inicialize o app (em ambiente de desenvolvimento)
+Nesse modo, cada CRTL+S irá reiniciar a API.
 
 > npm run dev
+
+4. Inicialize o app.
+
+> npm start
