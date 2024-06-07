@@ -34,6 +34,7 @@ export function Eventos(){
     const [abreEditar, setAbreEditar] = useState(false);
     const [abreCadastro, setAbreCadastro] = useState(false);
     const [selectedCardIndex, setSelectedCardIndex] = useState(null);
+    const [searchTerm, setSearchTerm] = useState("");
 
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error: {error.message}</p>;
@@ -115,6 +116,14 @@ export function Eventos(){
         }
     };
 
+    const handleSearch = (event) => {
+        setSearchTerm(event.target.value);
+    };
+
+    const filteredEvents = dados.filter(evento =>
+        evento.nome.toLowerCase().startsWith(searchTerm.toLowerCase())
+    );
+
     return(
         <div>
             <Navbar type='eventos'/>
@@ -123,7 +132,7 @@ export function Eventos(){
                 <ButtonAdd onClick={() => setAbreCadastro(!abreCadastro)}>
                     Adicionar evento
                 </ButtonAdd>
-                <ButtonSearch />
+                <ButtonSearch handleSearch={handleSearch}/>
             </div>
 
             {abreDeletar && (
@@ -152,11 +161,11 @@ export function Eventos(){
                 <div>
 
                 <div className='container-eventos'>
-                    {dados?.map((evento, index) => {
+                    {filteredEvents?.map((evento, index) => {
                         if(parseDate(evento.data) > new Date()){
                             return(
                                 <CardEvento 
-                                    key={index} 
+                                    key={evento.id_evento} 
                                     index={index}
                                     id_evento={evento.id_evento}
                                     nome={evento.nome} 
@@ -187,11 +196,12 @@ export function Eventos(){
                 </div>
 
                 <div className='container-eventos'>
-                    {dados?.map((evento, index) => {
+                    {filteredEvents?.map((evento, index) => {
                         if(parseDate(evento.data) <= new Date()){
+                            console.log(evento)
                             return(
                                 <CardEvento 
-                                    key={index} 
+                                    key={evento.id_evento} 
                                     index={index}
                                     id_evento={evento.id_evento}
                                     nome={evento.nome} 
