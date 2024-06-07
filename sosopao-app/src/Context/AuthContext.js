@@ -7,7 +7,6 @@ function AuthProvider({children}){
     const [authenticated, setAuthenticated] = useState(false);
 
     async function handleLoginAuthProvider(adminText, senhaText){
-        api.defaults.headers.common['Origin'] = `http://localhost:3000`;
         const { data: {token} } = await api.post('/signin', 
             {
                 email: adminText,
