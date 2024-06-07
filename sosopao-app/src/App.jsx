@@ -8,20 +8,25 @@ import { Itens } from './pages/Itens';
 import { PainelControle } from './pages/PainelControle';
 import { Inscricoes } from './pages/Inscricoes';
 import { Rotas } from './pages/Rotas'
+import { Login } from './pages/Login';
+import { AuthProvider } from './Context/AuthContext';
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path='/'  Component={Home} />
-        <Route path='/eventos' Component={Eventos} />
-        <Route path='/alimentos' Component={Alimentos}/>
-        <Route path='/itens' Component={Itens}/>
-        <Route path='/gerenciar' Component={PainelControle}/>
-        <Route path='/gerenciar/inscricoes' Component={Inscricoes}/>
-        <Route path='/rotas' Component={Rotas}/>
-      </Routes>
-    </BrowserRouter>
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path='/'  Component={Home} />
+          <Route path='/login'  Component={Login} />
+          <Route path='/eventos' Component={Eventos} />
+          <Route path='/alimentos' Component={Alimentos}/>
+          <Route path='/itens' Component={Itens}/>
+          <Route path='/gerenciar' Component={PainelControle}/>
+          <Route path='/gerenciar/inscricoes' Component={Inscricoes}/>
+          <Route path='/rotas' Component={Rotas}/>
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 
