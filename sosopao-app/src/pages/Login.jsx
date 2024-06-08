@@ -1,28 +1,46 @@
 import { MdEdit } from 'react-icons/md';
 import '../styles/login.css';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../Context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 export function Login(){
-    const { authenticated, handleLoginAuthProvider } = useContext(AuthContext);
+    const { loading, authenticated, handleLoginAuthProvider } = useContext(AuthContext);
 
     const [adminText, setAdminText] = useState("");
     const [senhaText, setSenhaText] = useState("");
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (authenticated) {
+            navigate('/');
+        }
+    }, [authenticated, navigate]);
 
     async function send(event){
         event.preventDefault();
         
         //back-end
-        await handleLoginAuthProvider(adminText, senhaText);
-        //
+        try{
+            await handleLoginAuthProvider(adminText, senhaText);
+        }catch(error){
+            console.log(error);
+        }
+        
         setAdminText("");
         setSenhaText("");
+
+        navigate("/");
     }
 
 
 
     return(
         <>
+            {loading ? 
+                <h1>Loading...</h1>
+            :
             <div className='login-background'>
                 <h2>LOGIN</h2>
 
@@ -44,7 +62,7 @@ export function Login(){
                     </div>
                 </form>
                 
-            </div>
+            </div>}
         </>
     );
 }

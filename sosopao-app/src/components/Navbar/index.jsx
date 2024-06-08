@@ -1,6 +1,7 @@
 import logo from '../../assets/images/logo.png'
 import {FaBars, FaTimes} from 'react-icons/fa'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
+import { AuthContext } from '../../Context/AuthContext'
 import {Link} from 'react-router-dom'
 
 
@@ -13,6 +14,7 @@ import './style.css'
 */
 export function Navbar(props){
     const [mobileButton, setMobileButton] = useState(false);
+    const { handleLogoutAuthProvider } = useContext(AuthContext);
 
     //const currentUrl = useLocation().pathname;
 
@@ -45,8 +47,8 @@ export function Navbar(props){
                     <li className={props.type === 'rotas'? 'active' : ''}>
                         <Link to={'/rotas'} className='link-navbar'>Rotas</Link>
                     </li>
-                    <li id="logout">
-                        <Link to={'/'} className='link-navbar'>Logout</Link>
+                    <li id="logout" onClick={() => handleLogoutAuthProvider()}>
+                        <Link to={'/login'} className='link-navbar'>Logout</Link>
                     </li>
                 </ul>
                 <h4>Olá, Nome</h4>

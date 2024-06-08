@@ -1,25 +1,15 @@
-import { createContext, useState } from "react";
-import api from "../api";
+import { createContext } from "react";
+import useAuth from "./hooks/useAuth";
 
 const AuthContext = createContext();
 
 function AuthProvider({children}){
-    const [authenticated, setAuthenticated] = useState(false);
 
-    async function handleLoginAuthProvider(adminText, senhaText){
-        const { data: {token} } = await api.post('/signin', 
-            {
-                email: adminText,
-                senha: senhaText
-            }
-        );
-
-        console.log(token);
-        setAuthenticated(true);
-    }
+    const { loading, authenticated, handleLoginAuthProvider, handleLogoutAuthProvider } 
+    = useAuth();
 
     return (
-        <AuthContext.Provider value={{ authenticated, handleLoginAuthProvider }}>
+        <AuthContext.Provider value={{ loading, authenticated, handleLoginAuthProvider, handleLogoutAuthProvider }}>
             {children}
         </AuthContext.Provider>
     );

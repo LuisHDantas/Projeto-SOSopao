@@ -5,9 +5,10 @@ import { ButtonAdd } from "../components/buttonAdd";
 import {Footer} from "../components/Footer";
 import {ModalDeletar} from "../components/ModalDeletar";
 import '../styles/alimentos.css';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AddAlimento } from "../components/ModalAddAlimento";
 import { AddItemAlimento } from "../components/ModalAddItemAlimento";
+import axios from "axios";
 
 
 export function Alimentos(){
