@@ -3,8 +3,6 @@ import { MdEdit } from "react-icons/md";
 import { BotaoLaranja } from '../BotaoLaranja';
 import { BotaoCinza } from '../BotaoCinza';
 import { useState } from 'react';
-import { BiColor } from 'react-icons/bi';
-import { TbBackground } from 'react-icons/tb';
 
 export function AddItemAlimento({fechaCadastro}){
     
@@ -15,7 +13,7 @@ export function AddItemAlimento({fechaCadastro}){
         url_imagem: ''
     });
 
-    function formatDate(dateString) {
+    /* function formatDate(dateString) {
         // Split the date string into an array of year, month, and day components
         const [year, month, day] = dateString.split('-');
         
@@ -23,7 +21,7 @@ export function AddItemAlimento({fechaCadastro}){
         const formattedDate = `${day}-${month}-${year}`;
         
         return formattedDate;
-    }
+    } */
 
     // Lida com evento de mudança do input
     const handleChange = (event) => {
