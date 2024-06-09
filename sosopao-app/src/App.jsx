@@ -12,6 +12,7 @@ import { Login } from './pages/Login';
 import { AuthContext, AuthProvider } from './Context/AuthContext';
 import { useContext } from 'react';
 
+//Rota privada impede que um usuário não logado acesse uma página
 function PrivateRoute({children}){
   const {loading, authenticated} = useContext(AuthContext);
 
@@ -25,6 +26,7 @@ function PrivateRoute({children}){
 
 function App() {
   return (
+    //Contexto para armazenar se o usuário está logado
     <AuthProvider>
       <BrowserRouter>
         <Routes>
