@@ -26,21 +26,34 @@ function findById(request, response) {
     });
 }
 
-function create(request, response) {
-    console.log(request.body);
-  Usuario
-    .create({
-      nome: request.body.nome,
-      email: request.body.email,
-      senha: request.body.senha,
+async function findByEmail(userEmail){
+  const user = await Usuario.findOne({
+      where: { email: userEmail },
+  });
+
+  return user;
+}
+
+function create(nome, email, senha, response, getToken) {
+    //console.log(request.body);
+    Usuario.create({
+      nome: nome,
+      email: email,
+      senha: senha,
     })
-    .then(res => {
-      response.status(201).json(res);
+    .then((result) => {
+        // criar e devolver o token
+        const meuToken = getToken(
+            result.dataValues.id,
+            result.dataValues.email,
+        );
+        response.status(201).send({ token: meuToken });
     })
-    .catch(err => {
-      response.status(500).json(err);
+    .catch((erro) => {
+        response.status(500).json(erro);
     });
 }
+
 
 function deleteByPk(request, response) {
   Usuario
@@ -79,4 +92,4 @@ function update(request, response) {
     });
 }
 
-export default { findAll, findById, create, deleteByPk, update };
+export default { findAll, findById, create, deleteByPk, update, findByEmail };
