@@ -15,5 +15,5 @@ app.use(apirouter);
 
 const port = process.env["API_PORT"];
 app.listen(port, function () {
-  console.log("Serviço executanto na porta " + port);
+  console.log("Serviço executando na porta " + port);
 });
