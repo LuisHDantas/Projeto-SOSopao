@@ -34,17 +34,18 @@ async function findByEmail(userEmail){
   return user;
 }
 
-function create(nome, email, senha, response, getToken) {
-    //console.log(request.body);
+function create(nome, email, senha, superadmin, response, getToken) {
     Usuario.create({
       nome: nome,
       email: email,
       senha: senha,
+      ehSuperadmin: superadmin
     })
     .then((result) => {
+        
         // criar e devolver o token
         const meuToken = getToken(
-            result.dataValues.id,
+            result.dataValues.id_usuario,
             result.dataValues.email,
         );
         response.status(201).send({ token: meuToken });
@@ -53,7 +54,6 @@ function create(nome, email, senha, response, getToken) {
         response.status(500).json(erro);
     });
 }
-
 
 function deleteByPk(request, response) {
   Usuario
@@ -92,4 +92,14 @@ function update(request, response) {
     });
 }
 
-export default { findAll, findById, create, deleteByPk, update, findByEmail };
+async function validaSuperAdmin(id) {
+  const autorizado = await Usuario.findByPk(id);
+
+  if (autorizado) {
+    return autorizado.dataValues.ehSuperadmin;
+  } else {
+    return false;
+  }
+}
+
+export default { findAll, findById, create, deleteByPk, update, findByEmail, validaSuperAdmin };

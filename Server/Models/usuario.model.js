@@ -9,6 +9,7 @@ Usuario.init(
         nome: {type: DataTypes.STRING, allowNull: false},
         email: {type: DataTypes.STRING, allowNull: false},
         senha: {type: DataTypes.STRING, allowNull: false},
+        ehSuperadmin: {type: DataTypes.BOOLEAN, allowNull: false}
     }, 
     {sequelize: sequelize, timestamps: false }
 );

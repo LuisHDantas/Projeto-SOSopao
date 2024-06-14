@@ -27,11 +27,11 @@ async function register(request, response) {
     //cadastra usuario
     const nome = request.body.nome;
     const email = request.body.email;
-    usuarioController.create(nome, email, hashedPassword, response, getToken);
+    usuarioController.create(nome, email, hashedPassword, false, response, getToken);
 }
 
 
-function getToken(id_usuario, email) {
+function getToken(id_usuario, email) {    
     const meuToken = jwt.sign(
         {
             sub: id_usuario,
@@ -86,4 +86,30 @@ async function validateToken(request, response, next) {
 }
 
 
-export default { register, login, validateToken }
+async function validateSuperToken(request, response, next){
+    let token = request.headers.authorization;
+
+    try{
+        if (token && token.startsWith("Bearer")) {
+
+            token = token.substring(7, token.length);
+            const decodedToken = jwt.verify(token, secret);
+            
+            const autorizado = await usuarioController.validaSuperAdmin(decodedToken.sub);
+            
+            if (autorizado) { 
+                next();
+            }else{
+                return response.status(401).send({ message: "Unauthorized" });
+            }
+        } else {
+            return response.status(401).send({ message: "Unauthorized" });
+        }
+
+    } catch (e) {
+        return response.status(401).send({ message: "Unauthorized" });
+    }
+}
+
+
+export default { register, login, validateToken, validateSuperToken }

@@ -14,18 +14,16 @@ const app = express();
 const router = express.Router();
 
 //Rotas para autenticação
-router.post("/signup", authController.register);
+
+router.post("/signup", authController.validateToken, authController.register);
 router.post("/signin", authController.login);
 
-//TODO:   TINHA UM CORS AQUIIII
 
 // Rotas para a tabela "Usuarios"
-router.all("/usuarios", authController.validateToken);
-router.get("/usuarios", usuarioController.findAll);
-router.get("/usuarios/:id", usuarioController.findById);
-router.post("/usuarios", usuarioController.create);
-router.delete("/usuarios/:id", usuarioController.deleteByPk);
-router.put("/usuarios/:id", usuarioController.update);
+router.get("/usuarios", authController.validateToken, usuarioController.findAll);
+router.get("/usuarios/:id", authController.validateToken, usuarioController.findById);
+router.delete("/usuarios/:id", authController.validateSuperToken, usuarioController.deleteByPk); //Apenas super admin pode 
+router.put("/usuarios/:id", authController.validateToken, usuarioController.update);
 
 // Rotas para a tabela "Eventos"
 router.get("/eventos", eventoController.findAll);
