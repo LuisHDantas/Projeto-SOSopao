@@ -81,28 +81,6 @@ export function Alimentos(){
                         } 
                          
                     />
-                    <CardAlimentos 
-                        abreDeletar={() => {
-                                setAbreDeletar(!abreDeletar);
-                            } 
-                        }
-
-                        abreAddItemAlimento={() => {
-                                setAbreAddItemAlimento(!abreAddItemAlimento);
-                            } 
-                        }
-                    />
-                    <CardAlimentos 
-                        abreDeletar={() => {
-                                setAbreDeletar(!abreDeletar);
-                            } 
-                        }
-
-                        abreAddItemAlimento={() => {
-                                setAbreAddItemAlimento(!abreAddItemAlimento);
-                            } 
-                        }
-                    />
 
                 </div>
 

@@ -1,5 +1,4 @@
 import './style.css'
-import { MdEdit } from "react-icons/md";
 import { BotaoLaranja } from '../BotaoLaranja';
 import { BotaoCinza } from '../BotaoCinza';
 import { useState } from 'react';
@@ -38,32 +37,25 @@ export function AddItemAlimento({fechaCadastro}){
                 <div className='campo-item-add-alimento'>
                     <label>Marca:</label>
                     <input placeholder="Marca" name="nome" onChange={handleChange}/>
-                    <MdEdit className='icon-cadastro-evento'/>
                 </div>
 
                 <div className='campo-item-add-alimento'>
-                    <label>Data:</label>
-                    <input type='date' placeholder="Data" name="data" onChange={handleChange}/>
-                    <MdEdit className='icon-cadastro-evento'/>
+                    <label>Validade:</label>
+                    <input type='date' placeholder="dd/mm/aaaa" name="data" onChange={handleChange}/>
                 </div>
 
                 <div className='campo-item-add-alimento'>
-                    <label>Quantidade:</label>
-                    <input type='number' placeholder="0" name="meta" onChange={handleChange}/>
+                    <label>Medida:</label>
+                    <input type='number' placeholder="Medida" name="meta" onChange={handleChange}/>
                 </div>
-
 
                 <div className='campo-item-add-alimento'>
-                    <select id="unMed-item-alimento" name="Unidade de Medida">
-                        <option value="" disabled selected>Un. Medida</option>
-                        <option value="unidade">Unidade</option>
-                        <option value="Kilogramas">Kilogramas</option>
-                        <option value="gramas">gramas</option>
-                        <option value="Litros">Litros</option>
-                        <option value="mililitros">mililitros</option>
-                        <option value="Dúzia">Dúzia</option>
-                    </select>
+                    <label>Multiplicador:</label>
+                    <input type='number' placeholder="Multiplicador" name="meta" onChange={handleChange}/>
                 </div>
+
+
+                
 
                 <div id='container-btns-cadastro-evento'>  
                     <BotaoLaranja onClick={()=>{

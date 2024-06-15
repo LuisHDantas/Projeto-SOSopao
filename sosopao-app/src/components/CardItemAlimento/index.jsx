@@ -23,8 +23,8 @@ export function CardItemAlimento({abreDeletar = null}){
                         <p>XX/XX/XXXX</p>
                     </div>
                     <div className="item-alimento">
-                        <h4>Un. Med</h4>
-                        <p>Unidade</p>
+                        <h4>Medida</h4>
+                        <p>2</p>
                     </div>
                 </div>
                 

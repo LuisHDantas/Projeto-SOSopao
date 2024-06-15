@@ -106,6 +106,11 @@ export function CardAlimentos({abreDeletar=null, abreAddItemAlimento = null}){
                     </div>
                 </div>
 
+                <div className='info-unidade-medida' onClick={openControllerInfos}>
+                    <h4>Un. Med:</h4>
+                    <p>Unidades</p>
+                </div>
+
                 <div className='btns-web'>
                     { isOpen && 
                         (

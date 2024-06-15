@@ -54,6 +54,18 @@ export function AddAlimento({fechaCadastro}){
                     <MdEdit className='icon-cadastro-evento'/>
                 </div>
 
+                <div className='campo-add-alimento'>
+                    <select id="unMed-item-alimento" name="Unidade de Medida">
+                        <option value="" disabled selected>Un. Medida</option>
+                        <option value="unidade">Unidade</option>
+                        <option value="Kilogramas">Kilogramas</option>
+                        <option value="gramas">gramas</option>
+                        <option value="Litros">Litros</option>
+                        <option value="mililitros">mililitros</option>
+                        <option value="Dúzia">Dúzia</option>
+                    </select>
+                </div>
+
                 <div id='container-btns-cadastro-evento'>  
                     <BotaoLaranja onClick={()=>{
                         fechaCadastro();
