@@ -48,7 +48,7 @@ export function Navbar(props){
                         <Link to={'/rotas'} className='link-navbar'>Rotas</Link>
                     </li>
                     <li id="logout" onClick={() => handleLogoutAuthProvider()}>
-                        <Link to={'/login'} className='link-navbar'>Logout</Link>
+                        <Link className='link-navbar'>Logout</Link>
                     </li>
                 </ul>
                 <h4>Olá, Nome</h4>
