@@ -39,7 +39,7 @@ function getToken(id_usuario, email) {
         },
         secret,
         {
-            expiresIn: "10s",
+            expiresIn: "1d",
         },
     );
     return meuToken;
