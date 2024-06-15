@@ -6,15 +6,37 @@ export default function useAuth(){
     const [authenticated, setAuthenticated] = useState(false);
     const [loading, setLoading] = useState(true);
 
-    //Se tiver token, set como autenticado e coloca o token no cabeçario das requisições 
+    //Se tiver token valido, set como autenticado e coloca o token no cabeçario das requisições 
+    //Se nn, authenticated = false e redireciona para o login
     useEffect(() =>{
-        const token = localStorage.getItem('token');
-        //console.log(token);
-        if(token){
-            axios.defaults.headers.Authorization = `Bearer ${JSON.parse(token)}`;
-            setAuthenticated(true);
+
+        const validadeToken = async () =>{
+            const token = localStorage.getItem('token');
+
+            if(token){
+                const { data: {valid}} = await axios.get(`expireToken/${JSON.parse(token)}`);
+                try{
+                    if(valid){
+                        //Se token valido, libera entrada
+                        axios.defaults.headers.Authorization = `Bearer ${JSON.parse(token)}`;
+                        setAuthenticated(true);
+                    }else{
+                        //Se o token não é valido, desloga o usuario
+                        localStorage.removeItem('token');
+                        axios.defaults.headers.Authorization = undefined;
+                        setAuthenticated(false);
+                    }                    
+                }catch(err){
+                    localStorage.removeItem('token');
+                    axios.defaults.headers.Authorization = undefined;
+                    setAuthenticated(false);
+                }
+                
+            }
+            
         }
 
+        validadeToken();
         setLoading(false);
     }, []);
 

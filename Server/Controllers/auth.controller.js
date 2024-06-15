@@ -85,7 +85,6 @@ async function validateToken(request, response, next) {
     }
 }
 
-
 async function validateSuperToken(request, response, next){
     let token = request.headers.authorization;
 
@@ -112,4 +111,24 @@ async function validateSuperToken(request, response, next){
 }
 
 
-export default { register, login, validateToken, validateSuperToken }
+
+async function validateExpireToken(request, response) {
+    let token = request.params.token;
+    try {
+        if ((typeof token === 'string') && token.trim().length > 0) {
+            const decodedToken = jwt.verify(token, secret);
+            
+            if(decodedToken){
+                return response.status(200).send({ valid: true });
+            }
+        }
+    } catch (e) {
+        console.log(e.message);
+        //Se tiver erro, apenas desloga o usuario. Não estou fazendo outro tratamento
+        return response.status(200).send({ valid: false });
+    }
+
+    return response.status(200).send({ valid: false });
+}
+
+export default { register, login, validateToken, validateSuperToken, validateExpireToken }

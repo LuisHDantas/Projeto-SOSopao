@@ -1,5 +1,4 @@
 import express from "express";
-import cors from 'cors';
 import usuarioController from "../Controllers/usuario.controller.js";
 import eventoController from "../Controllers/evento.controller.js";
 import qrcodeController from "../Controllers/qrcode.controller.js";
@@ -10,13 +9,12 @@ import superalimentoController from '../Controllers/superalimento.controller.js'
 import alimentoController from '../Controllers/alimento.controller.js';
 import authController from "../Controllers/auth.controller.js";
 
-const app = express();
 const router = express.Router();
 
 //Rotas para autenticação
-
 router.post("/signup", authController.validateToken, authController.register);
 router.post("/signin", authController.login);
+router.get("/expireToken/:token", authController.validateExpireToken);
 
 
 // Rotas para a tabela "Usuarios"
