@@ -39,7 +39,7 @@ function getToken(id_usuario, email) {
         },
         secret,
         {
-            expiresIn: "1d",
+            expiresIn: "10s",
         },
     );
     return meuToken;
@@ -76,7 +76,7 @@ async function validateToken(request, response, next) {
         if (token && token.startsWith("Bearer")) {
             token = token.substring(7, token.length);
             const decodedToken = jwt.verify(token, secret);
-                next();
+            next();
         } else {
             return response.status(401).send({ message: "Unauthorized" });
         }

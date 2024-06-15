@@ -13,9 +13,8 @@ export default function useAuth(){
         const validadeToken = async () =>{
             const token = localStorage.getItem('token');
 
-            const { data: {valid}} = await axios.get(`expireToken/${JSON.parse(token)}`);
-
             if(token){
+                const { data: {valid}} = await axios.get(`expireToken/${JSON.parse(token)}`);
                 try{
                     if(valid){
                         //Se token valido, libera entrada
