@@ -143,6 +143,7 @@
     .sub-info-alimentos{
         flex-direction: row;
         width: 50%;
+        align-items: center;
         justify-content: space-around;
         margin: 0 1%;
     }

@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import { AddAlimento } from "../components/ModalAddAlimento";
 import { AddItemAlimento } from "../components/ModalAddItemAlimento";
 import axios from "axios";
-import { Box, CircularProgress } from "@mui/material";
+import { Loading } from "../components/Loading";
 
 
 export function Alimentos(){
@@ -20,36 +20,41 @@ export function Alimentos(){
     const [loading, setLoading] = useState(true);
 
     const [superAlimentos, setSuperAlimentos] = useState([]);
+    const [selectedSAlimento, setSelectedSAlimento] = useState(null);
 
-    function getAllSuperAlimentos(){
-        axios.get('/superalimento')
-        .then((result) => {
+    async function getAllSuperAlimentos(){
+        try{
+            const result = await axios.get('/superalimento')
+
             if (result.status === 200) {
-                console.log(result.data)
                 setSuperAlimentos(result.data);
             }else{
                 console.log(result.data);
             }
-        })
-        .catch((error) =>{
-            console.log(error);
-        });
+
+            setLoading(false);
+        }
+        catch(error){
+            console.log("Erro GetAllSuperAlimentos: "+error);
+            setLoading(false);
+        }
     }
 
-    function handleDelete(index) {
-        /* const updatedData = dados.filter((_, i) => i !== index);
-        setDados(updatedData); */
-        setAbreDeletar(false);
-
-        /* if (index === selectedCardIndex) {
-            setSelectedCardIndex(null); // Deselect the deleted card
-        } */
+    async function handleAlimentoDelete(id) {
+        try{
+            const result = await axios.delete(`/superalimento/id/${id}`);
+            if (result.status === 200) {
+                setSuperAlimentos(anteriores => anteriores.filter(item => item.id !== id));
+            }
+            setAbreDeletar(false);
+        }catch(error){
+            console.log("Erro DeleteSuperAlimentos: " + error);
+            setAbreDeletar(false);
+        }
     }
-
 
     useEffect(() => {
         getAllSuperAlimentos();
-        setLoading(false);
     },[]);
 
     return(
@@ -65,8 +70,8 @@ export function Alimentos(){
             {abreDeletar && (
                 <ModalDeletar
                     fechaDeletar={() => setAbreDeletar(!abreDeletar)}
-                    index={0}
-                    onDelete={handleDelete}
+                    index={selectedSAlimento}
+                    onDelete={handleAlimentoDelete}
                 >
                     Deseja EXCLUIR esse alimento?
                 </ModalDeletar>
@@ -75,6 +80,7 @@ export function Alimentos(){
             {
                 abreAddAlimento && 
                 <AddAlimento 
+                    setSuperAlimentos = {setSuperAlimentos}
                     fechaCadastro={() => setAbreAddAlimento(!abreAddAlimento)} 
                 />
             }
@@ -97,22 +103,18 @@ export function Alimentos(){
 
                     {
                         loading?
-                        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                            <CircularProgress 
-                                sx={{
-                                    color: '#038C8C'
-                                }}
-                                size={50}
-                            />
-                        </Box>
+                        <Loading/>
                         :
-
                         superAlimentos?.map((alimento) =>
                             <CardAlimentos 
-                                key={alimento.id_alimento}
+                                key={alimento.id}
+                                id={alimento.id}
                                 nome={alimento.nome}
                                 meta={alimento.meta}
-                                abreDeletar={() => setAbreDeletar(!abreDeletar)} 
+                                un_medida={alimento.unidade_medida}
+                                url_imagem={alimento.url_imagem}
+                                abreDeletar={() => setAbreDeletar(!abreDeletar)}
+                                setIdSuperAlimento= {setSelectedSAlimento} 
                                 abreAddItemAlimento={() => setAbreAddItemAlimento(!abreAddItemAlimento)} 
                             />
                         )

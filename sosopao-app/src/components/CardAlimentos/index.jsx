@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { ButtonEditEstoque } from '../buttomEditEstoque';
 import { ButtonRemoveEstoque } from '../buttomRemoveEstoque';
 import { CardItemAlimento } from '../CardItemAlimento';
@@ -7,10 +7,10 @@ import { FaCheck } from "react-icons/fa";
 
 import './style.css'
 import axios from 'axios';
-import { Box, CircularProgress } from '@mui/material';
+import { Loading } from '../Loading';
 
 
-export function CardAlimentos({abreDeletar=null, abreAddItemAlimento = null, ...props}){
+export function CardAlimentos({abreDeletar=null, abreAddItemAlimento = null, setIdSuperAlimento = null, ...props}){
     const [isOpen, setIsOpen] = useState(false);
     const [isEdit, setIsEdit] = useState(false);
 
@@ -21,8 +21,8 @@ export function CardAlimentos({abreDeletar=null, abreAddItemAlimento = null, ...
     
     const [alimentos, setAlimentos] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [loadingEdit, setLoadingEdit] = useState(false);
     
-    const urlFotoTeste = 'https://s2-receitas.glbimg.com/JAZaJrRJpVfXRP1BZwbAsUcuYLw=/0x0:1280x800/984x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_1f540e0b94d8437dbbc39d567a1dee68/internal_photos/bs/2022/R/X/Lj3rwSQpm7BgzSEvJ1Mw/macarrao-simples-como-fazer.jpg';
     function openControllerCard(){
         if(isEdit)
             return null;
@@ -45,26 +45,87 @@ export function CardAlimentos({abreDeletar=null, abreAddItemAlimento = null, ...
         }
     }
 
-    function getAllAlimentos(){
-        axios.get('/alimento')
-        .then((result) => {
+    async function handleAlimentoEdit(){
+        setIsEdit(!isEdit)
+        setLoadingEdit(true);
+
+        //Quer dizer que quero salvar as alterações do meu input
+        if(isEdit){
+            try{
+                const goalNumber = Number(goalText);
+                if(nameText.trim() === '' || goalNumber <= 0){
+                    alert('Preencha corretamente os campos da edição');
+                    
+                    //Se um dos campos ficar errado, arruma o estado para o que esta no bd
+                    const result = await axios.get(`/superalimento/id/${props.id}`);
+                    if(result.status === 200){
+                        setNameText(result.data.nome);
+                        setGoalText(result.data.meta);
+                    }else{
+                        //se der errado coloca o que veio antes como parametro
+                        setNameText(props.nome);
+                        setGoalText(props.meta);
+                    }
+                }
+                else if(nameText !== props.nome || goalText !== props.meta){
+                    await axios.put(`/superalimento/id/${props.id}`,{
+                        nome: nameText,
+                        meta: goalNumber,
+                        quantidade: 1,
+                        unidade_medida: props.un_medida,
+                        url_imagem: props.url_imagem
+                    });
+                }
+            }catch(error){
+                console.log("Error HandleAlimentoEdit:" + error);
+                alert('Erro ao atualizar Alimento');
+
+                //Se um dos campos ficar errado, arruma o estado para o que esta no bd
+                const result = await axios.get(`/superalimento/id/${props.id}`);
+                if(result.status === 200){
+                    setNameText(result.data.nome);
+                    setGoalText(result.data.meta);
+                }else{
+                    //se der errado coloca o que veio antes como parametro
+                    setNameText(props.nome);
+                    setGoalText(props.meta);
+                }
+            }
+        }
+        setLoadingEdit(false);
+    }
+
+    const getAllAlimentos = useCallback(async ()=>{
+        try{
+            const result = await axios.get('/alimento');
             if (result.status === 200) {
-                console.log(result.data);
-                setAlimentos(result.data);
+                //TODO: Pegar a nova rota que traz apenas os alimentos necessarios
+
+                const alimentosFiltrados = 
+                result.data.filter(alimento => alimento.superalimentoID === props.id);
+
+                setAlimentos(alimentosFiltrados);
             }else{
                 console.log(result.data);
             }
-        })
-        .catch((error) =>{
-            console.log(error);
-        });
-    }
+            setLoading(false);
+        }catch(error){
+            console.log("Erro GetAllAlimentos: " + error);
+            setLoading(false);
+        }
+    },[props.id])
+
+    const updateIdSuperAlimento = useCallback(() => {
+        setIdSuperAlimento(props.id);
+    }, [props.id, setIdSuperAlimento]);
 
 
     useEffect(() => {
-        getAllAlimentos();
-        setLoading(false);
-    }, [isOpen]);
+        if(isOpen){
+            updateIdSuperAlimento();
+            getAllAlimentos();
+        }
+    }, [isOpen, getAllAlimentos, updateIdSuperAlimento]);
 
     return(
         <>
@@ -80,11 +141,11 @@ export function CardAlimentos({abreDeletar=null, abreAddItemAlimento = null, ...
                         }
                     </div>
                     
-                    <img src={urlFotoTeste} alt="foto de perfil" onClick={openControllerInfos}/>
+                    <img src={props.url_imagem} alt="foto de perfil" onClick={openControllerInfos}/>
                     
                     <div id='btn-edit-estoque'>
                         { isOpen && 
-                            (<ButtonEditEstoque onClick={() => setIsEdit(!isEdit)}>
+                            (<ButtonEditEstoque onClick={() => handleAlimentoEdit()}>
                                 {
                                     isEdit ?
                                     <FaCheck/>:
@@ -96,31 +157,36 @@ export function CardAlimentos({abreDeletar=null, abreAddItemAlimento = null, ...
                 </div>
                 
                 <div className='infos-alimentos' onClick={openControllerInfos}>
+                    
                     <div className="sub-info-alimentos">
-                        <div className="info-alimentos">
-                            <h4>Nome:</h4>
-                            {
-                                (
-                                    isEdit ?
-                                    <input type="text" className='input-alimento' value={nameText} name='nome' onChange={event => setNameText(event.target.value)}/>:
-                                    <p>{nameText}</p>
-                                )
-                            }
-                        </div>
+                        {   
+                            loadingEdit? <Loading size={35} />:
+                            <>
+                            <div className="info-alimentos">
+                                <h4>Nome:</h4>
+                                {
+                                    (
+                                        isEdit ?
+                                        <input type="text" className='input-alimento' value={nameText} name='nome' onChange={event => setNameText(event.target.value)}/>:
+                                        <p>{nameText}</p>
+                                    )
+                                }
+                            </div>
 
-                        <div className="info-alimentos">
-                            <h4>Meta:</h4>
-                            {
-                                (
-                                    isEdit ?
-                                    <input type="number" className='input-alimento' value={goalText} name='meta' onChange={event => setGoalText(event.target.value)}/>:
-                                    <p>{goalText}</p>
-                                )
-                            }
-                        </div>
+                            <div className="info-alimentos">
+                                <h4>Meta:</h4>
+                                {
+                                    (
+                                        isEdit ?
+                                        <input type="number" className='input-alimento' value={goalText} name='meta' onChange={event => setGoalText(event.target.value)}/>:
+                                        <p>{goalText}</p>
+                                    )
+                                }
+                            </div>
+                            </>
+                        }
                     </div>
                     
-
                     <div className="sub-info-alimentos">
                         <div className="info-alimentos">
                             <h4>Validade:</h4>
@@ -128,14 +194,14 @@ export function CardAlimentos({abreDeletar=null, abreAddItemAlimento = null, ...
                         </div>
                         <div className="info-alimentos">
                             <h4>Qtd Atual:</h4>
-                            <p>10</p>
+                            <p>X</p>
                         </div>
                     </div>
                 </div>
 
                 <div className='info-unidade-medida' onClick={openControllerInfos}>
                     <h4>Un. Med:</h4>
-                    <p>Unidades</p>
+                    <p>{props.un_medida}</p>
                 </div>
 
                 <div className='btns-web'>
@@ -148,7 +214,7 @@ export function CardAlimentos({abreDeletar=null, abreAddItemAlimento = null, ...
                     }
 
                     { isOpen && 
-                        (<ButtonEditEstoque onClick={() => setIsEdit(!isEdit)}>
+                        (<ButtonEditEstoque onClick={() => handleAlimentoEdit()}>
                             {
                                 isEdit ?
                                 <FaCheck/>:
@@ -166,22 +232,14 @@ export function CardAlimentos({abreDeletar=null, abreAddItemAlimento = null, ...
                     <button className='button-add-itenzinho' onClick={abreAddItemAlimento}>+ Adicionar Item</button>
                     
                     {
-                        loading?
-                        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                            <CircularProgress 
-                                sx={{
-                                    color: '#038C8C'
-                                }}
-                                size={50}
-                            />
-                        </Box>
-                        :
-
+                        loading? <Loading/>:
                         alimentos?.map((alimento) =>
-                            <CardItemAlimento 
-                                key={alimento.id}
-                                nome={alimento.nome}
-                                meta={alimento.meta}
+                            <CardItemAlimento
+                                key={alimento.id_alimento}
+                                marca={alimento.marca}
+                                medida={alimento.quantidade}
+                                data={alimento.data}
+                                validade = {alimento.validade}
                                 abreDeletar = {abreDeletar}
                             />
                         )
