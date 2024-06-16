@@ -39,10 +39,13 @@ router.put("/qrcode/:id", authController.validateToken, qrcodeController.update)
 
 // Rotas para a tabela "Item"
 router.get("/item", itemController.findAll);
-router.get("/item/:nome", itemController.findByNome);
+router.get("/item/nome/:nome", itemController.findByNome);
+router.get("/item/id/:id", itemController.findByID);
 router.post("/item", authController.validateToken, itemController.create);
-router.delete("/item/:nome", authController.validateToken, itemController.deleteByPk);
-router.put("/item/:nome", authController.validateToken, itemController.update);
+router.delete("/item/nome/:nome", authController.validateToken, itemController.deleteByNome);
+router.delete("/item/id/:id", authController.validateToken, itemController.deleteByPk);
+router.put("/item/nome/:nome", authController.validateToken, itemController.updateByNome);
+router.put("/item/id/:id", authController.validateToken, itemController.updateByID);
 
 // Rotas para a tabela "Voluntario"
 router.all("/voluntario", authController.validateToken);
