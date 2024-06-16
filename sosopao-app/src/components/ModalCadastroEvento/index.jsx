@@ -1,4 +1,4 @@
-import './style.css'
+import './style.css';
 import { MdEdit } from "react-icons/md";
 import { BotaoLaranja } from '../BotaoLaranja';
 import { BotaoCinza } from '../BotaoCinza';
@@ -6,7 +6,6 @@ import { useState } from 'react';
 import axios from 'axios';
 
 export function CadastroEvento({ fechaCadastro, dados, setDados }) {
-    
     const [formData, setFormData] = useState({
         nome: '',
         data: '',
@@ -14,23 +13,39 @@ export function CadastroEvento({ fechaCadastro, dados, setDados }) {
         url_imagem: ''
     });
 
-    function formatDate(dateString) {
-        // Split the date string into an array of year, month, and day components
-        const [year, month, day] = dateString.split('-');
-        
-        // Rearrange the components into the desired format
-        const formattedDate = `${day}-${month}-${year}`;
-        
-        return formattedDate;
-    }
+    const [loading, setLoading] = useState(false);
 
-    // Lida com evento de mudança do input
-    const handleChange = (event) => {
-        const { name, value } = event.target;
-        setFormData({
-            ...formData,
-            [name]: value,
-        });
+const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData({
+        ...formData,
+        [name]: value,
+    });
+};
+
+const handleBlur = (event) => {
+    const { name, value } = event.target;
+    if (name === 'data') {
+        if (value.match(/^\d{2}\/\d{2}\/\d{4}$/)) {
+            setFormData({
+                ...formData,
+                [name]: value,
+            });
+        } else {
+            alert('Data inválida. Use o formato DD/MM/YYYY.');
+            // Optionally reset the input or handle error state
+        }
+    }
+};
+
+    const formatDateForDisplay = (dateString) => {
+        const [year, month, day] = dateString.split('-');
+        return `${day}/${month}/${year}`;
+    };
+
+    const formatDateForBackend = (dateString) => {
+        const [day, month, year] = dateString.split('/');
+        return `${year}-${month}-${day}`;
     };
 
     const handleSubmit = async (event) => {
@@ -42,10 +57,15 @@ export function CadastroEvento({ fechaCadastro, dados, setDados }) {
             return;
         }
 
+        // Convert DD/MM/YYYY to YYYY-MM-DD for backend
+        const formattedDate = formatDateForBackend(formData.data);
+
+        setLoading(true);
+
         try {
             const response = await axios.post('/eventos', {
                 nome: formData.nome,
-                data: formatDate(formData.data),
+                data: formattedDate,
                 descricao: formData.descricao,
                 url_imagem: formData.url_imagem
             });
@@ -56,7 +76,13 @@ export function CadastroEvento({ fechaCadastro, dados, setDados }) {
             // Fecha o modal de cadastro
             fechaCadastro();
         } catch (error) {
+            if(error.response.data.parameters[1] == "Invalid date"){
+                alert("Insira uma data válida");
+            }
+
             console.error('Erro ao cadastrar evento:', error);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -64,34 +90,65 @@ export function CadastroEvento({ fechaCadastro, dados, setDados }) {
         <div className="cadastrar-evento-modal">
             <form onSubmit={handleSubmit}>
                 <div className='campo-cadastro-evento'>
-                    <label>Nome:</label>
-                    <input placeholder="Nome" name="nome" onChange={handleChange} />
+                    <label htmlFor="nome">Nome:</label>
+                    <input
+                        id="nome"
+                        placeholder="Nome"
+                        name="nome"
+                        value={formData.nome}
+                        onChange={handleChange}
+                        required
+                    />
                     <MdEdit className='icon-cadastro-evento' />
                 </div>
 
                 <div className='campo-cadastro-evento'>
-                    <label>Data:</label>
-                    <input type='date' placeholder="Data" name="data" onChange={handleChange} />
+                    <label htmlFor="data">Data:</label>
+                    <input
+                        id="data"
+                        type="text"
+                        placeholder="DD/MM/YYYY"
+                        name="data"
+                        value={formData.data}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        required
+                    />
                     <MdEdit className='icon-cadastro-evento' />
                 </div>
 
                 <div className='campo-cadastro-evento'>
-                    <label>Descrição:</label>
-                    <textarea placeholder='Descrição' name="descricao" onChange={handleChange} />
+                    <label htmlFor="descricao">Descrição:</label>
+                    <textarea
+                        id="descricao"
+                        placeholder='Descrição'
+                        name="descricao"
+                        value={formData.descricao}
+                        onChange={handleChange}
+                        required
+                    />
                     <MdEdit style={{ bottom: '15%' }} className='icon-cadastro-evento' />
                 </div>
 
                 <div className='campo-cadastro-evento'>
-                    <label>URL da imagem:</label>
-                    <input placeholder='URL da imagem' name="url_imagem" onChange={handleChange} />
+                    <label htmlFor="url_imagem">URL da imagem:</label>
+                    <input
+                        id="url_imagem"
+                        placeholder='URL da imagem'
+                        name="url_imagem"
+                        value={formData.url_imagem}
+                        onChange={handleChange}
+                    />
                     <MdEdit className='icon-cadastro-evento' />
                 </div>
 
                 <div id='container-btns-cadastro-evento'>
-                    <BotaoLaranja type="submit">
-                        Confirmar
+                    <BotaoLaranja type="submit" disabled={loading}>
+                        {loading ? 'Carregando...' : 'Confirmar'}
                     </BotaoLaranja>
-                    <BotaoCinza onClick={fechaCadastro}>Cancelar</BotaoCinza>
+                    <BotaoCinza onClick={fechaCadastro} disabled={loading}>
+                        Cancelar
+                    </BotaoCinza>
                 </div>
             </form>
         </div>

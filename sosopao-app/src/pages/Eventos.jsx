@@ -39,20 +39,9 @@ export function Eventos(){
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error: {error.message}</p>;
 
-    // converte data YYYY-MM-DD para objeto Date
-    function parseDate(dateString) {
-        if (!dateString) {
-            return new Date();
-        }
-
-        const dateParts = dateString.split('-');
-        let dateObject = new Date(+dateParts[0], dateParts[1] - 1, +dateParts[2]); 
-        return dateObject;
-    }
 
     const handleDeleteRequest = async (id) => {
         try {
-            console.log(`eventos/${id}`);
             await axios.delete(`eventos/${id}`);
             return true;
         } catch (error) {
@@ -100,7 +89,6 @@ export function Eventos(){
 
     const handleUpdateCard = async (index, newDados) => {
         try {
-            newDados.data = formatDateToInput(newDados.data);
             const { id_evento, ...dadosParaAtualizar } = newDados;
             const response = await axios.put(`eventos/${id_evento}`, dadosParaAtualizar);
     
@@ -112,6 +100,9 @@ export function Eventos(){
                 console.error('Erro ao atualizar o evento:', response.statusText);
             }
         } catch (error) {
+            if (error.response.data.parameters[1] == "Invalid date"){
+                alert("Insira uma data válida");
+            }
             console.error('Erro ao atualizar o evento:', error);
         }
     };
@@ -121,7 +112,7 @@ export function Eventos(){
     };
 
     const filteredEvents = dados.filter(evento =>
-        evento.nome.toLowerCase().startsWith(searchTerm.toLowerCase())
+        evento.nome.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     return(
@@ -162,11 +153,14 @@ export function Eventos(){
 
                 <div className='container-eventos'>
                     {filteredEvents?.map((evento, index) => {
-                        if(parseDate(evento.data) > new Date()){
+                        if(new Date(evento.data) > new Date()){
+
+                            const dados_index = dados.findIndex(item => item.id_evento === evento.id_evento);
+
                             return(
                                 <CardEvento 
                                     key={evento.id_evento} 
-                                    index={index}
+                                    index={dados_index}
                                     id_evento={evento.id_evento}
                                     nome={evento.nome} 
                                     data={evento.data} 
@@ -176,14 +170,14 @@ export function Eventos(){
                                     
                                     abreEditar={() => {
                                         setAbreEditar(!abreEditar);
-                                        setSelectedCardIndex(index);
+                                        setSelectedCardIndex(dados_index);
                                     }}
                                     abreDeletar={() => {
                                         setAbreDeletar(!abreDeletar);
-                                        setSelectedCardIndex(index);
+                                        setSelectedCardIndex(dados_index);
                                         } 
                                     }  
-                                    isSelectedEdit={selectedCardIndex === index} 
+                                    isSelectedEdit={selectedCardIndex === dados_index} 
                                 />
                             );
                         }else { return null;}
@@ -197,12 +191,14 @@ export function Eventos(){
 
                 <div className='container-eventos'>
                     {filteredEvents?.map((evento, index) => {
-                        if(parseDate(evento.data) <= new Date()){
-                            console.log(evento)
+                        if(new Date(evento.data) <= new Date()){
+        
+                            const dados_index = dados.findIndex(item => item.id_evento === evento.id_evento);
+
                             return(
                                 <CardEvento 
                                     key={evento.id_evento} 
-                                    index={index}
+                                    index={dados_index}
                                     id_evento={evento.id_evento}
                                     nome={evento.nome} 
                                     data={evento.data} 
@@ -212,14 +208,14 @@ export function Eventos(){
                                     
                                     abreEditar={() => {
                                         setAbreEditar(!abreEditar);
-                                        setSelectedCardIndex(index);
+                                        setSelectedCardIndex(dados_index);
                                     }}
                                     abreDeletar={() => {
                                         setAbreDeletar(!abreDeletar);
-                                        setSelectedCardIndex(index);
+                                        setSelectedCardIndex(dados_index);
                                         } 
                                     }  
-                                    isSelectedEdit={selectedCardIndex === index} 
+                                    isSelectedEdit={selectedCardIndex === dados_index} 
                                 />
                             );
                         }else { return null;}

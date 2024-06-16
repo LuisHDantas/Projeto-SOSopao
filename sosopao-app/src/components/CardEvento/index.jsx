@@ -7,7 +7,7 @@ export function CardEvento({index, id_evento, nome, data, descricao, url_imagem,
     const [cardDados, setCardDados] = useState({
         id_evento: id_evento,
         nome: nome,
-        data: data,
+        data: formatDateToDMY(data),
         descricao: descricao,
         url_imagem: url_imagem
     });
@@ -16,33 +16,37 @@ export function CardEvento({index, id_evento, nome, data, descricao, url_imagem,
         setCardDados({
             id_evento: id_evento,
             nome: nome,
-            data: data,
+            data: formatDateToDMY(data),
             descricao: descricao,
             url_imagem: url_imagem
         });
     }, [id_evento, nome, data, descricao, url_imagem]);
 
-    function formatDateToPrint(dateString) {
-        if (!dateString) return 'Invalid date format';
-        const dateParts = dateString.split('-');
-        if (dateParts.length === 3) {
-            const year = dateParts[2];
-            const month = dateParts[1];
-            const day = dateParts[0];
-            return `${year}/${month}/${day}`;
-        } else {
-            return 'Invalid date format';
-        }
+    function formatDateToDMY(dateString) {
+        if(!dateString) return '';
+
+        // Create a Date object by parsing the date string as UTC
+        const date = new Date(`${dateString}T00:00:00Z`);
+
+        // Extract day, month, and year using UTC methods
+        const day = String(date.getUTCDate()).padStart(2, '0');
+        const month = String(date.getUTCMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+        const year = date.getUTCFullYear();
+
+        // Return the formatted date
+        return `${day}/${month}/${year}`;
+
     }
 
-    function formatDateFromInput(dateString) {
-        if (!dateString) return 'Invalid date format';
-        const dateParts = dateString.split('-');
+    function formatDateToDB(dateString) {
+        if (!dateString) return '';
+
+        const dateParts = dateString.split('/');
         if (dateParts.length === 3) {
-            const year = dateParts[0];
+            const day = dateParts[0];
             const month = dateParts[1];
-            const day = dateParts[2];
-            return `${year}-${month}-${day}`;
+            const year = dateParts[2];
+            return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
         } else {
             return 'Invalid date format';
         }
@@ -50,41 +54,44 @@ export function CardEvento({index, id_evento, nome, data, descricao, url_imagem,
 
     const handleChange = (event) => {
         const { name, value } = event.target;
-        if (name === 'data') {
-            setCardDados((prevState) => ({
-                ...prevState,
-                [name]: formatDateFromInput(value),
-            }));
-        } else {
-            setCardDados((prevState) => ({
-                ...prevState,
-                [name]: value,
-            }));
-        }
+
+        setCardDados((prevState) => ({
+            ...prevState,
+            [name]: value,
+        }));
     };
 
     const handleSave = () => {
         const formattedData = {
             ...cardDados,
-            data: formatDateFromInput(cardDados.data),
+            data: formatDateToDB(cardDados.data),
         };
         finalizaEdicao(index, formattedData);
     };
 
     return (
         <>
-            <button className={`btn-evento${isSelectedEdit ? '-selected' : ''}`} onClick={() => {
-                if (!isSelectedEdit) {
-                    setToggle(prev => !prev);
-                }
-            }}>
+            <button
+                className={`btn-evento${isSelectedEdit ? '-selected' : ''}`}
+                onClick={() => {
+                    if (!isSelectedEdit) {
+                        setToggle((prev) => !prev);
+                    }
+                }}
+            >
                 <img src={cardDados.url_imagem} alt='imagem do evento' />
                 <div>
                     <div className='card-evento'>
                         <div className='dado-evento'>
                             <h3>Nome:</h3>
                             {isSelectedEdit ? (
-                                <input className="input-editavel-card-evento" type="text" value={cardDados.nome} name="nome" onChange={handleChange} />
+                                <input
+                                    className='input-editavel-card-evento'
+                                    type='text'
+                                    value={cardDados.nome}
+                                    name='nome'
+                                    onChange={handleChange}
+                                />
                             ) : (
                                 <p>{cardDados.nome}</p>
                             )}
@@ -92,34 +99,53 @@ export function CardEvento({index, id_evento, nome, data, descricao, url_imagem,
                         <div className='dado-evento'>
                             <h3>Data:</h3>
                             {isSelectedEdit ? (
-                                <input className="input-editavel-card-evento" type="date" value={cardDados.data} name="data" onChange={handleChange}/>
+                                <input
+                                    className='input-editavel-card-evento'
+                                    type='text'
+                                    value={cardDados.data}
+                                    name='data'
+                                    onChange={handleChange}
+                                />
                             ) : (
-                                <p>{formatDateToPrint(cardDados.data)}</p>
+                                <p>{cardDados.data}</p>
                             )}
                         </div>
                     </div>
 
-                    <div id='descricao-evento' 
+                    <div
+                        id='descricao-evento'
                         style={{
-                            display: toggle ? "" : "none"
+                            display: toggle ? '' : 'none',
                         }}
                     >
                         <h3>Descrição:</h3>
                         {isSelectedEdit ? (
-                            <textarea className="input-editavel-card-evento" value={cardDados.descricao} name="descricao" onChange={handleChange}></textarea>
+                            <textarea
+                                className='input-editavel-card-evento'
+                                value={cardDados.descricao}
+                                name='descricao'
+                                onChange={handleChange}
+                            ></textarea>
                         ) : (
                             <p>{cardDados.descricao}</p>
                         )}
                     </div>
 
-                    <div id='url-imagem-evento' 
+                    <div
+                        id='url-imagem-evento'
                         style={{
-                            display: isSelectedEdit ? "" : "none"
+                            display: isSelectedEdit ? '' : 'none',
                         }}
                     >
                         <h3>URL da imagem:</h3>
                         {isSelectedEdit ? (
-                            <input className="input-editavel-card-evento" type="text" value={cardDados.url_imagem} name="url_imagem" onChange={handleChange} />
+                            <input
+                                className='input-editavel-card-evento'
+                                type='text'
+                                value={cardDados.url_imagem}
+                                name='url_imagem'
+                                onChange={handleChange}
+                            />
                         ) : (
                             <p>{cardDados.url_imagem}</p>
                         )}
@@ -127,7 +153,15 @@ export function CardEvento({index, id_evento, nome, data, descricao, url_imagem,
                 </div>
             </button>
             {toggle ? (
-                <EditarDeletar finalizaEdicao={handleSave} abreEditar={abreEditar} abreDeletar={() => {abreDeletar(); setToggle(false);}} isSelectedEdit={isSelectedEdit}/>
+                <EditarDeletar
+                    finalizaEdicao={handleSave}
+                    abreEditar={abreEditar}
+                    abreDeletar={() => {
+                        abreDeletar();
+                        setToggle(false);
+                    }}
+                    isSelectedEdit={isSelectedEdit}
+                />
             ) : null}
         </>
     );
