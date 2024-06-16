@@ -5,15 +5,36 @@ import { ButtonAdd } from "../components/buttonAdd";
 import {Footer} from "../components/Footer";
 import {ModalDeletar} from "../components/ModalDeletar";
 import '../styles/alimentos.css';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AddAlimento } from "../components/ModalAddAlimento";
 import { AddItemAlimento } from "../components/ModalAddItemAlimento";
+import axios from "axios";
+import { Box, CircularProgress } from "@mui/material";
 
 
 export function Alimentos(){
     const [abreDeletar, setAbreDeletar] = useState(false);
     const [abreAddAlimento, setAbreAddAlimento] = useState(false);
     const [abreAddItemAlimento, setAbreAddItemAlimento] = useState(false);
+
+    const [loading, setLoading] = useState(true);
+
+    const [superAlimentos, setSuperAlimentos] = useState([]);
+
+    function getAllSuperAlimentos(){
+        axios.get('/superalimento')
+        .then((result) => {
+            if (result.status === 200) {
+                console.log(result.data)
+                setSuperAlimentos(result.data);
+            }else{
+                console.log(result.data);
+            }
+        })
+        .catch((error) =>{
+            console.log(error);
+        });
+    }
 
     function handleDelete(index) {
         /* const updatedData = dados.filter((_, i) => i !== index);
@@ -24,6 +45,12 @@ export function Alimentos(){
             setSelectedCardIndex(null); // Deselect the deleted card
         } */
     }
+
+
+    useEffect(() => {
+        getAllSuperAlimentos();
+        setLoading(false);
+    },[]);
 
     return(
         <>
@@ -65,23 +92,31 @@ export function Alimentos(){
                 filter: abreAddItemAlimento || abreAddAlimento || abreDeletar ? 'blur(5px)' : 'none',
                 margin: 0,
             }}>
-
                 <div id="conteudo-alimentos">
                     <h2 id="titulo-alimentos">Alimentos no Estoque:</h2>
 
-                    <CardAlimentos 
-                        abreDeletar={() => {
-                                setAbreDeletar(!abreDeletar);
-                            } 
-                        } 
+                    {
+                        loading?
+                        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                            <CircularProgress 
+                                sx={{
+                                    color: '#038C8C'
+                                }}
+                                size={50}
+                            />
+                        </Box>
+                        :
 
-                        abreAddItemAlimento={() => {
-                                setAbreAddItemAlimento(!abreAddItemAlimento);
-                            } 
-                        } 
-                         
-                    />
-
+                        superAlimentos?.map((alimento) =>
+                            <CardAlimentos 
+                                key={alimento.id_alimento}
+                                nome={alimento.nome}
+                                meta={alimento.meta}
+                                abreDeletar={() => setAbreDeletar(!abreDeletar)} 
+                                abreAddItemAlimento={() => setAbreAddItemAlimento(!abreAddItemAlimento)} 
+                            />
+                        )
+                    }
                 </div>
 
                 <Footer/>

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ButtonEditEstoque } from '../buttomEditEstoque';
 import { ButtonRemoveEstoque } from '../buttomRemoveEstoque';
 import { CardItemAlimento } from '../CardItemAlimento';
@@ -6,15 +6,21 @@ import { MdEdit } from "react-icons/md";
 import { FaCheck } from "react-icons/fa";
 
 import './style.css'
+import axios from 'axios';
+import { Box, CircularProgress } from '@mui/material';
 
 
-export function CardAlimentos({abreDeletar=null, abreAddItemAlimento = null}){
+export function CardAlimentos({abreDeletar=null, abreAddItemAlimento = null, ...props}){
     const [isOpen, setIsOpen] = useState(false);
     const [isEdit, setIsEdit] = useState(false);
 
 
-    const [nameText, setNameText] = useState('Macarrão');
-    const [goalText, setGoalText] = useState(20);
+    const [nameText, setNameText] = useState(props? props.nome:"");
+    const [goalText, setGoalText] = useState(props? props.meta:"");
+
+    
+    const [alimentos, setAlimentos] = useState([]);
+    const [loading, setLoading] = useState(true);
     
     const urlFotoTeste = 'https://s2-receitas.glbimg.com/JAZaJrRJpVfXRP1BZwbAsUcuYLw=/0x0:1280x800/984x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_1f540e0b94d8437dbbc39d567a1dee68/internal_photos/bs/2022/R/X/Lj3rwSQpm7BgzSEvJ1Mw/macarrao-simples-como-fazer.jpg';
     function openControllerCard(){
@@ -38,6 +44,27 @@ export function CardAlimentos({abreDeletar=null, abreAddItemAlimento = null}){
             return null;
         }
     }
+
+    function getAllAlimentos(){
+        axios.get('/alimento')
+        .then((result) => {
+            if (result.status === 200) {
+                console.log(result.data);
+                setAlimentos(result.data);
+            }else{
+                console.log(result.data);
+            }
+        })
+        .catch((error) =>{
+            console.log(error);
+        });
+    }
+
+
+    useEffect(() => {
+        getAllAlimentos();
+        setLoading(false);
+    }, [isOpen]);
 
     return(
         <>
@@ -137,9 +164,28 @@ export function CardAlimentos({abreDeletar=null, abreAddItemAlimento = null}){
                 isOpen && 
                 <div className='new-container-alimentos'>
                     <button className='button-add-itenzinho' onClick={abreAddItemAlimento}>+ Adicionar Item</button>
-                    <CardItemAlimento 
-                        abreDeletar = {abreDeletar}
-                    />
+                    
+                    {
+                        loading?
+                        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                            <CircularProgress 
+                                sx={{
+                                    color: '#038C8C'
+                                }}
+                                size={50}
+                            />
+                        </Box>
+                        :
+
+                        alimentos?.map((alimento) =>
+                            <CardItemAlimento 
+                                key={alimento.id}
+                                nome={alimento.nome}
+                                meta={alimento.meta}
+                                abreDeletar = {abreDeletar}
+                            />
+                        )
+                    }
                 </div>
             }
 
