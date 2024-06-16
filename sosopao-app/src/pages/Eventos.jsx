@@ -25,16 +25,26 @@ export function Eventos(){
     const [dados, setDados] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-
-    useEffect(() => {
-        DataFetcher(setDados, setLoading, setError);
-    }, []);
-
+    const [filteredEvents, setFilteredEvents] = useState([]);
     const [abreDeletar, setAbreDeletar] = useState(false);
     const [abreEditar, setAbreEditar] = useState(false);
     const [abreCadastro, setAbreCadastro] = useState(false);
     const [selectedCardIndex, setSelectedCardIndex] = useState(null);
     const [searchTerm, setSearchTerm] = useState("");
+
+    useEffect(() => {
+        DataFetcher(setDados, setLoading, setError);
+    }, []);
+
+    useEffect(() => {
+        const sortedDados = [...dados].sort((a,b) => new Date(a.data) - new Date(b.data));
+        
+        const filtered = sortedDados.filter(evento => evento.nome.toLowerCase().includes(searchTerm.toLowerCase()));
+
+        setFilteredEvents(filtered);
+
+        }, [dados, searchTerm]);
+
 
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error: {error.message}</p>;
@@ -110,10 +120,6 @@ export function Eventos(){
     const handleSearch = (event) => {
         setSearchTerm(event.target.value);
     };
-
-    const filteredEvents = dados.filter(evento =>
-        evento.nome.toLowerCase().includes(searchTerm.toLowerCase())
-    );
 
     return(
         <div>
