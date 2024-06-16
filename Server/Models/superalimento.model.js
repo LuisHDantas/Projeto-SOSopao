@@ -9,7 +9,8 @@ Superalimento.init(
         nome: {type: DataTypes.STRING, allowNull:false, unique:true},
         meta: {type: DataTypes.INTEGER, allowNull: false},
         quantidade: {type: DataTypes.INTEGER, allowNull: false},
-        unidade_medida: {type: DataTypes.STRING, allowNull: false}
+        unidade_medida: {type: DataTypes.STRING, allowNull: false},
+        url_imagem: {type: DataTypes.STRING(2048), allowNull: true}
     },
     {sequelize: sequelize, timestamps: false }
 );

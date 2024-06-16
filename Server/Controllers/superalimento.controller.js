@@ -54,6 +54,7 @@ function create(request, response) {
       meta: request.body.meta,
       quantidade: request.body.quantidade,
       unidade_medida: request.body.unidade_medida,
+      url_imagem: request.body.url_imagem
     })
     .then(res => {
       response.status(201).json(res);
@@ -101,6 +102,7 @@ function updateByNome(request, response) {
         meta: request.body.meta,
         quantidade: request.body.quantidade,
         unidade_medida: request.body.unidade_medida,
+        url_imagem: request.body.url_imagem
       },
       { where: { nome: request.params.nome } }
     )
@@ -124,6 +126,7 @@ function updateByID(request, response) {
         meta: request.body.meta,
         quantidade: request.body.quantidade,
         unidade_medida: request.body.unidade_medida,
+        url_imagem: request.body.url_imagem
       },
       { where: { id: request.params.id } }
     )

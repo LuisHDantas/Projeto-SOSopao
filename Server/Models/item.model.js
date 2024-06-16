@@ -5,7 +5,8 @@ class Item extends Model {};
 
 Item.init(
     {
-        nome: {type: DataTypes.STRING, primaryKey:true},
+        id: {type: DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
+        nome: {type: DataTypes.STRING, allowNull:false, unique:true},
         descricao: {type: DataTypes.STRING, allowNull: true},
         quantidade: {type: DataTypes.INTEGER, allowNull: false}
     },
