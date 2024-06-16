@@ -64,6 +64,7 @@ router.put("/pontoparada/:posicao", pontoParadaController.update);
 router.get('/superalimento', superalimentoController.findAll);
 router.get('/superalimento/id/:id', superalimentoController.findByID);
 router.get('/superalimento/nome/:nome', superalimentoController.findByNome);
+router.get('/superalimento/:id/alimentos', authController.validateToken, superalimentoController.getAlimentosByID);
 router.post('/superalimento', authController.validateToken, superalimentoController.create);
 router.delete('/superalimento/id/:id', authController.validateToken, superalimentoController.deleteByPk);
 router.delete('/superalimento/nome/:nome', authController.validateToken, superalimentoController.deleteByNome);
