@@ -13,7 +13,7 @@ export function Itens(){
     const [abreDeletar, setAbreDeletar] = useState(false);
     const [abreAddItem, setAddItem] = useState(false);
 
-    const [cardIndex, setCardIndex] = useState(null);
+    const [cardId, setCardId] = useState(null);
 
     const[item, setItem] = useState([]);
 
@@ -33,7 +33,7 @@ export function Itens(){
 
     function deleteItem(id) {
 
-        axios.delete(`/item/${id}`).then((result) => {
+        axios.delete(`/item/id/${id}`).then((result) => {
 
         if (result.status === 200) {
             setItem(anteriores => anteriores.filter(itens => itens.id !== id));
@@ -56,7 +56,7 @@ export function Itens(){
             {abreDeletar && (
                 <ModalDeletar
                     fechaDeletar={() => setAbreDeletar(!abreDeletar)}
-                    index={}
+                    index={cardId}
                     onDelete={deleteItem}
                 >
                     Deseja EXCLUIR esse item?
@@ -76,12 +76,16 @@ export function Itens(){
                     <h2 id="titulo-itens">Itens no Estoque:</h2>
                     
                     {
-                        item?.map((itens, index) =>
+                        item?.map((itens) =>
                             <CardItens
-                                key={index}
+                                key={itens.id}
                                 nome = {itens.nome}
                                 descricao = {itens.descricao}
-                                abreDeletar={() => setAbreDeletar(!abreDeletar)}
+                                abreDeletar={() => {
+                                    setAbreDeletar(!abreDeletar);
+                                    setCardId(itens.id);
+                                    }
+                                }
                             />
                         )
                     }
