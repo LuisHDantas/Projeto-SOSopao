@@ -39,7 +39,7 @@ function findById(request, response) {
 
 async function create(request, response) {
   try {
-    const superalimento = await Superalimento.findByPk(request.body.superalimentoNome);
+    const superalimento = await Superalimento.findByPk(request.body.superalimentoID);
     if (!superalimento) {
       return response.status(400).json({ error: "Superalimento não encontrado" });
     }
@@ -48,7 +48,7 @@ async function create(request, response) {
       data: request.body.data,
       validade: request.body.validade,
       quantidade: request.body.quantidade,
-      superalimentoNome: request.body.superalimentoNome,
+      superalimentoID: request.body.superalimentoID,
     });
     response.status(201).json(alimento);
   } catch (err) {
