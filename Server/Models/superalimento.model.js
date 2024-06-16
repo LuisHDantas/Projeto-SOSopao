@@ -5,13 +5,16 @@ class Superalimento extends Model {};
 
 Superalimento.init(
     {
-        nome: {type: DataTypes.STRING, primaryKey:true},
+        id: {type: DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
+        nome: {type: DataTypes.STRING, allowNull:false, unique:true},
         meta: {type: DataTypes.INTEGER, allowNull: false},
         quantidade: {type: DataTypes.INTEGER, allowNull: false},
         unidade_medida: {type: DataTypes.STRING, allowNull: false}
     },
     {sequelize: sequelize, timestamps: false }
 );
+
+
 
 // Verifica se a tabela Superalimentos já não existe
 (async () => {
