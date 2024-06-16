@@ -11,11 +11,11 @@ Alimento.init(
         data: { type: DataTypes.DATEONLY, allowNull: false },
         validade: { type: DataTypes.DATEONLY, allowNull: false },
         quantidade: { type: DataTypes.INTEGER, allowNull: false },
-        superalimentoNome: { 
-            type: DataTypes.STRING,
+        superalimentoID: { 
+            type: DataTypes.INTEGER,
             references: {
                 model: Superalimento,
-                key: 'nome'
+                key: 'id'
             },
             allowNull: false
         }
@@ -24,8 +24,8 @@ Alimento.init(
 );
 
 Superalimento.hasMany(Alimento, {
-    foreignKey: 'superalimentoNome',
-    sourceKey: 'nome',
+    foreignKey: 'superalimentoID',
+    sourceKey: 'id',
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
     hooks: true
@@ -33,8 +33,8 @@ Superalimento.hasMany(Alimento, {
 
 // Definindo as relações
 Alimento.belongsTo(Superalimento, {
-    foreignKey: 'superalimentoNome',
-    targetKey: 'nome',
+    foreignKey: 'superalimentoID',
+    targetKey: 'id',
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE'
 });

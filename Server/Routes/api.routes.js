@@ -62,10 +62,13 @@ router.put("/pontoparada/:posicao", pontoParadaController.update);
 
 // Rotas para a tabela "Superalimento"
 router.get('/superalimento', superalimentoController.findAll);
-router.get('/superalimento/:nome', superalimentoController.findByNome);
+router.get('/superalimento/id/:id', superalimentoController.findByID);
+router.get('/superalimento/nome/:nome', superalimentoController.findByNome);
 router.post('/superalimento', authController.validateToken, superalimentoController.create);
-router.delete('/superalimento/:nome', authController.validateToken, superalimentoController.deleteByPk);
-router.put('/superalimento/:nome', authController.validateToken, superalimentoController.update);
+router.delete('/superalimento/id/:id', authController.validateToken, superalimentoController.deleteByPk);
+router.delete('/superalimento/nome/:nome', authController.validateToken, superalimentoController.deleteByNome);
+router.put('/superalimento/nome/:nome', authController.validateToken, superalimentoController.updateByNome);
+router.put('/superalimento/id/:id', authController.validateToken, superalimentoController.updateByID);
 
 // Rotas para a tabela "Alimento"
 router.get("/alimento", alimentoController.findAll);
