@@ -5,12 +5,12 @@ import { MdEdit } from "react-icons/md";
 import { FaCheck } from "react-icons/fa";
 import './style.css'
 
-export function CardItens({abreDeletar=null}){
+export function CardItens({abreDeletar=null, ...props}){
 
     const [isOpen, setIsOpen] = useState(false);
     const [isEdit, setIsEdit] = useState(false);
-    const [nameText, setNameText] = useState("Camiseta P.");
-    const [descriptionText, setDescriptionText] = useState("Camiseta preta em bom estado. Localizado no estoque XX.");
+    const [nameText, setNameText] = useState(props.nome);
+    const [descriptionText, setDescriptionText] = useState(props.descricao);
 
     function openControllerCard(){
         if(isOpen && !isEdit){

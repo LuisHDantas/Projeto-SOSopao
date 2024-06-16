@@ -4,23 +4,45 @@ import { ButtonSearch } from "../components/buttonSearch";
 import { ButtonAdd } from "../components/buttonAdd";
 import { ModalDeletar } from "../components/ModalDeletar";
 import { AddItem } from "../components/ModalAddItem";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import '../styles/itens.css';
 import { Footer } from "../components/Footer";
+import axios from "axios";
 
 export function Itens(){
     const [abreDeletar, setAbreDeletar] = useState(false);
     const [abreAddItem, setAddItem] = useState(false);
 
-    function handleDelete(index) {
-        /*const updatedData = dados.filter((_, i) => i !== index);
-        setDados(updatedData);*/
+    const [cardIndex, setCardIndex] = useState(null);
+
+    const[item, setItem] = useState([]);
+
+    function getAllItem() {
+        axios.get('/item').then((result) => {
+          if (result.status === 200) {
+            setItem(result.data);
+            console.log(result.data);
+          }else{
+            console.log(result.data);
+          }
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+      }
+
+    function deleteItem(id) {
+
+        axios.delete(`/item/${id}`).then((result) => {
+
+        if (result.status === 200) {
+            setItem(anteriores => anteriores.filter(itens => itens.id !== id));
+        }
         setAbreDeletar(false);
-    
-        /*if (index === selectedCardIndex) {
-            setSelectedCardIndex(null); // Deselect the deleted card
-        }*/
+        });
     }
+
+    useEffect(getAllItem, []);
 
     return(
         <div>
@@ -34,8 +56,8 @@ export function Itens(){
             {abreDeletar && (
                 <ModalDeletar
                     fechaDeletar={() => setAbreDeletar(!abreDeletar)}
-                    index={0}
-                    onDelete={handleDelete}
+                    index={}
+                    onDelete={deleteItem}
                 >
                     Deseja EXCLUIR esse item?
                 </ModalDeletar>
@@ -52,21 +74,18 @@ export function Itens(){
             }}>
                 <div id="conteudo-itens">
                     <h2 id="titulo-itens">Itens no Estoque:</h2>
-                    <CardItens
-                        abreDeletar={() => {
-                            setAbreDeletar(!abreDeletar);
-                        }}
-                    />
-                    <CardItens
-                        abreDeletar={() => {
-                            setAbreDeletar(!abreDeletar);
-                        }}
-                    />
-                    <CardItens
-                        abreDeletar={() => {
-                            setAbreDeletar(!abreDeletar);
-                        }}
-                    />
+                    
+                    {
+                        item?.map((itens, index) =>
+                            <CardItens
+                                key={index}
+                                nome = {itens.nome}
+                                descricao = {itens.descricao}
+                                abreDeletar={() => setAbreDeletar(!abreDeletar)}
+                            />
+                        )
+                    }
+
                 </div>
             </div>
             
