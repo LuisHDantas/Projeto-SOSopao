@@ -18,7 +18,7 @@ export function CardAlimentos({abreDeletar=null, abreAddItemAlimento = null, set
     const [nameText, setNameText] = useState(props? props.nome:"");
     const [goalText, setGoalText] = useState(props? props.meta:"");
 
-    
+    //PASSAR ESSE ESTADO PARA O ALIMENTOS?????    
     const [alimentos, setAlimentos] = useState([]);
     const [loading, setLoading] = useState(true);
     const [loadingEdit, setLoadingEdit] = useState(false);
@@ -97,19 +97,16 @@ export function CardAlimentos({abreDeletar=null, abreAddItemAlimento = null, set
 
     const getAllAlimentos = useCallback(async ()=>{
         try{
-            const result = await axios.get('/alimento');
+            const result = await axios.get(`/superalimento/${props.id}/alimentos`);
             if (result.status === 200) {
-                //TODO: Pegar a nova rota que traz apenas os alimentos necessarios
-
-                const alimentosFiltrados = 
-                result.data.filter(alimento => alimento.superalimentoID === props.id);
-
-                setAlimentos(alimentosFiltrados);
+                //console.log(result.data);
+                setAlimentos(result.data);
             }else{
                 console.log(result.data);
             }
             setLoading(false);
         }catch(error){
+            //const messageErrorServer = error.response.data.message;
             console.log("Erro GetAllAlimentos: " + error);
             setLoading(false);
         }

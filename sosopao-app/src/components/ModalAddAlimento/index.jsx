@@ -7,7 +7,7 @@ import axios from 'axios';
 import { Loading } from '../Loading';
 
 
-export function AddAlimento({fechaCadastro, setSuperAlimentos}){
+export function AddAlimento({fechaAddAlimento, setSuperAlimentos}){
     const [loading, setLoading] = useState(false);
     
     const [formAlimento, setFormAlimento] = useState({
@@ -53,11 +53,11 @@ export function AddAlimento({fechaCadastro, setSuperAlimentos}){
                     return [...anteriores, response.data]
                 });
                 
-                fechaCadastro();
+                fechaAddAlimento();
             }catch(error){
                 console.log("Error ModalAddAlimentos:" + error);
                 alert('Erro ao criar Alimento');
-                fechaCadastro();
+                fechaAddAlimento();
             }
         }
         setLoading(false);
@@ -104,7 +104,7 @@ export function AddAlimento({fechaCadastro, setSuperAlimentos}){
                         :
                         <>
                             <BotaoLaranja type='submit'>Confirmar</BotaoLaranja>
-                            <BotaoCinza onClick={fechaCadastro}>Cancelar</BotaoCinza>
+                            <BotaoCinza onClick={fechaAddAlimento}>Cancelar</BotaoCinza>
                         </>
                     }
                 </div>

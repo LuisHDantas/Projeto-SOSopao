@@ -81,14 +81,15 @@ export function Alimentos(){
                 abreAddAlimento && 
                 <AddAlimento 
                     setSuperAlimentos = {setSuperAlimentos}
-                    fechaCadastro={() => setAbreAddAlimento(!abreAddAlimento)} 
+                    fechaAddAlimento={() => setAbreAddAlimento(!abreAddAlimento)} 
                 />
             }
 
             {
                 abreAddItemAlimento && 
                 <AddItemAlimento 
-                    fechaCadastro={() => setAbreAddItemAlimento(!abreAddItemAlimento)} 
+                    fechaAddItemAlimento={() => setAbreAddItemAlimento(!abreAddItemAlimento)}
+                    idAlimento={selectedSAlimento}
                 />
             }
 
