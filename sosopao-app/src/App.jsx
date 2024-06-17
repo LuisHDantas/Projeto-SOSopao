@@ -19,10 +19,19 @@ function PrivateRoute({children}){
   if(loading){
     return <h1>loading...</h1>
   }
-
   return authenticated ? children : <Navigate to="/login" />;
 }
 
+function PrivateLogin({children}){
+  const {loading, authenticated} = useContext(AuthContext);
+
+  if(loading){
+    return <h1>loading...</h1>
+  }
+
+  return !authenticated ? children : <Navigate to="/" />;
+
+}
 
 function App() {
   return (
@@ -30,7 +39,7 @@ function App() {
     <AuthProvider>
       <BrowserRouter>
         <Routes>
-          <Route path='/login'  Component={Login} />
+
           <Route 
             path='/'  
             element={
@@ -39,6 +48,16 @@ function App() {
                 </PrivateRoute>
               } 
           />
+
+          <Route 
+            path='/login'
+            element={
+              <PrivateLogin>
+                <Login/>
+              </PrivateLogin>
+            }
+          />
+          
           <Route 
             path='/eventos' 
             element={
