@@ -1,28 +1,18 @@
 import { MdEdit } from 'react-icons/md';
 import '../styles/login.css';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import { AuthContext } from '../Context/AuthContext';
-import { useNavigate } from 'react-router-dom';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 
 
 export function Login(){
-    const { loadingContext, authenticated, handleLoginAuthProvider } = useContext(AuthContext);
+    const { loadingContext, handleLoginAuthProvider } = useContext(AuthContext);
 
     const [adminText, setAdminText] = useState("");
     const [senhaText, setSenhaText] = useState("");
 
     const [loadingSend, setLoadingSend] = useState(false);
-
-    const navigate = useNavigate();
-
-    //Se ja tiver logado, redireciona para home
-    useEffect(() => {
-        if (authenticated) {
-            navigate('/');
-        }
-    }, [authenticated, navigate]);
 
 
     //Envio do forms
