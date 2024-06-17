@@ -85,7 +85,6 @@ export function CardEvento({index, id_evento, nome, data, descricao, url_imagem,
                 });
             } else {
                 alert('Data inválida. Use o formato DD/MM/YYYY.');
-                // Optionally reset the input or handle error state
             }
         }
     };
