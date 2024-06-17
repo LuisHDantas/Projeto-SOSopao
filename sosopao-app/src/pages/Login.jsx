@@ -1,6 +1,6 @@
 import { MdEdit } from 'react-icons/md';
 import '../styles/login.css';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import { AuthContext } from '../Context/AuthContext';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
