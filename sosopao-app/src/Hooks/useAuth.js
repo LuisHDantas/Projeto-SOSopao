@@ -33,11 +33,12 @@ export default function useAuth(){
                 }
                 
             }
+           
+            setLoading(false);
             
         }
 
         validadeToken();
-        setLoading(false);
     }, []);
 
     //Login - manda a requisição para o back-end
