@@ -19,8 +19,16 @@ Alimento.init(
             },
             allowNull: false
         }
-    },
-    { sequelize, timestamps: false }
+    },{
+        hooks: {
+            beforeBulkUpdate: async (options) => 
+                (options.individualHooks = true),
+            beforeBulkDestroy: async (options) =>
+                (options.individualHooks = true),
+        },
+        sequelize, 
+        timestamps: false 
+    }
 );
 
 Superalimento.hasMany(Alimento, {
@@ -36,8 +44,43 @@ Alimento.belongsTo(Superalimento, {
     foreignKey: 'superalimentoID',
     targetKey: 'id',
     onUpdate: 'CASCADE',
-    onDelete: 'CASCADE'
+    onDelete: 'CASCADE',
+    hooks: true
 });
+
+const updateSuperQTD = async (instance) => {
+    try {
+        const total_qtd = await Alimento.sum('quantidade', { where: {superalimentoID: instance.superalimentoID} });
+        await Superalimento.update({ quantidade: total_qtd }, { where: { id: instance.superalimentoID } });
+
+    } catch (err) {
+        console.error('Erro ao atualizar quantidade de Superalimento', err);
+    }
+
+}
+
+
+Alimento.afterSave(async (instance) => {
+    updateSuperQTD(instance); 
+});
+
+
+Alimento.afterUpdate(async (instance) => {
+    updateSuperQTD(instance);
+});
+
+Alimento.afterDestroy(async (instance) => {
+    updateSuperQTD(instance);
+});
+
+// Para futuramente inserir vários alimentos de uma vez
+//Alimento.afterBulkCreate(async (createdInstances) => {
+//  try {
+//    await updateSuperalimentoQtd({ superalimentoID: { [Sequelize.Op.in]: createdInstances.map(instance => instance.superalimentoID) } }); // Construct a single update for all created instances
+//  } catch (err) {
+//    console.error('Erro ao atualizar quantidade de Superalimento ao criar Alimento:', err);
+//  }
+//});
 
 // Verifica se a tabela Alimentos já não existe
 (async () => {
