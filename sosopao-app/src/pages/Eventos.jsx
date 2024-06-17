@@ -37,7 +37,7 @@ export function Eventos(){
     }, []);
 
     useEffect(() => {
-        const sortedDados = [...dados].sort((a,b) => new Date(a.data) - new Date(b.data));
+        const sortedDados = [...dados].sort((a,b) => new Date(b.data) - new Date(a.data));
         
         const filtered = sortedDados.filter(evento => evento.nome.toLowerCase().includes(searchTerm.toLowerCase()));
 
