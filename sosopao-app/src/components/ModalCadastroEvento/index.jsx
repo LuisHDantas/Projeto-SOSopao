@@ -57,6 +57,12 @@ const handleBlur = (event) => {
             return;
         }
 
+        // Verifica o formato da data antes de enviar
+        if (!formData.data.match(/^\d{2}\/\d{2}\/\d{4}$/)) {
+            alert('Data inválida. Use o formato DD/MM/YYYY.');
+            return;
+        }
+
         // Convert DD/MM/YYYY to YYYY-MM-DD for backend
         const formattedDate = formatDateForBackend(formData.data);
 
@@ -125,7 +131,6 @@ const handleBlur = (event) => {
                         name="descricao"
                         value={formData.descricao}
                         onChange={handleChange}
-                        required
                     />
                     <MdEdit style={{ bottom: '15%' }} className='icon-cadastro-evento' />
                 </div>

@@ -62,12 +62,34 @@ export function CardEvento({index, id_evento, nome, data, descricao, url_imagem,
     };
 
     const handleSave = () => {
+        // Verifica o formato da data antes de salvar
+        if (!cardDados.data.match(/^\d{2}\/\d{2}\/\d{4}$/)) {
+            return;
+        }
+
         const formattedData = {
             ...cardDados,
             data: formatDateToDB(cardDados.data),
         };
         finalizaEdicao(index, formattedData);
     };
+
+
+    const handleBlur = (event) => {
+        const { name, value } = event.target;
+        if (name === 'data') {
+            if (value.match(/^\d{2}\/\d{2}\/\d{4}$/)) {
+                setCardDados({
+                    ...cardDados,
+                    [name]: value,
+                });
+            } else {
+                alert('Data inválida. Use o formato DD/MM/YYYY.');
+                // Optionally reset the input or handle error state
+            }
+        }
+    };
+
 
     return (
         <>
@@ -91,6 +113,7 @@ export function CardEvento({index, id_evento, nome, data, descricao, url_imagem,
                                     value={cardDados.nome}
                                     name='nome'
                                     onChange={handleChange}
+                                    required
                                 />
                             ) : (
                                 <p>{cardDados.nome}</p>
@@ -105,6 +128,8 @@ export function CardEvento({index, id_evento, nome, data, descricao, url_imagem,
                                     value={cardDados.data}
                                     name='data'
                                     onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    required
                                 />
                             ) : (
                                 <p>{cardDados.data}</p>
