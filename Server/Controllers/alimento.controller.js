@@ -1,5 +1,6 @@
 import Alimento from "../Models/alimento.model.js";
 import Superalimento from "../Models/superalimento.model.js";
+import sequelize from '../dbconfig.js';
 
 function findAll(request, response) {
   Alimento
@@ -95,4 +96,35 @@ async function update(request, response) {
   }
 }
 
-export default { findAll, findById, create, deleteByPk, update };
+async function createMultiple(request, response) {
+  const {
+    marca,
+    data,
+    validade,
+    quantidade,
+    superalimentoID,
+    multiplicador
+  } = request.body 
+
+  if (!marca || !quantidade || !superalimentoID || !multiplicador) {
+     return response.status(400).json({ error: "Input inválido. Insira nome, quantidade, superalimentoID, e multiplicador." });
+  }
+
+  const alimentos = [];
+  for (let i = 0; i < multiplicador; i++) {
+    alimentos.push({marca, data, validade, quantidade, superalimentoID});
+  }
+
+  try {
+    await sequelize.transaction(async (transaction) => {
+      await Alimento.bulkCreate(alimentos, { transaction });
+    });
+
+    response.status(200).send();
+  } catch (err) {
+    console.error("Erro ao criar múltiplos alimentos", err);
+    response.status(500).json(err);
+  }
+}
+
+  export default { findAll, findById, create, deleteByPk, update, createMultiple };

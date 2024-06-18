@@ -59,6 +59,17 @@ const updateSuperQTD = async (instance) => {
 
 }
 
+const updateSuperQTDForBulkCreate = async (instances, transaction) => {
+    try {
+        const superalimentoIDs = [...new Set(instances.map(instance => instance.superalimentoID))];
+        for (const superalimentoID of superalimentoIDs) {
+            const total_qtd = await Alimento.sum('quantidade', { where: { superalimentoID }, transaction });
+            await Superalimento.update({ quantidade: total_qtd }, { where: { id: superalimentoID }, transaction });
+        }
+    } catch (err) {
+        console.error('Erro ao atualizar quantidade de Superalimento em bulk create:', err);
+    }
+};
 
 Alimento.afterSave(async (instance) => {
     updateSuperQTD(instance); 
@@ -73,14 +84,21 @@ Alimento.afterDestroy(async (instance) => {
     updateSuperQTD(instance);
 });
 
-// Para futuramente inserir vários alimentos de uma vez
-//Alimento.afterBulkCreate(async (createdInstances) => {
-//  try {
-//    await updateSuperalimentoQtd({ superalimentoID: { [Sequelize.Op.in]: createdInstances.map(instance => instance.superalimentoID) } }); // Construct a single update for all created instances
-//  } catch (err) {
-//    console.error('Erro ao atualizar quantidade de Superalimento ao criar Alimento:', err);
-//  }
-//});
+
+
+Alimento.afterBulkCreate(async (createdInstances, options) => {
+    try {
+        if (createdInstances.length === 0) {
+            console.log('Nenhum Alimento criado na operação em massa.');
+            return;
+        }
+        await updateSuperQTDForBulkCreate(createdInstances, options.transaction);
+    } catch (err) {
+        console.error('Erro ao atualizar quantidade de Superalimento ao criar Alimento:', err);
+    }
+});
+
+
 
 // Verifica se a tabela Alimentos já não existe
 (async () => {

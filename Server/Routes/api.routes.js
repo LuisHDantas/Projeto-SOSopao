@@ -78,6 +78,7 @@ router.put('/superalimento/id/:id', authController.validateToken, superalimentoC
 router.get("/alimento", alimentoController.findAll);
 router.get("/alimento/:id", alimentoController.findById);
 router.post("/alimento", authController.validateToken, alimentoController.create);
+router.post("/alimentos", authController.validateToken, alimentoController.createMultiple);
 router.put("/alimento/:id", authController.validateToken, alimentoController.update);
 router.delete("/alimento/:id", authController.validateToken, alimentoController.deleteByPk);
 
