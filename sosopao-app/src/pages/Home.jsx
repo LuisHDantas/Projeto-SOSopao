@@ -1,15 +1,39 @@
 import { Navbar } from "../components/Navbar";
 import { Footer } from "../components/Footer";
 import '../styles/home.css';
+import {useState, useEffect } from 'react';
+
 
 export function Home(){
+
+    const [username, setUsername] = useState('usuário');
+
+    useEffect(() => {
+        let storedUsername = localStorage.getItem("nome");
+
+        // Remover aspas
+        if (storedUsername) {
+            try {
+                storedUsername = storedUsername.slice(1,-1);
+                setUsername(storedUsername);
+            } catch (e) {
+                setUsername('usuário');
+                console.error(e);
+            }
+        }
+        else {
+            setUsername('usuário');
+        }
+
+    }, []);
+
     return(
         <>
             
-            <Navbar type='home'/>
+            <Navbar type='home' nome={username}/>
 
             <div id="tituloUsuario">
-                <h1>Olá, *Nome*</h1>
+                <h1>Olá, {username}!</h1>
             </div>
 
             <div id="conteudoGuia">

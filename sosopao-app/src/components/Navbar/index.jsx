@@ -51,7 +51,7 @@ export function Navbar(props){
                         <Link className='link-navbar'>Logout</Link>
                     </li>
                 </ul>
-                <h4>Olá, Nome</h4>
+                <h4>Olá, {props.nome}</h4>
                 <div id='mobile'>
                     {
                         mobileButton ? 
