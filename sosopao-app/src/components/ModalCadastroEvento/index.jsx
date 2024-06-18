@@ -33,7 +33,6 @@ const handleBlur = (event) => {
             });
         } else {
             alert('Data inválida. Use o formato DD/MM/YYYY.');
-            // Optionally reset the input or handle error state
         }
     }
 };
