@@ -67,7 +67,7 @@ async function login(request, response) {
     const meuToken = getToken(user.id_usuario, user.email);
     response
         .status(200)
-        .json({ id: user.id_usuario, email: user.email, token: meuToken });
+        .json({ id: user.id_usuario, nome: user.nome, email: user.email, token: meuToken });
 }
 
 async function validateToken(request, response, next) {

@@ -22,14 +22,10 @@ export default function useAuth(){
                         setAuthenticated(true);
                     }else{
                         //Se o token não é valido, desloga o usuario
-                        localStorage.removeItem('token');
-                        axios.defaults.headers.Authorization = undefined;
-                        setAuthenticated(false);
+                        handleLogoutAuthProvider();
                     }                    
                 }catch(err){
-                    localStorage.removeItem('token');
-                    axios.defaults.headers.Authorization = undefined;
-                    setAuthenticated(false);
+                    handleLogoutAuthProvider();
                 }
                 
             }
@@ -55,9 +51,11 @@ export default function useAuth(){
         }
 
         const token = response.data.token;
+        const nome = response.data.nome;
         
         //Coloca o token no localStorage e set como autenticado
         localStorage.setItem('token', JSON.stringify(token));
+        localStorage.setItem('nome', JSON.stringify(nome));
         axios.defaults.headers.Authorization = `Bearer ${token}`;
         setAuthenticated(true);
     }
@@ -65,6 +63,7 @@ export default function useAuth(){
     //logout é basicamente remover o token do localStorage
     async function handleLogoutAuthProvider(){
         localStorage.removeItem('token');
+        localStorage.removeItem('nome');
         axios.defaults.headers.Authorization = undefined;
         setAuthenticated(false);
     } 
