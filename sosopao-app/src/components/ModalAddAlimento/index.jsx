@@ -49,6 +49,7 @@ export function AddAlimento({fechaAddAlimento, setSuperAlimentos}){
                     url_imagem: formAlimento.url_imagem
                 });
                 
+                console.log(response.data);
                 setSuperAlimentos((anteriores) => {
                     return [...anteriores, response.data]
                 });

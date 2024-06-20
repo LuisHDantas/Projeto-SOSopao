@@ -5,7 +5,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { Loading } from '../Loading';
 
-export function AddItemAlimento({fechaAddItemAlimento=null, idAlimento=0}){
+export function AddItemAlimento({fechaAddItemAlimento=null, idAlimento=0, setAlimentos}){
     
     const [loading, setLoading] = useState(false);
     
@@ -20,7 +20,7 @@ export function AddItemAlimento({fechaAddItemAlimento=null, idAlimento=0}){
     // Lida com evento de mudança do input
     const handleChange = (event) => {
         const { name, value } = event.target;
-        console.log(name + " : " + value);  
+        //console.log(name + " : " + value);  
         setformItemAlimento({...formItemAlimento, [name]: value});
     };
 
@@ -36,18 +36,21 @@ export function AddItemAlimento({fechaAddItemAlimento=null, idAlimento=0}){
             const formattedDate = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
            
             //tenta uma requisição com o servidor
-            const response = await axios.post('/superalimento',{
+            const response = await axios.post('/alimentos',{
                 marca: formItemAlimento.marca,
                 data: formattedDate,
                 validade: formItemAlimento.validade,
-                quantidade: formItemAlimento.multiplicador,
+                quantidade: formItemAlimento.medida,
+                multiplicador: formItemAlimento.multiplicador,
                 superalimentoID: idAlimento
             });
+
+            console.log(response.data);
             
             //COMO PEGAR ESSE SETALIMENTOS????
-            /* setAlimentos((anteriores) => {
-                return [...anteriores, response.data]
-            }); */
+            setAlimentos((anteriores) => {
+                return [...anteriores, ...(response.data)]
+            });
             
             fechaAddItemAlimento();
         }catch(error){

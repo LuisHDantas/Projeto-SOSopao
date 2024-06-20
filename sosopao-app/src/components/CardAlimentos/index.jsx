@@ -10,7 +10,7 @@ import axios from 'axios';
 import { Loading } from '../Loading';
 
 
-export function CardAlimentos({abreDeletar=null, abreAddItemAlimento = null, setIdSuperAlimento = null, ...props}){
+export function CardAlimentos({abreDeletar=null, abreAddItemAlimento = null, setIdSuperAlimento = null, alimentos, setAlimentos, ...props}){
     const [isOpen, setIsOpen] = useState(false);
     const [isEdit, setIsEdit] = useState(false);
 
@@ -19,7 +19,7 @@ export function CardAlimentos({abreDeletar=null, abreAddItemAlimento = null, set
     const [goalText, setGoalText] = useState(props? props.meta:"");
 
     //PASSAR ESSE ESTADO PARA O ALIMENTOS?????    
-    const [alimentos, setAlimentos] = useState([]);
+    //const [alimentos, setAlimentos] = useState([]);
     const [loading, setLoading] = useState(true);
     const [loadingEdit, setLoadingEdit] = useState(false);
     
@@ -108,6 +108,7 @@ export function CardAlimentos({abreDeletar=null, abreAddItemAlimento = null, set
         }catch(error){
             //const messageErrorServer = error.response.data.message;
             console.log("Erro GetAllAlimentos: " + error);
+            setAlimentos([]);
             setLoading(false);
         }
     },[props.id])

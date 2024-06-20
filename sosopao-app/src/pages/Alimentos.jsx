@@ -22,6 +22,9 @@ export function Alimentos(){
     const [superAlimentos, setSuperAlimentos] = useState([]);
     const [selectedSAlimento, setSelectedSAlimento] = useState(null);
 
+
+    const [alimentos, setAlimentos] = useState([]);
+
     async function getAllSuperAlimentos(){
         try{
             const result = await axios.get('/superalimento')
@@ -90,6 +93,7 @@ export function Alimentos(){
                 <AddItemAlimento 
                     fechaAddItemAlimento={() => setAbreAddItemAlimento(!abreAddItemAlimento)}
                     idAlimento={selectedSAlimento}
+                    setAlimentos={setAlimentos}
                 />
             }
 
@@ -114,9 +118,11 @@ export function Alimentos(){
                                 meta={alimento.meta}
                                 un_medida={alimento.unidade_medida}
                                 url_imagem={alimento.url_imagem}
-                                abreDeletar={() => setAbreDeletar(!abreDeletar)}
+                                abreDeletar={() => {setAbreDeletar(!abreDeletar); setSelectedSAlimento(alimento.id)}}
                                 setIdSuperAlimento= {setSelectedSAlimento} 
-                                abreAddItemAlimento={() => setAbreAddItemAlimento(!abreAddItemAlimento)} 
+                                abreAddItemAlimento={() => setAbreAddItemAlimento(!abreAddItemAlimento)}
+                                alimentos={alimentos}
+                                setAlimentos={setAlimentos}
                             />
                         )
                     }
