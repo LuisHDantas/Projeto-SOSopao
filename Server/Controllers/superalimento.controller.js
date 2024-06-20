@@ -52,7 +52,6 @@ function create(request, response) {
     .create({
       nome: request.body.nome,
       meta: request.body.meta,
-      quantidade: request.body.quantidade,
       unidade_medida: request.body.unidade_medida,
       url_imagem: request.body.url_imagem
     })
@@ -100,7 +99,6 @@ function updateByNome(request, response) {
       {
         nome: request.body.nome,
         meta: request.body.meta,
-        quantidade: request.body.quantidade,
         unidade_medida: request.body.unidade_medida,
         url_imagem: request.body.url_imagem
       },
@@ -124,7 +122,6 @@ function updateByID(request, response) {
       {
         nome: request.body.nome,
         meta: request.body.meta,
-        quantidade: request.body.quantidade,
         unidade_medida: request.body.unidade_medida,
         url_imagem: request.body.url_imagem
       },
