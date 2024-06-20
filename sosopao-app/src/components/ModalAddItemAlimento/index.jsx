@@ -47,10 +47,10 @@ export function AddItemAlimento({fechaAddItemAlimento=null, idAlimento=0, setAli
 
             console.log(response.data);
             
-            //COMO PEGAR ESSE SETALIMENTOS????
-            setAlimentos((anteriores) => {
-                return [...anteriores, ...(response.data)]
-            });
+           /*  setAlimentos((anteriores) => ({
+                ...anteriores,
+                [idAlimento]: response.data
+            })); */
             
             fechaAddItemAlimento();
         }catch(error){

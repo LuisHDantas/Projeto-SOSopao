@@ -23,7 +23,7 @@ export function Alimentos(){
     const [selectedSAlimento, setSelectedSAlimento] = useState(null);
 
 
-    const [alimentos, setAlimentos] = useState([]);
+    const [alimentos, setAlimentos] = useState({});
 
     async function getAllSuperAlimentos(){
         try{
@@ -116,6 +116,7 @@ export function Alimentos(){
                                 id={alimento.id}
                                 nome={alimento.nome}
                                 meta={alimento.meta}
+                                quantidade={alimento.quantidade}
                                 un_medida={alimento.unidade_medida}
                                 url_imagem={alimento.url_imagem}
                                 abreDeletar={() => {setAbreDeletar(!abreDeletar); setSelectedSAlimento(alimento.id)}}

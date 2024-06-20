@@ -100,7 +100,7 @@ export function CardAlimentos({abreDeletar=null, abreAddItemAlimento = null, set
             const result = await axios.get(`/superalimento/${props.id}/alimentos`);
             if (result.status === 200) {
                 //console.log(result.data);
-                setAlimentos(result.data);
+                setAlimentos({[props.id]: result.data});
             }else{
                 console.log(result.data);
             }
@@ -108,7 +108,7 @@ export function CardAlimentos({abreDeletar=null, abreAddItemAlimento = null, set
         }catch(error){
             //const messageErrorServer = error.response.data.message;
             console.log("Erro GetAllAlimentos: " + error);
-            setAlimentos([]);
+            setAlimentos({});
             setLoading(false);
         }
     },[props.id])
@@ -192,7 +192,7 @@ export function CardAlimentos({abreDeletar=null, abreAddItemAlimento = null, set
                         </div>
                         <div className="info-alimentos">
                             <h4>Qtd Atual:</h4>
-                            <p>X</p>
+                            <p>{props.quantidade}</p>
                         </div>
                     </div>
                 </div>
@@ -231,7 +231,7 @@ export function CardAlimentos({abreDeletar=null, abreAddItemAlimento = null, set
                     
                     {
                         loading? <Loading/>:
-                        alimentos?.map((alimento) =>
+                        alimentos[props.id]?.map((alimento) =>
                             <CardItemAlimento
                                 key={alimento.id_alimento}
                                 marca={alimento.marca}
