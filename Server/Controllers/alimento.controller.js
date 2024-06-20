@@ -55,6 +55,7 @@ async function create(request, response) {
   } catch (err) {
     response.status(500).json(err);
   }
+
 }
 
 async function deleteByPk(request, response) {
@@ -96,7 +97,7 @@ async function update(request, response) {
   }
 }
 
-async function createMultiple(request, response) {
+export async function createMultiple(request, response) {
   const {
     marca,
     data,
@@ -104,23 +105,28 @@ async function createMultiple(request, response) {
     quantidade,
     superalimentoID,
     multiplicador
-  } = request.body 
+  } = request.body;
 
   if (!marca || !quantidade || !superalimentoID || !multiplicador) {
-     return response.status(400).json({ error: "Input inválido. Insira nome, quantidade, superalimentoID, e multiplicador." });
+    return response.status(400).json({ error: "Input inválido. Insira nome, quantidade, superalimentoID, e multiplicador." });
   }
 
   const alimentos = [];
   for (let i = 0; i < multiplicador; i++) {
-    alimentos.push({marca, data, validade, quantidade, superalimentoID});
+    alimentos.push({ marca, data, validade, quantidade, superalimentoID });
   }
 
   try {
-    await sequelize.transaction(async (transaction) => {
-      await Alimento.bulkCreate(alimentos, { transaction });
+    const createdInstances = await sequelize.transaction(async (transaction) => {
+      const result = await Alimento.bulkCreate(alimentos, { transaction, returning: true });
+      return result;
     });
 
-    response.status(200).send();
+    if (!createdInstances || createdInstances.length === 0) {
+      return response.status(500).json({ error: "Failed to create Alimentos." });
+    }
+
+    response.status(200).json(createdInstances);
   } catch (err) {
     console.error("Erro ao criar múltiplos alimentos", err);
     response.status(500).json(err);
