@@ -19,8 +19,16 @@ Alimento.init(
             },
             allowNull: false
         }
-    },
-    { sequelize, timestamps: false }
+    },{
+        hooks: {
+            beforeBulkUpdate: async (options) => 
+                (options.individualHooks = true),
+            beforeBulkDestroy: async (options) =>
+                (options.individualHooks = true),
+        },
+        sequelize, 
+        timestamps: false 
+    }
 );
 
 Superalimento.hasMany(Alimento, {
@@ -36,8 +44,61 @@ Alimento.belongsTo(Superalimento, {
     foreignKey: 'superalimentoID',
     targetKey: 'id',
     onUpdate: 'CASCADE',
-    onDelete: 'CASCADE'
+    onDelete: 'CASCADE',
+    hooks: true
 });
+
+const updateSuperQTD = async (instance) => {
+    try {
+        const total_qtd = await Alimento.sum('quantidade', { where: {superalimentoID: instance.superalimentoID} });
+        await Superalimento.update({ quantidade: total_qtd }, { where: { id: instance.superalimentoID } });
+
+    } catch (err) {
+        console.error('Erro ao atualizar quantidade de Superalimento', err);
+    }
+
+}
+
+const updateSuperQTDForBulkCreate = async (instances, transaction) => {
+    try {
+        const superalimentoIDs = [...new Set(instances.map(instance => instance.superalimentoID))];
+        for (const superalimentoID of superalimentoIDs) {
+            const total_qtd = await Alimento.sum('quantidade', { where: { superalimentoID }, transaction });
+            await Superalimento.update({ quantidade: total_qtd }, { where: { id: superalimentoID }, transaction });
+        }
+    } catch (err) {
+        console.error('Erro ao atualizar quantidade de Superalimento em bulk create:', err);
+    }
+};
+
+Alimento.afterSave(async (instance) => {
+    updateSuperQTD(instance); 
+});
+
+
+Alimento.afterUpdate(async (instance) => {
+    updateSuperQTD(instance);
+});
+
+Alimento.afterDestroy(async (instance) => {
+    updateSuperQTD(instance);
+});
+
+
+
+Alimento.afterBulkCreate(async (createdInstances, options) => {
+    try {
+        if (createdInstances.length === 0) {
+            console.log('Nenhum Alimento criado na operação em massa.');
+            return;
+        }
+        await updateSuperQTDForBulkCreate(createdInstances, options.transaction);
+    } catch (err) {
+        console.error('Erro ao atualizar quantidade de Superalimento ao criar Alimento:', err);
+    }
+});
+
+
 
 // Verifica se a tabela Alimentos já não existe
 (async () => {

@@ -67,6 +67,7 @@ router.put("/pontoparada/:posicao", pontoParadaController.update);
 router.get('/superalimento', superalimentoController.findAll);
 router.get('/superalimento/id/:id', superalimentoController.findByID);
 router.get('/superalimento/nome/:nome', superalimentoController.findByNome);
+router.get('/superalimento/:id/alimentos', authController.validateToken, superalimentoController.getAlimentosByID);
 router.post('/superalimento', authController.validateToken, superalimentoController.create);
 router.delete('/superalimento/id/:id', authController.validateToken, superalimentoController.deleteByPk);
 router.delete('/superalimento/nome/:nome', authController.validateToken, superalimentoController.deleteByNome);
@@ -77,6 +78,7 @@ router.put('/superalimento/id/:id', authController.validateToken, superalimentoC
 router.get("/alimento", alimentoController.findAll);
 router.get("/alimento/:id", alimentoController.findById);
 router.post("/alimento", authController.validateToken, alimentoController.create);
+router.post("/alimentos", authController.validateToken, alimentoController.createMultiple);
 router.put("/alimento/:id", authController.validateToken, alimentoController.update);
 router.delete("/alimento/:id", authController.validateToken, alimentoController.deleteByPk);
 

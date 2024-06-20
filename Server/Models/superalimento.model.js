@@ -8,7 +8,7 @@ Superalimento.init(
         id: {type: DataTypes.INTEGER, primaryKey:true, autoIncrement:true},
         nome: {type: DataTypes.STRING, allowNull:false, unique:true},
         meta: {type: DataTypes.INTEGER, allowNull: false},
-        quantidade: {type: DataTypes.INTEGER, allowNull: false},
+        quantidade: {type: DataTypes.INTEGER, defaultValue: 0, allowNull: false},
         unidade_medida: {type: DataTypes.STRING, allowNull: false},
         url_imagem: {type: DataTypes.STRING(2048), allowNull: true}
     },

@@ -52,7 +52,6 @@ function create(request, response) {
     .create({
       nome: request.body.nome,
       meta: request.body.meta,
-      quantidade: request.body.quantidade,
       unidade_medida: request.body.unidade_medida,
       url_imagem: request.body.url_imagem
     })
@@ -100,7 +99,6 @@ function updateByNome(request, response) {
       {
         nome: request.body.nome,
         meta: request.body.meta,
-        quantidade: request.body.quantidade,
         unidade_medida: request.body.unidade_medida,
         url_imagem: request.body.url_imagem
       },
@@ -124,7 +122,6 @@ function updateByID(request, response) {
       {
         nome: request.body.nome,
         meta: request.body.meta,
-        quantidade: request.body.quantidade,
         unidade_medida: request.body.unidade_medida,
         url_imagem: request.body.url_imagem
       },
@@ -142,4 +139,20 @@ function updateByID(request, response) {
     });
 }
 
-export default { findAll, findByID, findByNome, create, deleteByPk, deleteByNome, updateByNome, updateByID };
+function getAlimentosByID(request, response) {
+  const superid = request.params.id;
+
+  Alimento.findAll({ where: { superalimentoID: superid } })
+    .then(alimentos => {
+      if (alimentos.length > 0) {
+        response.status(200).json(alimentos);
+      } else {
+        response.status(404).json({ message: 'No alimentos found for this superalimento ID' });
+      }
+    })
+    .catch(error => {
+      response.status(500).json({ error: error.message });
+    });
+}
+
+export default { findAll, findByID, findByNome, create, deleteByPk, deleteByNome, updateByNome, updateByID, getAlimentosByID };
