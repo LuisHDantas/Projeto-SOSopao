@@ -5,24 +5,39 @@ import { BotaoCinza } from '../BotaoCinza';
 import { useState } from 'react';
 
 export function AddItem({fechaAddItem}){
-    
-    const [formData, setFormData] = useState({
+
+    const [formItem, setFormItem] = useState({
         nome: '',
         descricao: '',
+        //quantidade: null,
     });
 
     // Lida com evento de mudança do input
     const handleChange = (event) => {
         const { name, value } = event.target;
-        setFormData({
-          ...formData,
+        setFormItem({
+          ...formItem,
           [name]: value,
         });
     };
 
+    async function send(event){
+        event.preventDefault();
+
+        //tratar campos
+
+        try{
+           
+          
+        }
+        catch{
+            
+        }
+    }
+
     return(
         <div className="add-itens-modal">
-            <form>
+            <form onSumit={send}>
                 <div className='campo-add-itens'>
                     <label>Nome:</label>
                     <input placeholder="Nome" name="nome" onChange={handleChange}/>

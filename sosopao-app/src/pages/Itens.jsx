@@ -21,7 +21,6 @@ export function Itens(){
         axios.get('/item').then((result) => {
           if (result.status === 200) {
             setItem(result.data);
-            console.log(result.data);
           }else{
             console.log(result.data);
           }
@@ -30,6 +29,20 @@ export function Itens(){
             console.log(error);
         });
       }
+
+    function createItem(){
+        axios.post('/item',{
+            nome: itens.nome,
+            descricao: itens.descricao,
+            quantidade: 1,
+        }).then((result) => {
+            if (result.status === 200) {
+                setItem((anteriores) => {
+                return [...anteriores, result.data];
+                });
+            }
+        });
+    }
 
     function deleteItem(id) {
 
@@ -64,7 +77,8 @@ export function Itens(){
             )} 
 
             {abreAddItem && 
-                <AddItem 
+                <AddItem
+                    createIte
                     fechaAddItem={() => setAddItem(!abreAddItem)}
                 />
             }
