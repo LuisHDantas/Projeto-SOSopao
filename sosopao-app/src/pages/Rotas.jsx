@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Navbar } from "../components/Navbar";
 import { Footer } from "../components/Footer";
 import { ButtonAdd } from "../components/buttonAdd";
@@ -7,26 +7,71 @@ import { CadastroParada } from '../components/ModalCardastroParada';
 import { CardParada } from '../components/cardParada';
 import map from '../assets/images/map.png'
 import '../styles/rotas.css';
+import  axios  from 'axios';
+
+const DataFetcher = async (setDados, setLoading, setError) => {
+    try {
+        const response = await axios.get('pontoparada');
+        setDados(response.data);
+        setLoading(false);
+    } catch (error) {
+        setError(error);
+        setLoading(false);
+    }
+};
 
 export function Rotas(){
 
-    const [dados] = useState([
-    {parada:'Praça XV de Novembro, R. 15 de Novembro, 1593-1483 - Centro, São Carlos - SP, 13560-241'},
-    {parada: 'Praça dos Voluntários - São Carlos, SP, 13560-011'},
-    {parada: 'Rodoviária - São Carlos, R. Jacinto Favoreto, 777 - Jardim Lutfalla, São Carlos - SP, 13560-515'},
-    ]);
+    const [dados, setDados] = useState([]);
 
     const [abreDeletar, setAbreDeletar] = useState(false);
     const [abreAddRota, setAbreAddRota] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(false);
+    const [clickedIndex, setClickedIndex] = useState(null);
 
-    return (
+    useEffect(() => {
+        DataFetcher(setDados, setLoading, setError);
+    }, []);
+
+    const handleDeleteRequest = async (id) => {
+        try {
+            await axios.delete(`pontoparada/${id}`);
+            return true;
+        } catch (error) {
+            console.error("Erro ao deletar a parada:", error);
+            return false;
+        }
+    };
+
+
+    const handleDelete = async (index) => {
+        const paradaID = dados[index].posicao;
+        const deleteSuccess = await handleDeleteRequest(paradaID);
+
+        if (deleteSuccess) {
+            let updatedData = dados.filter((_, i) => i !== index);
+            updatedData.forEach((item, idx) => {
+                if(idx >= index) {
+                    item.posicao -= 1;
+                }
+            });
+
+            console.log(updatedData);
+            setDados(updatedData);
+            setAbreDeletar(false);
+        }
+    };
+
+     return (
         <div>
             <Navbar type='rotas'/>
 
             {abreAddRota && (
                 <CadastroParada
                     fechaCadastro={() => setAbreAddRota(!abreAddRota)}
-                    // TODO: Cadastro funcional (simulando BD)
+                    dados={dados}
+                    setDados={setDados}
                 >
                 </CadastroParada>
             )}
@@ -34,7 +79,8 @@ export function Rotas(){
             {abreDeletar && (
                 <ModalDeletar
                     fechaDeletar={() => setAbreDeletar(!abreDeletar)}
-                    // TODO: deletar funcional (simulando BD)
+                    onDelete={handleDelete}
+                    index={clickedIndex}
                 >
                     Deseja EXCLUIR esse ponto de parada?
                 </ModalDeletar>
@@ -63,17 +109,20 @@ export function Rotas(){
                     {dados?.map((rota, index) => {
                         return(
                             <CardParada
-                                key={index} 
-                                parada={rota.parada} 
+                                key={index}
+                                posicao={rota.posicao}
+                                parada={rota.descricao} 
 
                                 abreDeletar={() => {
                                     setAbreDeletar(!abreDeletar);
+                                    setClickedIndex(index);
                                     }
                                 }  
                             />
                         );}
                     )
                     }
+
                 </div>
 
                 <Footer />

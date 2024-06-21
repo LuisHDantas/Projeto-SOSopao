@@ -1,7 +1,7 @@
 import './style.css';
 import { ButtonRemoveEstoque } from '../buttomRemoveEstoque';
 
-export function CardParada({parada, abreDeletar}){
+export function CardParada({parada, posicao, abreDeletar}){
 
     return(
 
