@@ -50,14 +50,23 @@ Alimento.belongsTo(Superalimento, {
 
 const updateSuperQTD = async (instance) => {
     try {
-        const total_qtd = await Alimento.sum('quantidade', { where: {superalimentoID: instance.superalimentoID} });
-        await Superalimento.update({ quantidade: total_qtd }, { where: { id: instance.superalimentoID } });
+        const [results, metadata] = await sequelize.query(`
+            UPDATE "Superalimentos"
+            SET quantidade = (
+                SELECT COALESCE(SUM(quantidade), 0)
+                FROM "Alimentos"
+                WHERE "superalimentoID" = :superalimentoID
+            )
+            WHERE id = :superalimentoID;
+        `, {
+            replacements: { superalimentoID: instance.superalimentoID }
+        });
 
     } catch (err) {
         console.error('Erro ao atualizar quantidade de Superalimento', err);
     }
+};
 
-}
 
 const updateSuperQTDForBulkCreate = async (instances, transaction) => {
     try {
