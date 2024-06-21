@@ -39,6 +39,20 @@ export function Navbar(props){
 
     }, []);
 
+    const toggleNavBar = () => {
+        setMobileButton(!mobileButton);
+        if (!mobileButton) {
+            document.body.classList.add('navbar-visible');
+        } else {
+            document.body.classList.remove('navbar-visible');
+        }
+    };
+
+    const handleNavLinkClick = () => {
+        setMobileButton(false); // Close mobile menu
+        document.body.classList.remove('navbar-visible'); // Restore scrolling
+    };
+
     return (
         <header>
             <nav className="nav-navbar">
@@ -51,24 +65,24 @@ export function Navbar(props){
                     }
                 >
                     <li className={props.type === 'home'? "active" : ""}>
-                        <Link to={'/'} className='link-navbar'>Home</Link>
+                        <Link to={'/'} className='link-navbar' onClick={handleNavLinkClick}>Home</Link>
                     </li>
                     <li className={props.type === 'alimentos'? 'active' : ''}>
-                        <Link to={'/alimentos'} className='link-navbar'>Alimentos</Link>
+                        <Link to={'/alimentos'} className='link-navbar' onClick={handleNavLinkClick}>Alimentos</Link>
                     </li>
                     <li className={props.type === 'itens'? 'active' : ''}>
-                        <Link to={'/itens'} className='link-navbar'>Itens</Link>
+                        <Link to={'/itens'} className='link-navbar' onClick={handleNavLinkClick}>Itens</Link>
                     </li>
                     <li className={props.type === 'eventos'? 'active' : ''}>
-                        <Link to={'/eventos'} className='link-navbar'>Eventos</Link>
+                        <Link to={'/eventos'} className='link-navbar' onClick={handleNavLinkClick}>Eventos</Link>
                     </li>
                     <li className={props.type === 'gerenciar'? 'active' : ''}>
-                        <Link to={'/gerenciar'} className='link-navbar'>Gerenciar</Link>
+                        <Link to={'/gerenciar'} className='link-navbar' onClick={handleNavLinkClick}>Gerenciar</Link>
                     </li>
                     <li className={props.type === 'rotas'? 'active' : ''}>
-                        <Link to={'/rotas'} className='link-navbar'>Rotas</Link>
+                        <Link to={'/rotas'} className='link-navbar' onClick={handleNavLinkClick}>Rotas</Link>
                     </li>
-                    <li id="logout" onClick={() => handleLogoutAuthProvider()}>
+                    <li id="logout" onClick={() => {handleLogoutAuthProvider(); handleNavLinkClick();}}>
                         <Link className='link-navbar'>Logout</Link>
                     </li>
                 </ul>
@@ -76,8 +90,8 @@ export function Navbar(props){
                 <div id='mobile'>
                     {
                         mobileButton ? 
-                        <FaTimes onClick={() => setMobileButton(!mobileButton)}/> :
-                        <FaBars onClick={() =>setMobileButton(!mobileButton)}/>
+                        <FaTimes onClick={toggleNavBar}/> :
+                        <FaBars onClick={toggleNavBar}/>
                     }
                 </div>
             </nav>

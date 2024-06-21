@@ -14,7 +14,16 @@ export function Footer(){
             const bodyHeight = document.body.clientHeight;
             const windowHeight = window.innerHeight;
 
-            if (bodyHeight < windowHeight) {
+            const footer = document.querySelector('footer');
+            let footerHeight = footer.getBoundingClientRect().height;
+
+            const isFooterFixed = footer.style.position == 'fixed';
+         
+            if (!isFooterFixed) {
+                footerHeight = 0;
+            }
+         
+            if (bodyHeight + footerHeight < windowHeight) {
                 document.querySelector('footer').style.position = 'fixed';
                 document.querySelector('footer').style.bottom = '0';
             } else {
@@ -24,9 +33,20 @@ export function Footer(){
         }
 
         updateFooterPosition();
+
+        const observer = new MutationObserver(updateFooterPosition);
+
+        observer.observe(document.body, {
+            attributes: true,
+            childList: true,
+            subtree: true,
+            characterData: true,
+        });
+
         window.addEventListener('resize', updateFooterPosition);
 
         return () => {
+            observer.disconnect();
             window.removeEventListener('resize', updateFooterPosition);
         };
     }, []);
