@@ -6,7 +6,7 @@ import { FaCheck } from "react-icons/fa";
 import './style.css'
 import axios from 'axios';
 
-export function CardItens({ id, nome, descricao, quantidade, abreDeletar = null, setItem, setAbreDeletar}) {
+export function CardItens({ id, nome, descricao, quantidade, abreDeletar = null}) {
 
     const [isOpen, setIsOpen] = useState(false);
     const [isEdit, setIsEdit] = useState(false);

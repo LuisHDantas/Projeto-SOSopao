@@ -88,8 +88,6 @@ export function Itens(){
                                 nome = {itens.nome}
                                 descricao = {itens.descricao}
                                 quantidade = {itens.quantidade}
-                                setAbreDeletar={setAbreDeletar}
-                                setItem={setItem}
                                 abreDeletar={() => {
                                     setAbreDeletar(!abreDeletar);
                                     setCardId(itens.id);
