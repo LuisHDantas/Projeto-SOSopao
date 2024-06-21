@@ -67,6 +67,7 @@ export default function useAlimentos(){
     return { abreDeletar, 
             abreAddSuperAlimento, 
             abreAddAlimento,
+            loadingPagAlimentos,
             superAlimentos,
             alimentos,
             handleAlimentoDelete,

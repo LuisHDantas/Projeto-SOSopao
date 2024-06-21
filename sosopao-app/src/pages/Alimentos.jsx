@@ -9,17 +9,21 @@ import { useContext } from "react";
 import { AddAlimento } from "../components/ModalAddAlimento";
 import { AddItemAlimento } from "../components/ModalAddItemAlimento";
 import { AlimentosContext } from "../Context/AlimentosContext";
+import { Loading } from "../components/Loading";
 
 
 export function Alimentos(){
 
     const { 
-        abreDeletar, //Estado 
-        abreAddSuperAlimento,//Estado
-        abreAddAlimento,//Estado
+        abreDeletar, //Estado Modal 
+        abreAddSuperAlimento,//Estado Modal
+        abreAddAlimento,//Estado Modal
+        loadingPagAlimentos, //Estado local
         toggleModalAddSuperalimento, //Função
         toggleModalDeletar, //Função
         handleAlimentoDelete, //Função
+
+        superAlimentos //ESTADO CARD SUPERALIMENTOS
     } 
     = useContext(AlimentosContext);
 
@@ -62,9 +66,23 @@ export function Alimentos(){
             }}>
                 <div id="conteudo-alimentos">
                     <h2 id="titulo-alimentos">Alimentos no Estoque:</h2>
-
+                    {
+                        loadingPagAlimentos?
+                        <Loading/>
+                        :
+                        superAlimentos?.map((alimento) =>
+                            <CardAlimentos 
+                                key={alimento.id}
+                                id={alimento.id}
+                                nome={alimento.nome}
+                                meta={alimento.meta}
+                                quantidade={alimento.quantidade}
+                                un_medida={alimento.unidade_medida}
+                                url_imagem={alimento.url_imagem}
+                            />
+                        )
+                    }
                 </div>
-
                 <Footer/>
             </div>
         </>
