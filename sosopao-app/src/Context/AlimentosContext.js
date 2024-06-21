@@ -7,10 +7,9 @@ const AlimentosContext = createContext();
 function AlimentosProvider({children}){
 
     const hAlimentos = useAlimentos();
-    const hCardAlimentos = useCardAlimentos();
 
     return (
-        <AlimentosContext.Provider value={{hAlimentos, hCardAlimentos}}>
+        <AlimentosContext.Provider value={hAlimentos}>
             {children}
         </AlimentosContext.Provider>
     );

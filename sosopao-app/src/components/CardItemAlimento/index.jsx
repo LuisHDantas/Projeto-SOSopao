@@ -1,7 +1,12 @@
+import { useContext } from 'react';
 import { ButtonRemoveEstoque } from '../buttomRemoveEstoque';
 import './style.css'
+import { AlimentosContext } from '../../Context/AlimentosContext';
 
-export function CardItemAlimento({abreDeletar = null, ...props}){
+export function CardItemAlimento({...props}){
+    const {
+        toggleModalDeletar
+    }= useContext(AlimentosContext);
 
     return(
         <div className="card-item-alimento">
@@ -30,7 +35,7 @@ export function CardItemAlimento({abreDeletar = null, ...props}){
                 
             </div>
            
-           <ButtonRemoveEstoque onClick={abreDeletar}/>
+           <ButtonRemoveEstoque onClick={toggleModalDeletar}/>
         </div>
     );
 }

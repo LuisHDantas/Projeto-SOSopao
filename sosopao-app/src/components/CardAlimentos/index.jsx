@@ -18,6 +18,19 @@ export function CardAlimentos({...props}){
 
     const [loadingCard, setLoadingCard] = useState(true);
     const [loadingCardEdit, setLoadingCardEdit] = useState(false);
+
+    const [nameText, setNameText] = useState(props? props.nome:"");
+    const [goalText, setGoalText] = useState(props? props.meta:"");
+    
+    const [alimentos, setAlimentos] = useState([]);
+
+
+    const {
+        buttonDeletarSuperAlimento,
+        buttonAddAlimento
+    }= useContext(AlimentosContext);
+
+
     
     function openControllerCard(){
         if(isEdit)
@@ -42,12 +55,29 @@ export function CardAlimentos({...props}){
     }
 
 
+    const getAllAlimentos = useCallback(async ()=>{
+        try{
+            const result = await axios.get(`/superalimento/${props.id}/alimentos`);
+            if (result.status === 200) {
+                //console.log(result.data);
+                setAlimentos(result.data);
+            }else{
+                console.log(result.data);
+            }
+            setLoadingCard(false);
+        }catch(error){
+            //const messageErrorServer = error.response.data.message;
+            console.log("Erro GetAllAlimentos: " + error);
+            setAlimentos([]);
+            setLoadingCard(false);
+        }
+    },[props.id])
 
-    const [nameText, setNameText] = useState(props? props.nome:"");
-    const [goalText, setGoalText] = useState(props? props.meta:"");
-    
-
-
+    useEffect(() => {
+        if(isOpen){
+            getAllAlimentos();
+        }
+    }, [isOpen, getAllAlimentos]);
 
     return(
         <>
@@ -58,7 +88,7 @@ export function CardAlimentos({...props}){
                             (
                                 isEdit?
                                 <ButtonRemoveEstoque style={{'opacity': 0.5}}/> :
-                                <ButtonRemoveEstoque /* onClick={abreDeletar} *//>
+                                <ButtonRemoveEstoque onClick={() => buttonDeletarSuperAlimento(props.id)} />
                             )
                         }
                     </div>
@@ -131,7 +161,7 @@ export function CardAlimentos({...props}){
                         (
                             isEdit?
                             <ButtonRemoveEstoque style={{'opacity': 0.5}}/> :
-                            <ButtonRemoveEstoque /* onClick={abreDeletar} *//>
+                            <ButtonRemoveEstoque onClick={() => buttonDeletarSuperAlimento(props.id) }/>
                         )
                     }
 
@@ -151,28 +181,19 @@ export function CardAlimentos({...props}){
             {
                 isOpen && 
                 <div className='new-container-alimentos'>
-                    <button className='button-add-itenzinho' /* onClick={abreAddItemAlimento} */>+ Adicionar Item</button>
+                    <button className='button-add-itenzinho' onClick={() => buttonAddAlimento(props.id, setAlimentos)} >+ Adicionar Item</button>
                     
                     {
                         loadingCard? <Loading/>:
-                        /* alimentos[props.id]?.map((alimento) =>
+                        alimentos?.map((alimento) =>
                             <CardItemAlimento
                                 key={alimento.id_alimento}
                                 marca={alimento.marca}
                                 medida={alimento.quantidade}
                                 data={alimento.data}
                                 validade = {alimento.validade}
-                                abreDeletar = {abreDeletar}
                             />
-                        ) */
-
-                        <CardItemAlimento
-                            marca={"Teste"}
-                            medida={2}
-                            data={"2024-02-02"}
-                            validade = {"2024-04-23"}
-                            /* abreDeletar = {abreDeletar} */
-                        />
+                        ) 
                     }
                 </div>
             }

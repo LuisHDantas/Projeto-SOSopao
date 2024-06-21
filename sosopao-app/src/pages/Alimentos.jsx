@@ -14,18 +14,18 @@ import { Loading } from "../components/Loading";
 
 export function Alimentos(){
 
-    const {hAlimentos}= useContext(AlimentosContext);
     const { 
         abreDeletar, //Estado Modal 
         abreAddSuperAlimento,//Estado Modal
         abreAddAlimento,//Estado Modal
         loadingPagAlimentos, //Estado local
+        selectedSAlimento, 
         toggleModalAddSuperalimento, //Função
         toggleModalDeletar, //Função
         handleAlimentoDelete, //Função
 
         superAlimentos //ESTADO CARD SUPERALIMENTOS
-    }  = hAlimentos;
+    }= useContext(AlimentosContext);
 
     return(
         <>
@@ -40,7 +40,7 @@ export function Alimentos(){
             {abreDeletar && (
                 <ModalDeletar
                     fechaDeletar={toggleModalDeletar}
-                    index={0}
+                    index={selectedSAlimento}
                     onDelete={handleAlimentoDelete}
                 >
                     Deseja EXCLUIR esse alimento?

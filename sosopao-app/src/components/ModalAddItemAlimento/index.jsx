@@ -1,12 +1,20 @@
 import './style.css'
 import { BotaoLaranja } from '../BotaoLaranja';
 import { BotaoCinza } from '../BotaoCinza';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import axios from 'axios';
 import { Loading } from '../Loading';
+import { AlimentosContext } from '../../Context/AlimentosContext';
 
-export function AddItemAlimento({fechaAddItemAlimento=null, idAlimento=0, setAlimentos}){
+export function AddItemAlimento(){
     
+    const {
+        toggleModalAddAlimento,
+        selectedSAlimento,
+        setFuncaoGenerica
+    }= useContext(AlimentosContext);
+
+
     const [loading, setLoading] = useState(false);
     
     
@@ -34,7 +42,7 @@ export function AddItemAlimento({fechaAddItemAlimento=null, idAlimento=0, setAli
         try{
             const now = new Date();
             const formattedDate = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
-           
+            
             //tenta uma requisição com o servidor
             const response = await axios.post('/alimentos',{
                 marca: formItemAlimento.marca,
@@ -42,21 +50,24 @@ export function AddItemAlimento({fechaAddItemAlimento=null, idAlimento=0, setAli
                 validade: formItemAlimento.validade,
                 quantidade: formItemAlimento.medida,
                 multiplicador: formItemAlimento.multiplicador,
-                superalimentoID: idAlimento
+                superalimentoID: selectedSAlimento
             });
 
-            console.log(response.data);
             
+            setFuncaoGenerica((anteriores) => {
+                console.log(anteriores);
+                return [...anteriores, response.data]
+            });
            /*  setAlimentos((anteriores) => ({
                 ...anteriores,
                 [idAlimento]: response.data
             })); */
             
-            fechaAddItemAlimento();
+            toggleModalAddAlimento();
         }catch(error){
             console.log("Error ModalAddAlimentos:" + error);
             alert('Erro ao criar Alimento');
-            fechaAddItemAlimento();
+            toggleModalAddAlimento();
         }
         
         setLoading(false);
@@ -93,7 +104,7 @@ export function AddItemAlimento({fechaAddItemAlimento=null, idAlimento=0, setAli
                         :
                         <>
                             <BotaoLaranja type='submit'>Confirmar</BotaoLaranja>
-                            <BotaoCinza onClick={fechaAddItemAlimento}>Cancelar</BotaoCinza>
+                            <BotaoCinza onClick={toggleModalAddAlimento}>Cancelar</BotaoCinza>
                         </>
                     }
                 </div>

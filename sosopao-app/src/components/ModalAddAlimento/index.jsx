@@ -8,10 +8,13 @@ import { Loading } from '../Loading';
 import { AlimentosContext } from '../../Context/AlimentosContext';
 
 
-export function AddAlimento({fechaAddAlimento, setSuperAlimentos}){
+export function AddAlimento(){
     const [loading, setLoading] = useState(false);
 
-    const hAli = useContext(AlimentosContext);
+    const {
+        toggleModalAddSuperalimento,
+        setSuperAlimentos
+    } = useContext(AlimentosContext);
     
     const [formAlimento, setFormAlimento] = useState({
         nome: '',
@@ -52,16 +55,16 @@ export function AddAlimento({fechaAddAlimento, setSuperAlimentos}){
                     url_imagem: formAlimento.url_imagem
                 });
                 
-                console.log(response.data);
+                //console.log(response.data);
                 setSuperAlimentos((anteriores) => {
                     return [...anteriores, response.data]
                 });
                 
-                fechaAddAlimento();
+                toggleModalAddSuperalimento();
             }catch(error){
                 console.log("Error ModalAddAlimentos:" + error);
                 alert('Erro ao criar Alimento');
-                fechaAddAlimento();
+                toggleModalAddSuperalimento();
             }
         }
         setLoading(false);
@@ -108,7 +111,7 @@ export function AddAlimento({fechaAddAlimento, setSuperAlimentos}){
                         :
                         <>
                             <BotaoLaranja type='submit'>Confirmar</BotaoLaranja>
-                            <BotaoCinza onClick={fechaAddAlimento}>Cancelar</BotaoCinza>
+                            <BotaoCinza onClick={toggleModalAddSuperalimento}>Cancelar</BotaoCinza>
                         </>
                     }
                 </div>

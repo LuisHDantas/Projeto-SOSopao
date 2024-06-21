@@ -1,4 +1,4 @@
-import axios from "axios";
+/* import axios from "axios";
 import { useEffect, useState } from "react";
 
 
@@ -88,4 +88,4 @@ export default function useCardAlimentos(){
 
     return { 
     };
-}
+} */
