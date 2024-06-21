@@ -1,13 +1,48 @@
-/* import axios from "axios";
-import { useEffect, useState } from "react";
+import axios from "axios";
+import { useCallback, useContext, useEffect, useState } from "react";
+import { AlimentosContext } from "../Context/AlimentosContext";
 
 
-export default function useCardAlimentos(){
+export default function useCardAlimentos(props){
+    const [isOpen, setIsOpen] = useState(false);
+    const [isEdit, setIsEdit] = useState(false);
 
+
+    const [loadingCard, setLoadingCard] = useState(true);
+    const [loadingCardEdit, setLoadingCardEdit] = useState(false);
+
+    const [nameText, setNameText] = useState(props? props.nome:"");
+    const [goalText, setGoalText] = useState(props? props.meta:"");
+
+    const {
+        setAlimentos
+    }= useContext(AlimentosContext);
+
+    function openControllerCard(){
+        if(isEdit)
+            return null;
+
+        if(isOpen){
+            return null;
+        }else{
+            return setIsOpen(!isOpen);
+        }
+    }
+
+    function openControllerInfos(){
+        if(isEdit)
+            return null;
+
+        if(isOpen){
+            return setIsOpen(!isOpen);
+        }else{
+            return null;
+        }
+    }
 
     async function handleAlimentoEdit(){
         setIsEdit(!isEdit)
-        setLoadingEdit(true);
+        setLoadingCardEdit(true);
 
         //Quer dizer que quero salvar as alterações do meu input
         if(isEdit){
@@ -52,40 +87,51 @@ export default function useCardAlimentos(){
                 }
             }
         }
-        setLoadingEdit(false);
+        setLoadingCardEdit(false);
     }
+
 
     const getAllAlimentos = useCallback(async ()=>{
         try{
             const result = await axios.get(`/superalimento/${props.id}/alimentos`);
             if (result.status === 200) {
                 //console.log(result.data);
-                setAlimentos({[props.id]: result.data});
+                setAlimentos((anteriores) => ({
+                    ...anteriores,
+                    [props.id]: result.data
+                }));
             }else{
                 console.log(result.data);
             }
-            setLoading(false);
+            setLoadingCard(false);
         }catch(error){
             //const messageErrorServer = error.response.data.message;
             console.log("Erro GetAllAlimentos: " + error);
-            setAlimentos({});
-            setLoading(false);
+            setAlimentos((anteriores) => ({
+                ...anteriores,
+                [props.id]: []
+            }));
+            setLoadingCard(false);
         }
-    },[props.id])
-
-    const updateIdSuperAlimento = useCallback(() => {
-        setIdSuperAlimento(props.id);
-    }, [props.id, setIdSuperAlimento]);
-
+    },[props.id, setAlimentos])
 
     useEffect(() => {
         if(isOpen){
-            updateIdSuperAlimento();
             getAllAlimentos();
         }
-    }, [isOpen, getAllAlimentos, updateIdSuperAlimento]);
-    
+    }, [isOpen, getAllAlimentos]);
 
-    return { 
+    return {
+        isOpen,
+        isEdit,
+        loadingCard,
+        loadingCardEdit,
+        nameText,
+        goalText,
+        setNameText,
+        setGoalText,
+        openControllerCard,
+        openControllerInfos,
+        handleAlimentoEdit
     };
-} */
+} 

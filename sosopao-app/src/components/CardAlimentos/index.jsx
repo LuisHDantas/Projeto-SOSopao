@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect, useState } from 'react';
+import { useContext } from 'react';
 import { ButtonEditEstoque } from '../buttomEditEstoque';
 import { ButtonRemoveEstoque } from '../buttomRemoveEstoque';
 import { CardItemAlimento } from '../CardItemAlimento';
@@ -6,85 +6,33 @@ import { MdEdit } from "react-icons/md";
 import { FaCheck } from "react-icons/fa";
 
 import './style.css'
-import axios from 'axios';
 import { Loading } from '../Loading';
 import { AlimentosContext } from '../../Context/AlimentosContext';
+import useCardAlimentos from '../../Hooks/useCardAlimentos';
 
 
 export function CardAlimentos({...props}){
-    const [isOpen, setIsOpen] = useState(false);
-    const [isEdit, setIsEdit] = useState(false);
-
-
-    const [loadingCard, setLoadingCard] = useState(true);
-    const [loadingCardEdit, setLoadingCardEdit] = useState(false);
-
-    const [nameText, setNameText] = useState(props? props.nome:"");
-    const [goalText, setGoalText] = useState(props? props.meta:"");
-
-
-
+    
     const {
         buttonDeletarSuperAlimento,
         buttonAddAlimento,
-        alimentos,
-        setAlimentos
+        alimentos
     }= useContext(AlimentosContext);
 
 
-    
-    function openControllerCard(){
-        if(isEdit)
-            return null;
-
-        if(isOpen){
-            return null;
-        }else{
-            return setIsOpen(!isOpen);
-        }
-    }
-
-    function openControllerInfos(){
-        if(isEdit)
-            return null;
-
-        if(isOpen){
-            return setIsOpen(!isOpen);
-        }else{
-            return null;
-        }
-    }
-
-
-    const getAllAlimentos = useCallback(async ()=>{
-        try{
-            const result = await axios.get(`/superalimento/${props.id}/alimentos`);
-            if (result.status === 200) {
-                //console.log(result.data);
-                setAlimentos((anteriores) => ({
-                    ...anteriores,
-                    [props.id]: result.data
-                }));
-            }else{
-                console.log(result.data);
-            }
-            setLoadingCard(false);
-        }catch(error){
-            //const messageErrorServer = error.response.data.message;
-            console.log("Erro GetAllAlimentos: " + error);
-            setAlimentos((anteriores) => ({
-                ...anteriores,
-                [props.id]: []
-            }));
-            setLoadingCard(false);
-        }
-    },[props.id, setAlimentos])
-
-    useEffect(() => {
-        if(isOpen){
-            getAllAlimentos();
-        }
-    }, [isOpen, getAllAlimentos]);
+    const{
+        isOpen,
+        isEdit,
+        loadingCard,
+        loadingCardEdit,
+        nameText,
+        goalText,
+        setNameText,
+        setGoalText,
+        openControllerCard,
+        openControllerInfos,
+        handleAlimentoEdit
+    }= useCardAlimentos(props);
 
     return(
         <>
@@ -104,7 +52,7 @@ export function CardAlimentos({...props}){
                     
                     <div id='btn-edit-estoque'>
                         { isOpen && 
-                            (<ButtonEditEstoque>
+                            (<ButtonEditEstoque onClick={() => handleAlimentoEdit()}>
                                 {
                                     isEdit ?
                                     <FaCheck/>:
@@ -173,7 +121,7 @@ export function CardAlimentos({...props}){
                     }
 
                     { isOpen && 
-                        (<ButtonEditEstoque>
+                        (<ButtonEditEstoque onClick={() => handleAlimentoEdit()}>
                             {
                                 isEdit ?
                                 <FaCheck/>:

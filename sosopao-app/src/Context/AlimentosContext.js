@@ -1,6 +1,5 @@
 import { createContext } from "react";
 import useAlimentos from "../Hooks/useAlimentos";
-import useCardAlimentos from "../Hooks/useCardAlimentos";
 
 const AlimentosContext = createContext();
 
