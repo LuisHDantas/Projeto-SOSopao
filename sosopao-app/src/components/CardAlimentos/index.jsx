@@ -21,13 +21,14 @@ export function CardAlimentos({...props}){
 
     const [nameText, setNameText] = useState(props? props.nome:"");
     const [goalText, setGoalText] = useState(props? props.meta:"");
-    
-    const [alimentos, setAlimentos] = useState([]);
+
 
 
     const {
         buttonDeletarSuperAlimento,
-        buttonAddAlimento
+        buttonAddAlimento,
+        alimentos,
+        setAlimentos
     }= useContext(AlimentosContext);
 
 
@@ -60,7 +61,10 @@ export function CardAlimentos({...props}){
             const result = await axios.get(`/superalimento/${props.id}/alimentos`);
             if (result.status === 200) {
                 //console.log(result.data);
-                setAlimentos(result.data);
+                setAlimentos((anteriores) => ({
+                    ...anteriores,
+                    [props.id]: result.data
+                }));
             }else{
                 console.log(result.data);
             }
@@ -68,10 +72,13 @@ export function CardAlimentos({...props}){
         }catch(error){
             //const messageErrorServer = error.response.data.message;
             console.log("Erro GetAllAlimentos: " + error);
-            setAlimentos([]);
+            setAlimentos((anteriores) => ({
+                ...anteriores,
+                [props.id]: []
+            }));
             setLoadingCard(false);
         }
-    },[props.id])
+    },[props.id, setAlimentos])
 
     useEffect(() => {
         if(isOpen){
@@ -181,11 +188,11 @@ export function CardAlimentos({...props}){
             {
                 isOpen && 
                 <div className='new-container-alimentos'>
-                    <button className='button-add-itenzinho' onClick={() => buttonAddAlimento(props.id, setAlimentos)} >+ Adicionar Item</button>
+                    <button className='button-add-itenzinho' onClick={() => buttonAddAlimento(props.id)} >+ Adicionar Item</button>
                     
                     {
                         loadingCard? <Loading/>:
-                        alimentos?.map((alimento) =>
+                        alimentos[props.id]?.map((alimento) =>
                             <CardItemAlimento
                                 key={alimento.id_alimento}
                                 marca={alimento.marca}

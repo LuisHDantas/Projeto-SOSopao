@@ -16,8 +16,8 @@ export default function useAlimentos(){
     //Estados para armazenar as informações dos cards
         //Card do SuperAlimento
     const [superAlimentos, setSuperAlimentos] = useState([]);
-    
-    let setFuncaoGenerica = () => null;
+        //Cards do Alimentos
+    const [alimentos, setAlimentos] = useState({});
     
 
     //TALVEZ MUDAR A LOGICA!!!!!!!!!!
@@ -29,10 +29,9 @@ export default function useAlimentos(){
         selectSuperAlimento(id);
     }
 
-    function buttonAddAlimento(id, setAlimentos){
+    function buttonAddAlimento(id){
         toggleModalAddAlimento();
         setSelectedSAlimento(id);
-        setFuncaoGenerica = setAlimentos;
     }
 
     const [loadingPagAlimentos, setLoadingPagAlimentos] = useState(true);
@@ -82,13 +81,14 @@ export default function useAlimentos(){
             loadingPagAlimentos,
             selectedSAlimento,
             superAlimentos,
-            setFuncaoGenerica,
+            alimentos,
             handleAlimentoDelete,
             toggleModalDeletar,
             toggleModalAddSuperalimento,
             toggleModalAddAlimento,
             buttonDeletarSuperAlimento,
             buttonAddAlimento,
-            setSuperAlimentos
+            setSuperAlimentos,
+            setAlimentos
     };
 }

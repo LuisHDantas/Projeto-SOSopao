@@ -11,7 +11,7 @@ export function AddItemAlimento(){
     const {
         toggleModalAddAlimento,
         selectedSAlimento,
-        setFuncaoGenerica
+        setAlimentos
     }= useContext(AlimentosContext);
 
 
@@ -53,15 +53,13 @@ export function AddItemAlimento(){
                 superalimentoID: selectedSAlimento
             });
 
-            
-            setFuncaoGenerica((anteriores) => {
-                console.log(anteriores);
-                return [...anteriores, response.data]
+            setAlimentos((anteriores) =>{
+                const anteriorId = anteriores[selectedSAlimento];
+
+                return {...anteriores, 
+                    [selectedSAlimento]: [...anteriorId, ...response.data]
+                }
             });
-           /*  setAlimentos((anteriores) => ({
-                ...anteriores,
-                [idAlimento]: response.data
-            })); */
             
             toggleModalAddAlimento();
         }catch(error){
