@@ -5,6 +5,10 @@ body{
     font-family: 'Poppins', sans-serif;
 }
 
+body.navbar-visible {
+    overflow: hidden;
+}
+
 .nav-navbar{
     display: flex;
     align-items: center;
