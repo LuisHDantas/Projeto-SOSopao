@@ -6,10 +6,7 @@ class PontoParada extends Model {};
 PontoParada.init(
     {
         posicao: {type: DataTypes.INTEGER, autoIncrement:false, primaryKey:true},
-        cep: {type: DataTypes.STRING, allowNull: false},
-        rua: {type: DataTypes.STRING, allowNull: false},
-        numero: {type: DataTypes.INTEGER, allowNull: false},
-        cidade: {type: DataTypes.STRING, allowNull: false}
+        descricao: {type: DataTypes.STRING(2048), allowNull: false} 
     },
     {sequelize: sequelize, timestamps: false }
 );

@@ -80,22 +80,6 @@ export function Eventos(){
         setDados(prevState => prevState.map((item, i) => i === index ? newDados : item));
     };
 
-    function formatDateToInput(dateString) {
-        if (!dateString) {
-            return 'Invalid date format';
-        }
-
-        const parts = dateString.split('-');
-        if (parts.length === 3) {
-            const day = parts[0];
-            const month = parts[1];
-            const year = parts[2];
-        
-            return `${year}-${month}-${day}`;
-        } else {
-            return 'Invalid date format';
-        }
-    }
 
     const handleUpdateCard = async (index, newDados) => {
         try {
@@ -110,7 +94,7 @@ export function Eventos(){
                 console.error('Erro ao atualizar o evento:', response.statusText);
             }
         } catch (error) {
-            if (error.response.data.parameters[1] == "Invalid date"){
+            if (error.response.data.parameters[1] === "Invalid date"){
                 alert("Insira uma data válida");
             }
             console.error('Erro ao atualizar o evento:', error);
