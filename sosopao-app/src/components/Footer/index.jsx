@@ -13,6 +13,7 @@ export function Footer(){
         function updateFooterPosition() {
             const bodyHeight = document.body.clientHeight;
             const windowHeight = window.innerHeight;
+
             const footer = document.querySelector('footer');
             let footerHeight = footer.getBoundingClientRect().height;
 
