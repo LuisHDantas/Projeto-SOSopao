@@ -5,8 +5,32 @@ import { MdAlternateEmail } from "react-icons/md";
 import { IoLocationSharp } from "react-icons/io5";
 import { IoIosGlobe, IoLogoWhatsapp, IoLogoFacebook, IoLogoInstagram } from "react-icons/io";
 import { IconContext } from "react-icons";
+import { useEffect } from 'react';
 
 export function Footer(){
+
+    useEffect(() => {
+        function updateFooterPosition() {
+            const bodyHeight = document.body.clientHeight;
+            const windowHeight = window.innerHeight;
+
+            if (bodyHeight < windowHeight) {
+                document.querySelector('footer').style.position = 'fixed';
+                document.querySelector('footer').style.bottom = '0';
+            } else {
+                document.querySelector('footer').style.position = 'static';
+                document.querySelector('footer').style.bottom = 'auto';
+            }
+        }
+
+        updateFooterPosition();
+        window.addEventListener('resize', updateFooterPosition);
+
+        return () => {
+            window.removeEventListener('resize', updateFooterPosition);
+        };
+    }, []);
+
     return(
         <footer>
             <h2>Contato</h2>
