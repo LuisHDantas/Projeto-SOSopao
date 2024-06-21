@@ -2,13 +2,16 @@ import './style.css'
 import { MdEdit } from "react-icons/md";
 import { BotaoLaranja } from '../BotaoLaranja';
 import { BotaoCinza } from '../BotaoCinza';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import axios from 'axios';
 import { Loading } from '../Loading';
+import { AlimentosContext } from '../../Context/AlimentosContext';
 
 
 export function AddAlimento({fechaAddAlimento, setSuperAlimentos}){
     const [loading, setLoading] = useState(false);
+
+    const hAli = useContext(AlimentosContext);
     
     const [formAlimento, setFormAlimento] = useState({
         nome: '',
