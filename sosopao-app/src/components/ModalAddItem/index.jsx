@@ -74,6 +74,12 @@ export function AddItem({fechaAddItem, setItem}){
                     <MdEdit style={{bottom: '15%'}} className='icon-add-itens'/>
                 </div>
 
+                <div className='campo-add-itens'>
+                    <label>Quantidade:</label>
+                    <input placeholder='Quantidade' name="quantidade" onChange={handleChange}/>
+                    <MdEdit className='icon-add-itens'/>
+                </div>
+
                 <div id='container-btns-add-itens'>  
                     <BotaoLaranja type='submit' disabled={loading}>
                         {loading ? 'Carregando...' : 'Confirmar'}

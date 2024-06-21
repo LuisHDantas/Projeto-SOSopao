@@ -33,17 +33,60 @@ export function CardItens({ id, nome, descricao, quantidade, abreDeletar = null}
         });
     };
 
-    async function updateItem(id, nome, descricao, quantidade){
+    async function updateItem(id, nomeForm, descricaoForm, quantidadeForm){
+
+        console.log(descricaoForm);
+
         try{
-            await axios.put(`/item/id/${id}`,{
-                nome: nome,
-                descricao: descricao,
-                quantidade: quantidade,
-            });
+            const qtdForm = Number(quantidadeForm);
+
+            if(nomeForm.trim() === '' || qtdForm <= 0){
+                alert('Preencha corretamente os campos da edição');
+                
+                //Se um dos campos ficar errado, arruma o estado para o que esta no bd
+                const result = await axios.get(`/item/id/${id}`);
+                if(result.status === 200){
+                    setFormItem({
+                        nome: result.data.nome, 
+                        descricao: result.data.descricao, 
+                        quantidade: result.data.quantidade
+                    });
+                }else{
+                    //se der errado coloca o que veio antes como parametro
+                    setFormItem({
+                        nome: nome, 
+                        descricao: descricao, 
+                        quantidade: quantidade
+                    });
+                }
+            }
+            else if(nomeForm !== nome || descricaoForm !== descricao || quantidadeForm !== quantidade){
+                await axios.put(`/item/id/${id}`,{
+                    nome: nomeForm,
+                    descricao: descricaoForm,
+                    quantidade: qtdForm,
+                });
+            }
 
         }catch(error){
-            console.log('Erro em  add Item: ' + error);
-            alert('Erro ao atualizar item');
+            console.log("Error UpdateItem:" + error);
+            alert('Erro ao atualizar Item');
+
+            //Se um dos campos ficar errado, arruma o estado para o que esta no bd
+            const result = await axios.get(`/item/id/${id}`);
+            if(result.status === 200){
+                setFormItem({
+                    nome: result.data.nome, 
+                    descricao: result.data.descricao, 
+                    quantidade: result.data.quantidade});
+            }else{
+                //se der errado coloca o que veio antes como parametro
+                setFormItem({
+                    nome: nome, 
+                    descricao: descricao, 
+                    quantidade: quantidade
+                });
+            }
         }
     }
 

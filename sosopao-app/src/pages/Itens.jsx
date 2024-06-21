@@ -16,6 +16,7 @@ export function Itens(){
     const [cardId, setCardId] = useState(null);
     const[item, setItem] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [searchTerm, setSearchTerm] = useState("");
 
     function getAllItem() {
         axios.get('/item').then((result) => {
@@ -46,6 +47,14 @@ export function Itens(){
 
     useEffect(getAllItem, []);
 
+    const handleSearch = (event) => {
+        setSearchTerm(event.target.value);
+    };
+
+    const filteredAndSortedItems = item
+        .filter(itens => itens.nome.toLowerCase().includes(searchTerm.toLowerCase()))
+        .sort((a, b) => a.nome.localeCompare(b.nome));
+
     if (loading) return <p>Loading...</p>;
 
     return(
@@ -55,7 +64,7 @@ export function Itens(){
                 <ButtonAdd onClick={() => setAddItem(!abreAddItem)}>
                     Adicionar Item
                 </ButtonAdd>
-                <ButtonSearch />
+                <ButtonSearch handleSearch={handleSearch}/>
             </div>
             {abreDeletar && (
                 <ModalDeletar
@@ -81,7 +90,7 @@ export function Itens(){
                     <h2 id="titulo-itens">Itens no Estoque:</h2>
                     
                     {
-                        item?.map((itens) =>
+                        filteredAndSortedItems.map((itens) =>
                             <CardItens
                                 key={itens.id}
                                 id = {itens.id}
