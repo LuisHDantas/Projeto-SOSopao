@@ -48,65 +48,126 @@ Alimento.belongsTo(Superalimento, {
     hooks: true
 });
 
-const updateSuperQTD = async (instance) => {
+
+const updateSuperQTD = async (instances, transaction) => {
     try {
-        const [results, metadata] = await sequelize.query(`
-            UPDATE "Superalimentos"
+        // Determine if instances is an array or a single instance
+        const isBulkUpdate = Array.isArray(instances);
+
+        // Extract superalimentoIDs based on whether it's a bulk update or not
+        const superalimentoIDs = isBulkUpdate ? [...new Set(instances.map(instance => instance.superalimentoID))] : [instances.superalimentoID];
+
+        // Build the update query
+        const updateQuery = `
+            UPDATE "Superalimentos" AS s
             SET quantidade = (
                 SELECT COALESCE(SUM(quantidade), 0)
                 FROM "Alimentos"
-                WHERE "superalimentoID" = :superalimentoID
+                WHERE "superalimentoID" = s.id
             )
-            WHERE id = :superalimentoID;
-        `, {
-            replacements: { superalimentoID: instance.superalimentoID }
+            WHERE s.id IN (:superalimentoIDs);
+        `;
+
+        // Execute the update query
+        await sequelize.query(updateQuery, {
+            replacements: { superalimentoIDs },
+            transaction
         });
 
     } catch (err) {
-        console.error('Erro ao atualizar quantidade de Superalimento', err);
+        console.error('Erro ao atualizar quantidade de Superalimento:', err);
+        throw err; // Re-throw the error to handle it further up the call stack
     }
 };
 
-
-const updateSuperQTDForBulkCreate = async (instances, transaction) => {
+const updateSuperValidade = async (instances, transaction) => {
     try {
-        const superalimentoIDs = [...new Set(instances.map(instance => instance.superalimentoID))];
-        for (const superalimentoID of superalimentoIDs) {
-            const total_qtd = await Alimento.sum('quantidade', { where: { superalimentoID }, transaction });
-            await Superalimento.update({ quantidade: total_qtd }, { where: { id: superalimentoID }, transaction });
-        }
+        const isBulkUpdate = Array.isArray(instances);
+
+        
+        const superalimentoIDs = isBulkUpdate ? [...new Set(instances.map(instance => instance.superalimentoID))] : [instances.superalimentoID];
+
+        const updateQuery = `
+            UPDATE "Superalimentos" AS s
+            SET menor_validade = (
+                SELECT MIN(validade)
+                FROM "Alimentos"
+                WHERE "superalimentoID" = s.id
+            )
+            WHERE s.id in (:superalimentoIDs);
+        `;
+
+        await sequelize.query(updateQuery, {
+            replacements: { superalimentoIDs },
+            transaction
+        });
+
     } catch (err) {
-        console.error('Erro ao atualizar quantidade de Superalimento em bulk create:', err);
+        console.error('Erro ao atualizar validade do Superalimento', err);
+        throw err;
     }
-};
+}
+
 
 Alimento.afterSave(async (instance) => {
-    updateSuperQTD(instance); 
+    const transaction = await sequelize.transaction();
+    try {
+        await Promise.all([
+            updateSuperQTD(instance, transaction),
+            updateSuperValidade(instance, transaction)
+        ]);
+        await transaction.commit();
+    } catch (err) {
+        await transaction.rollback();
+        console.error('Erro ao executar operações de atualização em Alimento:', err);
+    }
 });
 
-
 Alimento.afterUpdate(async (instance) => {
-    updateSuperQTD(instance);
+    const transaction = await sequelize.transaction();
+    try {
+        await Promise.all([
+            updateSuperQTD(instance, transaction),
+            updateSuperValidade(instance, transaction)
+        ]);
+        await transaction.commit();
+    } catch (err) {
+        await transaction.rollback();
+        console.error('Erro ao executar operações de atualização em Alimento:', err);
+    }
 });
 
 Alimento.afterDestroy(async (instance) => {
-    updateSuperQTD(instance);
+    const transaction = await sequelize.transaction();
+    try {
+        await Promise.all([
+            updateSuperQTD(instance, transaction),
+            updateSuperValidade(instance, transaction)
+        ]);
+        await transaction.commit();
+    } catch (err) {
+        await transaction.rollback();
+        console.error('Erro ao executar operações de exclusão em Alimento:', err);
+    }
 });
 
 
-
 Alimento.afterBulkCreate(async (createdInstances, options) => {
+    const transaction = options.transaction;
     try {
         if (createdInstances.length === 0) {
             console.log('Nenhum Alimento criado na operação em massa.');
             return;
         }
-        await updateSuperQTDForBulkCreate(createdInstances, options.transaction);
+        await Promise.all([
+            updateSuperValidade(createdInstances, transaction),
+            updateSuperQTD(createdInstances, transaction),
+
+        ]);
     } catch (err) {
-        console.error('Erro ao atualizar quantidade de Superalimento ao criar Alimento:', err);
+        console.error('Erro ao executar operações de atualização em massa em Alimento:', err);
     }
 });
-
 
 
 // Verifica se a tabela Alimentos já não existe
