@@ -14,6 +14,7 @@ import { Loading } from "../components/Loading";
 
 export function Alimentos(){
 
+    const {hAlimentos}= useContext(AlimentosContext);
     const { 
         abreDeletar, //Estado Modal 
         abreAddSuperAlimento,//Estado Modal
@@ -24,9 +25,7 @@ export function Alimentos(){
         handleAlimentoDelete, //Função
 
         superAlimentos //ESTADO CARD SUPERALIMENTOS
-    } 
-    = useContext(AlimentosContext);
-
+    }  = hAlimentos;
 
     return(
         <>

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { ButtonEditEstoque } from '../buttomEditEstoque';
 import { ButtonRemoveEstoque } from '../buttomRemoveEstoque';
 import { CardItemAlimento } from '../CardItemAlimento';
@@ -8,20 +8,16 @@ import { FaCheck } from "react-icons/fa";
 import './style.css'
 import axios from 'axios';
 import { Loading } from '../Loading';
+import { AlimentosContext } from '../../Context/AlimentosContext';
 
 
-export function CardAlimentos({abreDeletar=null, abreAddItemAlimento = null, setIdSuperAlimento = null, alimentos, setAlimentos, ...props}){
+export function CardAlimentos({...props}){
     const [isOpen, setIsOpen] = useState(false);
     const [isEdit, setIsEdit] = useState(false);
 
 
-    const [nameText, setNameText] = useState(props? props.nome:"");
-    const [goalText, setGoalText] = useState(props? props.meta:"");
-
-    //PASSAR ESSE ESTADO PARA O ALIMENTOS?????    
-    //const [alimentos, setAlimentos] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [loadingEdit, setLoadingEdit] = useState(false);
+    const [loadingCard, setLoadingCard] = useState(true);
+    const [loadingCardEdit, setLoadingCardEdit] = useState(false);
     
     function openControllerCard(){
         if(isEdit)
@@ -45,6 +41,14 @@ export function CardAlimentos({abreDeletar=null, abreAddItemAlimento = null, set
         }
     }
 
+
+
+    const [nameText, setNameText] = useState(props? props.nome:"");
+    const [goalText, setGoalText] = useState(props? props.meta:"");
+    
+
+
+
     return(
         <>
             <div className="card-alimentos" onClick={openControllerCard}>
@@ -54,7 +58,7 @@ export function CardAlimentos({abreDeletar=null, abreAddItemAlimento = null, set
                             (
                                 isEdit?
                                 <ButtonRemoveEstoque style={{'opacity': 0.5}}/> :
-                                <ButtonRemoveEstoque onClick={abreDeletar}/>
+                                <ButtonRemoveEstoque /* onClick={abreDeletar} *//>
                             )
                         }
                     </div>
@@ -78,7 +82,7 @@ export function CardAlimentos({abreDeletar=null, abreAddItemAlimento = null, set
                     
                     <div className="sub-info-alimentos">
                         {   
-                            loadingEdit? <Loading size={35} />:
+                            loadingCardEdit? <Loading size={35} />:
                             <>
                             <div className="info-alimentos">
                                 <h4>Nome:</h4>
@@ -127,7 +131,7 @@ export function CardAlimentos({abreDeletar=null, abreAddItemAlimento = null, set
                         (
                             isEdit?
                             <ButtonRemoveEstoque style={{'opacity': 0.5}}/> :
-                            <ButtonRemoveEstoque onClick={abreDeletar}/>
+                            <ButtonRemoveEstoque /* onClick={abreDeletar} *//>
                         )
                     }
 
@@ -147,10 +151,10 @@ export function CardAlimentos({abreDeletar=null, abreAddItemAlimento = null, set
             {
                 isOpen && 
                 <div className='new-container-alimentos'>
-                    <button className='button-add-itenzinho' onClick={abreAddItemAlimento}>+ Adicionar Item</button>
+                    <button className='button-add-itenzinho' /* onClick={abreAddItemAlimento} */>+ Adicionar Item</button>
                     
                     {
-                        loading? <Loading/>:
+                        loadingCard? <Loading/>:
                         /* alimentos[props.id]?.map((alimento) =>
                             <CardItemAlimento
                                 key={alimento.id_alimento}
@@ -167,7 +171,7 @@ export function CardAlimentos({abreDeletar=null, abreAddItemAlimento = null, set
                             medida={2}
                             data={"2024-02-02"}
                             validade = {"2024-04-23"}
-                            abreDeletar = {abreDeletar}
+                            /* abreDeletar = {abreDeletar} */
                         />
                     }
                 </div>
