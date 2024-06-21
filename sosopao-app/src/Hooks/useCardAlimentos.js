@@ -15,7 +15,8 @@ export default function useCardAlimentos(props){
     const [goalText, setGoalText] = useState(props? props.meta:"");
 
     const {
-        setAlimentos
+        setAlimentos,
+        sortByDate
     }= useContext(AlimentosContext);
 
     function openControllerCard(){
@@ -66,7 +67,7 @@ export default function useCardAlimentos(props){
                     await axios.put(`/superalimento/id/${props.id}`,{
                         nome: nameText,
                         meta: goalNumber,
-                        quantidade: 1,
+                        quantidade: props.quantidade,
                         unidade_medida: props.un_medida,
                         url_imagem: props.url_imagem
                     });
@@ -90,7 +91,6 @@ export default function useCardAlimentos(props){
         setLoadingCardEdit(false);
     }
 
-
     const getAllAlimentos = useCallback(async ()=>{
         try{
             const result = await axios.get(`/superalimento/${props.id}/alimentos`);
@@ -98,8 +98,9 @@ export default function useCardAlimentos(props){
                 //console.log(result.data);
                 setAlimentos((anteriores) => ({
                     ...anteriores,
-                    [props.id]: result.data
+                    [props.id]: sortByDate(result.data)
                 }));
+
             }else{
                 console.log(result.data);
             }
@@ -113,7 +114,7 @@ export default function useCardAlimentos(props){
             }));
             setLoadingCard(false);
         }
-    },[props.id, setAlimentos])
+    },[props.id, setAlimentos, sortByDate])
 
     useEffect(() => {
         if(isOpen){

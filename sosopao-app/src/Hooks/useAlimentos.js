@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 
 export default function useAlimentos(){
@@ -17,11 +17,18 @@ export default function useAlimentos(){
     //Estados para armazenar as informações dos cards
         //Card do SuperAlimento
     const [superAlimentos, setSuperAlimentos] = useState([]);
+    const [filteredSAlimentos, setFilteredSAlimentos] = useState([]); //usado na barra de busca
         //Cards do Alimentos
     const [alimentos, setAlimentos] = useState({});
 
 
     const [typeDelete, setTypeDele] = useState("");
+
+
+    const [searchTerm, setSearchTerm] = useState("");
+    const handleSearch = (event) => {
+        setSearchTerm(event.target.value);
+    };
     
 
     const [selectedSAlimento, setSelectedSAlimento] = useState(null);
@@ -99,7 +106,10 @@ export default function useAlimentos(){
 
     useEffect(() => {
         getAllSuperAlimentos();
-    },[]);
+
+        const filtered = superAlimentos.filter(sAlimento => sAlimento.nome.toLowerCase().includes(searchTerm.toLowerCase()));
+        setFilteredSAlimentos(filtered);
+    },[superAlimentos, searchTerm]);
 
     async function handleSuperAlimentoDelete(id) {
         try{
@@ -136,7 +146,9 @@ export default function useAlimentos(){
         }
     }
 
-    
+    const sortByDate = useCallback((arr) => {
+        return arr.sort((a, b) => new Date(a.validade) - new Date(b.validade));
+    }, []);
 
     return { abreDeletar, 
             abreAddSuperAlimento, 
@@ -145,8 +157,10 @@ export default function useAlimentos(){
             selectedSAlimento,
             selectedAlimento,
             superAlimentos,
+            filteredSAlimentos,
             alimentos,
             typeDelete,
+            handleSearch,
             handleSuperAlimentoDelete,
             handleAlimentoDelete,
             updateSuperAlimentoQtd,
@@ -157,6 +171,7 @@ export default function useAlimentos(){
             buttonDeletarAlimento,
             buttonAddAlimento,
             setSuperAlimentos,
-            setAlimentos
+            setAlimentos,
+            sortByDate
     };
 }

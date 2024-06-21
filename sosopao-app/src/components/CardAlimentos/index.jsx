@@ -33,6 +33,15 @@ export function CardAlimentos({...props}){
         handleAlimentoEdit
     }= useCardAlimentos(props);
 
+    const formatDate = (dateString) => {
+        const [year, month, day] = dateString.split('-');
+        return `${day}/${month}/${year}`;
+    };
+
+    const validade = alimentos[props.id] && alimentos[props.id].length > 0 
+    ? formatDate(alimentos[props.id][0].validade) 
+    : "XX/XX/XXXX";
+
     return(
         <>
             <div className="card-alimentos" onClick={openControllerCard}>
@@ -96,7 +105,7 @@ export function CardAlimentos({...props}){
                     <div className="sub-info-alimentos">
                         <div className="info-alimentos">
                             <h4>Validade:</h4>
-                            <p>XX/XX/XXXX</p>
+                            <p>{validade}</p>
                         </div>
                         <div className="info-alimentos">
                             <h4>Qtd Atual:</h4>
@@ -146,8 +155,8 @@ export function CardAlimentos({...props}){
                                 id_super={props.id}
                                 marca={alimento.marca}
                                 medida={alimento.quantidade}
-                                data={alimento.data}
-                                validade = {alimento.validade}
+                                data={formatDate(alimento.data)}
+                                validade = {formatDate(alimento.validade)}
                             />
                         ) 
                     }
