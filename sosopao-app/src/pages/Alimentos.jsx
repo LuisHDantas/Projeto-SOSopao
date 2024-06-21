@@ -3,13 +3,13 @@ import { CardAlimentos } from "../components/CardAlimentos";
 import { ButtonSearch } from "../components/buttonSearch";
 import { ButtonAdd } from "../components/buttonAdd";
 import {Footer} from "../components/Footer";
-import {ModalDeletar} from "../components/ModalDeletar";
 import '../styles/alimentos.css';
 import { useContext } from "react";
 import { AddAlimento } from "../components/ModalAddAlimento";
 import { AddItemAlimento } from "../components/ModalAddItemAlimento";
 import { AlimentosContext } from "../Context/AlimentosContext";
 import { Loading } from "../components/Loading";
+import { ModalDeletarAlimentos } from "../components/ModalDeletarAlimentos";
 
 
 export function Alimentos(){
@@ -19,10 +19,7 @@ export function Alimentos(){
         abreAddSuperAlimento,//Estado Modal
         abreAddAlimento,//Estado Modal
         loadingPagAlimentos, //Estado local
-        selectedSAlimento, 
         toggleModalAddSuperalimento, //Função
-        toggleModalDeletar, //Função
-        handleAlimentoDelete, //Função
 
         superAlimentos //ESTADO CARD SUPERALIMENTOS
     }= useContext(AlimentosContext);
@@ -38,13 +35,9 @@ export function Alimentos(){
             </div>
 
             {abreDeletar && (
-                <ModalDeletar
-                    fechaDeletar={toggleModalDeletar}
-                    index={selectedSAlimento}
-                    onDelete={handleAlimentoDelete}
-                >
+                <ModalDeletarAlimentos>
                     Deseja EXCLUIR esse alimento?
-                </ModalDeletar>
+                </ModalDeletarAlimentos>
             )}
 
             {

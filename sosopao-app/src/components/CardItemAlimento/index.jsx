@@ -5,7 +5,7 @@ import { AlimentosContext } from '../../Context/AlimentosContext';
 
 export function CardItemAlimento({...props}){
     const {
-        toggleModalDeletar
+        buttonDeletarAlimento
     }= useContext(AlimentosContext);
 
     return(
@@ -35,7 +35,7 @@ export function CardItemAlimento({...props}){
                 
             </div>
            
-           <ButtonRemoveEstoque onClick={toggleModalDeletar}/>
+           <ButtonRemoveEstoque onClick={() => buttonDeletarAlimento(props.id, props.id_super)}/>
         </div>
     );
 }

@@ -19,7 +19,6 @@ export function CardAlimentos({...props}){
         alimentos
     }= useContext(AlimentosContext);
 
-
     const{
         isOpen,
         isEdit,
@@ -143,6 +142,8 @@ export function CardAlimentos({...props}){
                         alimentos[props.id]?.map((alimento) =>
                             <CardItemAlimento
                                 key={alimento.id_alimento}
+                                id={alimento.id_alimento}
+                                id_super={props.id}
                                 marca={alimento.marca}
                                 medida={alimento.quantidade}
                                 data={alimento.data}
