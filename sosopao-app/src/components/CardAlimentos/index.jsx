@@ -47,7 +47,7 @@ export function CardAlimentos({...props}){
                         }
                     </div>
                     
-                    <img src={props.url_imagem} alt="foto de perfil" onClick={openControllerInfos}/>
+                    <img src={props.url_imagem} alt="Foto" onClick={openControllerInfos}/>
                     
                     <div id='btn-edit-estoque'>
                         { isOpen && 
