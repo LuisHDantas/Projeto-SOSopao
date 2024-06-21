@@ -30,7 +30,7 @@ export function Home(){
     return(
         <>
             
-            <Navbar type='home' nome={username}/>
+            <Navbar type='home' />
 
             <div id="tituloUsuario">
                 <h1>Olá, {username}!</h1>

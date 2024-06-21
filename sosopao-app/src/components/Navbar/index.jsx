@@ -3,7 +3,7 @@ import {FaBars, FaTimes} from 'react-icons/fa'
 import { useContext, useState } from 'react'
 import { AuthContext } from '../../Context/AuthContext'
 import {Link} from 'react-router-dom'
-
+import { useEffect } from 'react';
 
 import './style.css'
 //import { useLocation } from 'react-router-dom';
@@ -17,6 +17,27 @@ export function Navbar(props){
     const { handleLogoutAuthProvider } = useContext(AuthContext);
 
     //const currentUrl = useLocation().pathname;
+    
+    const [username, setUsername] = useState('usuário');
+
+    useEffect(() => {
+        let storedUsername = localStorage.getItem("nome");
+
+        // Remover aspas
+        if (storedUsername) {
+            try {
+                storedUsername = storedUsername.slice(1,-1);
+                setUsername(storedUsername);
+            } catch (e) {
+                setUsername('usuário');
+                console.error(e);
+            }
+        }
+        else {
+            setUsername('usuário');
+        }
+
+    }, []);
 
     return (
         <header>
@@ -51,7 +72,7 @@ export function Navbar(props){
                         <Link className='link-navbar'>Logout</Link>
                     </li>
                 </ul>
-                <h4>Olá, {props.nome}</h4>
+                <h4>Olá, {username}</h4>
                 <div id='mobile'>
                     {
                         mobileButton ? 
