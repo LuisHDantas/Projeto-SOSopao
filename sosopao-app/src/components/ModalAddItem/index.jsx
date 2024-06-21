@@ -3,14 +3,17 @@ import { MdEdit } from "react-icons/md";
 import { BotaoLaranja } from '../BotaoLaranja';
 import { BotaoCinza } from '../BotaoCinza';
 import { useState } from 'react';
+import axios from 'axios';
 
-export function AddItem({fechaAddItem}){
+export function AddItem({fechaAddItem, setItem}){
 
     const [formItem, setFormItem] = useState({
         nome: '',
         descricao: '',
-        //quantidade: null,
+        quantidade: 1,
     });
+
+    const [loading, setLoading] = useState(false);
 
     // Lida com evento de mudança do input
     const handleChange = (event) => {
@@ -21,23 +24,44 @@ export function AddItem({fechaAddItem}){
         });
     };
 
-    async function send(event){
-        event.preventDefault();
-
-        //tratar campos
+    async function createItem(){
+        setLoading(true);
 
         try{
-           
-          
-        }
-        catch{
+            const result = await axios.post('/item',{
+                nome: formItem.nome,
+                descricao: formItem.descricao,
+                quantidade: formItem.quantidade,
+            });
+    
+            setItem((anteriores) => {
+                return [...anteriores, result.data];
+            });
             
+        }catch(error){
+            console.log('Erro em modal add Item: ' + error);
+            alert('Erro ao criar item');
+        }finally {
+            setLoading(false);
         }
+    }
+
+    const send = async (event) => {
+
+        event.preventDefault();
+
+        // Verifica se os campos obrigatórios estão preenchidos
+        if(!formItem.nome || !formItem.quantidade) {
+            alert('Por favor, preencha todos os campos obrigatórios.');
+            return;
+        }
+        await createItem();
+        fechaAddItem();
     }
 
     return(
         <div className="add-itens-modal">
-            <form onSumit={send}>
+            <form onSubmit={send}>
                 <div className='campo-add-itens'>
                     <label>Nome:</label>
                     <input placeholder="Nome" name="nome" onChange={handleChange}/>
@@ -51,14 +75,10 @@ export function AddItem({fechaAddItem}){
                 </div>
 
                 <div id='container-btns-add-itens'>  
-                    <BotaoLaranja onClick={()=>{
-
-                        fechaAddItem();
-                    }}
-                    >
-                        Confirmar
+                    <BotaoLaranja type='submit' disabled={loading}>
+                        {loading ? 'Carregando...' : 'Confirmar'}
                     </BotaoLaranja>
-                    <BotaoCinza onClick={fechaAddItem}>Cancelar</BotaoCinza>
+                    <BotaoCinza onClick={fechaAddItem} disabled={loading}>Cancelar</BotaoCinza>
                 </div>
             </form>
         </div>

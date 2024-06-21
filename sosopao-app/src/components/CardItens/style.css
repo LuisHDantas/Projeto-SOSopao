@@ -69,6 +69,19 @@
     outline: none;
 }
 
+.input-editavel-quantidade-itens{
+    margin: 0 3%;
+    padding: 0.4rem 0.3rem;
+    max-width: 80%;
+    border-radius: 8px;
+    border: 2px solid #038C8C;
+    font-family: 'Poppins', sans-serif;
+}
+
+.input-editavel-quantidade-itens:focus{
+    outline: none;
+}
+
 @media (min-width: 992px){
     .new-container-itens{
         padding: 1% 0;

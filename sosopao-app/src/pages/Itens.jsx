@@ -10,52 +10,43 @@ import { Footer } from "../components/Footer";
 import axios from "axios";
 
 export function Itens(){
+
     const [abreDeletar, setAbreDeletar] = useState(false);
     const [abreAddItem, setAddItem] = useState(false);
-
     const [cardId, setCardId] = useState(null);
-
     const[item, setItem] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     function getAllItem() {
         axios.get('/item').then((result) => {
-          if (result.status === 200) {
+          if(result.status === 200) {
             setItem(result.data);
+            setLoading(false);
           }else{
             console.log(result.data);
+            setLoading(false);
           }
         })
         .catch((error) => {
             console.log(error);
+            setLoading(false);
         });
       }
-
-    function createItem(){
-        axios.post('/item',{
-            nome: itens.nome,
-            descricao: itens.descricao,
-            quantidade: 1,
-        }).then((result) => {
-            if (result.status === 200) {
-                setItem((anteriores) => {
-                return [...anteriores, result.data];
-                });
-            }
-        });
-    }
 
     function deleteItem(id) {
 
         axios.delete(`/item/id/${id}`).then((result) => {
 
-        if (result.status === 200) {
-            setItem(anteriores => anteriores.filter(itens => itens.id !== id));
-        }
-        setAbreDeletar(false);
+            if (result.status === 200) {
+                setItem(anteriores => anteriores.filter(itens => itens.id !== id));
+            }
+            setAbreDeletar(false);
         });
     }
 
     useEffect(getAllItem, []);
+
+    if (loading) return <p>Loading...</p>;
 
     return(
         <div>
@@ -78,8 +69,8 @@ export function Itens(){
 
             {abreAddItem && 
                 <AddItem
-                    createIte
                     fechaAddItem={() => setAddItem(!abreAddItem)}
+                    setItem={setItem}
                 />
             }
 
@@ -93,8 +84,12 @@ export function Itens(){
                         item?.map((itens) =>
                             <CardItens
                                 key={itens.id}
+                                id = {itens.id}
                                 nome = {itens.nome}
                                 descricao = {itens.descricao}
+                                quantidade = {itens.quantidade}
+                                setAbreDeletar={setAbreDeletar}
+                                setItem={setItem}
                                 abreDeletar={() => {
                                     setAbreDeletar(!abreDeletar);
                                     setCardId(itens.id);
