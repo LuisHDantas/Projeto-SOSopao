@@ -1,4 +1,4 @@
-.deletar-modal {
+.deletar-modal-alimentos {
     border: 1px solid #F27127;
     border-radius: 25px;
     display: flex;
@@ -18,12 +18,12 @@
     z-index: 1000;
 }
 
-.deletar-modal p {
+.deletar-modal-alimentos p {
     width: 80%;
     font-size: 18px;
 }
 
-.btns-modal-deletar {
+.btns-modal-deletar-alimentos {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -31,11 +31,11 @@
     border: none;
 }
 
-.btns-modal-deletar button .icon-excluir-modal {
+.btns-modal-deletar-alimentos button .icon-excluir-modal {
     vertical-align: -10%; 
 }
 
-.btns-modal-deletar > button {
+.btns-modal-deletar-alimentos > button {
     border-radius: 25px;
     color: white;
     font-family: 'Roboto', sans-serif;
@@ -45,26 +45,34 @@
     border: none;
 }
 
-#btn-excluir-modal {
+#btn-excluir-modal-alimentos {
     background-color: #F21616;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#icon-modal-delatar-alimentos{
+    margin: 0 0.3rem;
+    font-size: 1.2rem;
 }
 
 @media screen and (min-width: 992px) {
-    .deletar-modal {
+    .deletar-modal-alimentos {
         width: 40%;
     }
 
-    .deletar-modal p {
+    .deletar-modal-alimentos p {
         font-size: 21px;
     }
 
-    .btns-modal-deletar {
+    .btns-modal-deletar-alimentos {
         margin-left: 10px;
         margin-right: 10px;
     }
 
 
-    .btns-modal-deletar > button {
+    .btns-modal-deletar-alimentos > button {
         width: 12vw;
         border: none;
     }

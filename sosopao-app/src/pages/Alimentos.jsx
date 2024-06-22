@@ -69,6 +69,7 @@ export function Alimentos(){
                                 id={alimento.id}
                                 nome={alimento.nome}
                                 meta={alimento.meta}
+                                validade={alimento.menor_validade}
                                 quantidade={alimento.quantidade}
                                 un_medida={alimento.unidade_medida}
                                 url_imagem={alimento.url_imagem}

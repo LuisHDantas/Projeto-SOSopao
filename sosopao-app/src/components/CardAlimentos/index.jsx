@@ -34,13 +34,12 @@ export function CardAlimentos({...props}){
     }= useCardAlimentos(props);
 
     const formatDate = (dateString) => {
+        if(!dateString){
+            return "XX/XX/XXXX";
+        }
         const [year, month, day] = dateString.split('-');
         return `${day}/${month}/${year}`;
     };
-
-    const validade = alimentos[props.id] && alimentos[props.id].length > 0 
-    ? formatDate(alimentos[props.id][0].validade) 
-    : "XX/XX/XXXX";
 
     return(
         <>
@@ -105,7 +104,7 @@ export function CardAlimentos({...props}){
                     <div className="sub-info-alimentos">
                         <div className="info-alimentos">
                             <h4>Validade:</h4>
-                            <p>{validade}</p>
+                            <p>{formatDate(props.validade)}</p>
                         </div>
                         <div className="info-alimentos">
                             <h4>Qtd Atual:</h4>

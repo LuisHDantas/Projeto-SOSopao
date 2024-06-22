@@ -12,7 +12,8 @@ export function AddItemAlimento(){
         toggleModalAddAlimento,
         selectedSAlimento,
         setAlimentos,
-        updateSuperAlimentoQtd
+        updateSuperAlimentoQtd,
+        sortByDate
     }= useContext(AlimentosContext);
 
 
@@ -68,7 +69,7 @@ export function AddItemAlimento(){
                     const anteriorId = anteriores[selectedSAlimento];
 
                     return {...anteriores, 
-                        [selectedSAlimento]: [...anteriorId, ...response.data]
+                        [selectedSAlimento]: sortByDate([...anteriorId, ...response.data])
                     }
                 });
 
