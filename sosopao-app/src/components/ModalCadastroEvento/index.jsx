@@ -37,10 +37,6 @@ const handleBlur = (event) => {
     }
 };
 
-    const formatDateForDisplay = (dateString) => {
-        const [year, month, day] = dateString.split('-');
-        return `${day}/${month}/${year}`;
-    };
 
     const formatDateForBackend = (dateString) => {
         const [day, month, year] = dateString.split('/');
@@ -81,7 +77,7 @@ const handleBlur = (event) => {
             // Fecha o modal de cadastro
             fechaCadastro();
         } catch (error) {
-            if(error.response.data.parameters[1] == "Invalid date"){
+            if(error.response.data.parameters[1] === "Invalid date"){
                 alert("Insira uma data válida");
             }
 
