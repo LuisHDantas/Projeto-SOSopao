@@ -2,40 +2,76 @@ import './style.css'
 import { MdEdit } from "react-icons/md";
 import { BotaoLaranja } from '../BotaoLaranja';
 import { BotaoCinza } from '../BotaoCinza';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import axios from 'axios';
+import { Loading } from '../Loading';
+import { AlimentosContext } from '../../Context/AlimentosContext';
 
 
-export function AddAlimento({fechaCadastro}){
+export function AddAlimento(){
+    const [loading, setLoading] = useState(false);
+
+    const {
+        toggleModalAddSuperalimento,
+        setSuperAlimentos
+    } = useContext(AlimentosContext);
     
-    const [formData, setFormData] = useState({
+    const [formAlimento, setFormAlimento] = useState({
         nome: '',
-        data: '',
-        descricao: '',
+        meta: 0,
+        un_medida: '',
         url_imagem: ''
     });
-
-    /* function formatDate(dateString) {
-        // Split the date string into an array of year, month, and day components
-        const [year, month, day] = dateString.split('-');
-        
-        // Rearrange the components into the desired format
-        const formattedDate = `${day}-${month}-${year}`;
-        
-        return formattedDate;
-    } */
 
     // Lida com evento de mudança do input
     const handleChange = (event) => {
         const { name, value } = event.target;
-        setFormData({
-          ...formData,
-          [name]: value,
-        });
+        setFormAlimento({...formAlimento, [name]: value});
     };
+
+
+    async function send(event){
+        event.preventDefault();
+        setLoading(true);
+
+        const metaNumber = Number(formAlimento.meta);
+
+        //Trata campos antes de enviar a requisição
+        if(formAlimento.nome.trim() === '' || 
+        formAlimento.un_medida.trim() === ''||
+        metaNumber <= 0){
+            alert('Preencha todos os campos corretamente');
+        }else if(typeof metaNumber !== 'number'){
+            alert('Meta deve ser um número');
+        }else{
+            try{
+                //tenta uma requisição com o servidor
+                const response = await axios.post('/superalimento',{
+                    nome: formAlimento.nome,
+                    meta: formAlimento.meta,
+                    quantidade: 1,
+                    unidade_medida: formAlimento.un_medida,
+                    url_imagem: formAlimento.url_imagem
+                });
+                
+                //console.log(response.data);
+                setSuperAlimentos((anteriores) => {
+                    return [...anteriores, response.data]
+                });
+                
+                toggleModalAddSuperalimento();
+            }catch(error){
+                console.log("Error ModalAddAlimentos:" + error);
+                alert('Erro ao criar Alimento');
+                toggleModalAddSuperalimento();
+            }
+        }
+        setLoading(false);
+    }
 
     return(
         <div className="add-alimento-modal">
-            <form>
+            <form name='form-add-alimento' onSubmit={send}>
                 <div className='campo-add-alimento'>
                     <label>Nome:</label>
                     <input placeholder="Nome" name="nome" onChange={handleChange}/>
@@ -54,14 +90,29 @@ export function AddAlimento({fechaCadastro}){
                     <MdEdit className='icon-cadastro-evento'/>
                 </div>
 
+                <div className='campo-add-alimento'>
+                    <select id="unMed-item-alimento" defaultValue={""} name="un_medida" onChange={handleChange}>
+                        <option value="" disabled>Un. Medida</option>
+                        <option value="Unidade">Unidade</option>
+                        <option value="Kilogramas">Kilogramas</option>
+                        <option value="Gramas">Gramas</option>
+                        <option value="Litros">Litros</option>
+                        <option value="Mililitros">Mililitros</option>
+                        <option value="Dúzia">Dúzia</option>
+                    </select>
+                </div>
+
                 <div id='container-btns-cadastro-evento'>  
-                    <BotaoLaranja onClick={()=>{
-                        fechaCadastro();
-                    }}
-                    >
-                        Confirmar
-                    </BotaoLaranja>
-                    <BotaoCinza onClick={fechaCadastro}>Cancelar</BotaoCinza>
+
+                    {
+                        loading ? 
+                        <Loading color='#F27127'/>
+                        :
+                        <>
+                            <BotaoLaranja type='submit'>Confirmar</BotaoLaranja>
+                            <BotaoCinza onClick={toggleModalAddSuperalimento}>Cancelar</BotaoCinza>
+                        </>
+                    }
                 </div>
             </form>
         </div>

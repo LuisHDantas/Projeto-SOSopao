@@ -24,15 +24,13 @@
 .infos-alimentos{
     display: flex;
     justify-content: space-around;
-    margin-bottom: 0.5rem;
 }
-
 
 .sub-info-alimentos{
     display: flex;
     flex-direction: column;
     width: 50%;
-    margin: 0 1%;
+    margin: 0 0.8em;
 }
 
 .info-alimentos{
@@ -42,8 +40,8 @@
 }
 
 .info-alimentos h4{
-    padding: 0 3%;
-    margin: 1em 0;
+    padding: 0 0.1em;
+    margin: 0.3em 0;
     color: #038C8C;
     font-family: 'Poppins', sans-serif;
     font-weight: bold;
@@ -51,6 +49,7 @@
 }
 
 .info-alimentos p{
+    padding: 0 0.1em;
     margin: 0;
     font-family: 'Poppins', sans-serif;
     font-weight: 400;
@@ -65,6 +64,30 @@
     border-radius: 8px;
     border: 2px solid #038C8C;
     padding: 0.4rem 0.3rem;
+}
+
+.info-unidade-medida{
+    display: flex;
+    align-items: center;
+    margin: 0 0.8em;
+}
+
+.info-unidade-medida h4{
+    padding: 0 0.1em;
+    margin: 0.3em 0;
+    color: #038C8C;
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.info-unidade-medida p{
+    margin: 0;
+    padding: 0 0.1em;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    font-size: 0.875rem;
+    max-width: 80%;
 }
 
 .input-alimento:focus {
@@ -120,15 +143,29 @@
     .sub-info-alimentos{
         flex-direction: row;
         width: 50%;
+        align-items: center;
         justify-content: space-around;
         margin: 0 1%;
     }
     
     .info-alimentos{
-        flex-direction: row;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
         width: fit-content;
+    }
+
+    .info-unidade-medida{
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: fit-content;
+    }
+
+    .info-unidade-medida h4{
+        margin: 1rem 0 0 0;
+        font-size: 1.2rem;
+        font-weight: bold;
     }
 
     .info-alimentos h4{
@@ -149,7 +186,6 @@
     #btn-remove-estoque{
         display: none;
     }
-
 
     .btns-web{
         display: flex;
