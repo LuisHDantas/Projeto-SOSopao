@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import '../styles/itens.css';
 import { Footer } from "../components/Footer";
 import axios from "axios";
+import { Loading } from "../components/Loading";
 
 export function Itens(){
 
@@ -55,7 +56,7 @@ export function Itens(){
         .filter(itens => itens.nome.toLowerCase().includes(searchTerm.toLowerCase()))
         .sort((a, b) => a.nome.localeCompare(b.nome));
 
-    if (loading) return <p>Loading...</p>;
+    //if (loading) return <Loading/>;
 
     return(
         <div>
@@ -90,6 +91,9 @@ export function Itens(){
                     <h2 id="titulo-itens">Itens no Estoque:</h2>
                     
                     {
+                        loading?
+                        <Loading/>
+                        :
                         filteredAndSortedItems.map((itens) =>
                             <CardItens
                                 key={itens.id}

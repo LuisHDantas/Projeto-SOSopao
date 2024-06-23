@@ -5,6 +5,7 @@ import { MdEdit } from "react-icons/md";
 import { FaCheck } from "react-icons/fa";
 import './style.css'
 import axios from 'axios';
+import { Loading } from "../Loading";
 
 export function CardItens({ id, nome, descricao, quantidade, abreDeletar = null}) {
 
@@ -15,6 +16,8 @@ export function CardItens({ id, nome, descricao, quantidade, abreDeletar = null}
         descricao: descricao,
         quantidade: quantidade,
     });
+
+    const [loadingCardEdit, setLoadingCardEdit] = useState(false);
 
     function openControllerCard() {
         if (isOpen && !isEdit) {
@@ -35,7 +38,7 @@ export function CardItens({ id, nome, descricao, quantidade, abreDeletar = null}
 
     async function updateItem(id, nomeForm, descricaoForm, quantidadeForm){
 
-        console.log(descricaoForm);
+        setLoadingCardEdit(true);
 
         try{
             const qtdForm = Number(quantidadeForm);
@@ -88,6 +91,8 @@ export function CardItens({ id, nome, descricao, quantidade, abreDeletar = null}
                 });
             }
         }
+
+        setLoadingCardEdit(false);
     }
 
     function handleEdit() {
@@ -100,45 +105,67 @@ export function CardItens({ id, nome, descricao, quantidade, abreDeletar = null}
     return (
         <>
             <div className="card-itens" onClick={() => openControllerCard()}>
-                <div className="item-nome">
-                    <h4>Nome:</h4>
-                    {isEdit ? (
-                        
-                        <input className="input-editavel-nome-itens" type="text" value={formItem.nome} name="nome" onChange={handleChange} />
-                    ) : (<p>{formItem.nome}</p>
-                    )}
-                </div>
-                <div className="item-descricao">
-                    <h4>Descrição:</h4>
-                    {isEdit ? (
-                        <textarea className="input-editavel-descricao-itens" value={formItem.descricao} name="descricao" onChange={handleChange}></textarea>
-                    ) : (<p>{formItem.descricao}</p>
-                    )}
-                </div>
-                <div className="item-quantidade">
-                    <h4>Quantidade:</h4>
-                    {isEdit ? (
-                        <input className="input-editavel-quantidade-itens" type="number" value={formItem.quantidade} name="quantidade" onChange={handleChange} />
-                    ) : (<p>{formItem.quantidade}</p>
-                    )}
-                </div>
+                {loadingCardEdit ? (
+                    <Loading size={35} />
+                ) : (
+                    <>
+                        <div className="item-nome">
+                            <h4>Nome:</h4>
+                            {isEdit ? (
+                                <input
+                                    className="input-editavel-nome-itens"
+                                    type="text"
+                                    value={formItem.nome}
+                                    name="nome"
+                                    onChange={handleChange}
+                                />
+                            ) : (
+                                <p>{formItem.nome}</p>
+                            )}
+                        </div>
+                        <div className="item-descricao">
+                            <h4>Descrição:</h4>
+                            {isEdit ? (
+                                <textarea
+                                    className="input-editavel-descricao-itens"
+                                    value={formItem.descricao}
+                                    name="descricao"
+                                    onChange={handleChange}
+                                ></textarea>
+                            ) : (
+                                <p>{formItem.descricao}</p>
+                            )}
+                        </div>
+                        <div className="item-quantidade">
+                            <h4>Quantidade:</h4>
+                            {isEdit ? (
+                                <input
+                                    className="input-editavel-quantidade-itens"
+                                    type="number"
+                                    value={formItem.quantidade}
+                                    name="quantidade"
+                                    onChange={handleChange}
+                                />
+                            ) : (
+                                <p>{formItem.quantidade}</p>
+                            )}
+                        </div>
+                    </>
+                )}
             </div>
-
-            {
-                isOpen &&
-                (<div className='new-container-itens'>
+    
+            {isOpen && (
+                <div className='new-container-itens'>
                     <ButtonEditEstoque onClick={handleEdit}>
-                        {isEdit ?
-                            <FaCheck /> :
-                            <MdEdit />
-                        }
+                        {isEdit ? <FaCheck /> : <MdEdit />}
                     </ButtonEditEstoque>
-                    {isEdit ?
-                        <ButtonRemoveEstoque style={{ 'opacity': 0.5 }} /> :
+                    {isEdit ? (
+                        <ButtonRemoveEstoque style={{ opacity: 0.5 }} />
+                    ) : (
                         <ButtonRemoveEstoque onClick={abreDeletar} />
-                    }
-                </div>)
-            }
+                    )}
+                </div>
+            )}
         </>
     );
 }
