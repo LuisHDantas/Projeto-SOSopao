@@ -35,15 +35,18 @@ export function Itens(){
         });
       }
 
-    function deleteItem(id) {
+    async function deleteItem(id) {
 
-        axios.delete(`/item/id/${id}`).then((result) => {
+        setLoading(true);
 
-            if (result.status === 200) {
-                setItem(anteriores => anteriores.filter(itens => itens.id !== id));
-            }
-            setAbreDeletar(false);
-        });
+        const result = await axios.delete(`/item/id/${id}`);
+
+        if (result.status === 200) {
+            setItem(anteriores => anteriores.filter(itens => itens.id !== id));
+        }
+        setAbreDeletar(false);
+
+        setLoading(false);
     }
 
     useEffect(getAllItem, []);
@@ -55,8 +58,6 @@ export function Itens(){
     const filteredAndSortedItems = item
         .filter(itens => itens.nome.toLowerCase().includes(searchTerm.toLowerCase()))
         .sort((a, b) => a.nome.localeCompare(b.nome));
-
-    //if (loading) return <Loading/>;
 
     return(
         <div>
