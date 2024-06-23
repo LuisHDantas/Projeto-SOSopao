@@ -3,7 +3,6 @@ import { BotaoLaranja } from '../BotaoLaranja';
 import { BotaoCinza } from '../BotaoCinza';
 import { useContext, useState } from 'react';
 import axios from 'axios';
-import { Loading } from '../Loading';
 import { AlimentosContext } from '../../Context/AlimentosContext';
 
 export function AddItemAlimento(){
