@@ -12,7 +12,8 @@ export function AddItemAlimento(){
         toggleModalAddAlimento,
         selectedSAlimento,
         setAlimentos,
-        updateSuperAlimentoQtd
+        updateSuperAlimentoQtd,
+        sortByDate
     }= useContext(AlimentosContext);
 
 
@@ -37,44 +38,51 @@ export function AddItemAlimento(){
         event.preventDefault();
         setLoading(true);
 
-        //TODO: tratar os campos
+        //console.log(formItemAlimento.validade);
+        const qtdNumber = Number(formItemAlimento.medida);
+        const qtdMultiplicador = Number(formItemAlimento.multiplicador);
 
         //Trata campos antes de enviar a requisição
-        try{
-            const now = new Date();
-            const formattedDate = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
-            
-            const qtd = formItemAlimento.medida;
-            const mult = formItemAlimento.multiplicador;
+        if(formItemAlimento.marca.trim() === '' || 
+        formItemAlimento.validade.trim() === ''||
+        qtdNumber <= 0||
+        qtdMultiplicador <= 0){
+            alert('Preencha todos os campos corretamente');
+        }else if(typeof qtdNumber !== 'number' || typeof qtdMultiplicador !== 'number'){
+            alert('Meta deve ser um número');
+        }else{
+            try{
+                const now = new Date();
+                const formattedDate = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
 
-            //tenta uma requisição com o servidor
-            const response = await axios.post('/alimentos',{
-                marca: formItemAlimento.marca,
-                data: formattedDate,
-                validade: formItemAlimento.validade,
-                quantidade: qtd,
-                multiplicador: mult,
-                superalimentoID: selectedSAlimento
-            });
+                //tenta uma requisição com o servidor
+                const response = await axios.post('/alimentos',{
+                    marca: formItemAlimento.marca,
+                    data: formattedDate,
+                    validade: formItemAlimento.validade,
+                    quantidade: qtdNumber,
+                    multiplicador: qtdMultiplicador,
+                    superalimentoID: selectedSAlimento
+                });
 
-            setAlimentos((anteriores) =>{
-                const anteriorId = anteriores[selectedSAlimento];
+                setAlimentos((anteriores) =>{
+                    const anteriorId = anteriores[selectedSAlimento];
 
-                return {...anteriores, 
-                    [selectedSAlimento]: [...anteriorId, ...response.data]
-                }
-            });
+                    return {...anteriores, 
+                        [selectedSAlimento]: sortByDate([...anteriorId, ...response.data])
+                    }
+                });
 
-            //Atualizar a quantidade do SuperAlimento
-            updateSuperAlimentoQtd(selectedSAlimento, qtd*mult, true);
-            
-            toggleModalAddAlimento();
-        }catch(error){
-            console.log("Error ModalAddAlimentos:" + error);
-            alert('Erro ao criar Alimento');
-            toggleModalAddAlimento();
+                //Atualizar a quantidade do SuperAlimento
+                updateSuperAlimentoQtd(selectedSAlimento, qtdNumber*qtdMultiplicador, true);
+                
+                toggleModalAddAlimento();
+            }catch(error){
+                console.log("Error ModalAddAlimentos:" + error);
+                alert('Erro ao criar Alimento');
+                toggleModalAddAlimento();
+            }
         }
-        
         setLoading(false);
     }
 

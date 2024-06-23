@@ -1,9 +1,9 @@
 import './style.css';
-import { TbLetterX } from "react-icons/tb";
 import { BotaoCinza } from '../BotaoCinza';
 import { useContext, useState } from 'react';
 import { AlimentosContext } from '../../Context/AlimentosContext';
 import { Loading } from '../Loading';
+import { FaX } from 'react-icons/fa6';
 
 export function ModalDeletarAlimentos({children}){
     const {
@@ -33,14 +33,14 @@ export function ModalDeletarAlimentos({children}){
     }
 
     return(
-        <div className="deletar-modal">
+        <div className="deletar-modal-alimentos">
             <p>{children}</p>
-            <div className='btns-modal-deletar'>
+            <div className='btns-modal-deletar-alimentos'>
                 {
                     loadingDeletar? <Loading color='#FF0000'/> :
                     <>
-                        <button id='btn-excluir-modal' onClick={handleSwitchDelete}> 
-                            <TbLetterX className='icon-excluir-modal'/>
+                        <button id='btn-excluir-modal-alimentos' onClick={handleSwitchDelete}> 
+                            <FaX id='icon-modal-delatar-alimentos'/>
                             Excluir
                         </button>
                         <BotaoCinza onClick={toggleModalDeletar}>Cancelar</BotaoCinza>

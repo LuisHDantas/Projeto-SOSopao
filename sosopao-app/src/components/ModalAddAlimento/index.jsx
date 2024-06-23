@@ -38,7 +38,6 @@ export function AddAlimento(){
 
         //Trata campos antes de enviar a requisição
         if(formAlimento.nome.trim() === '' || 
-        formAlimento.url_imagem.trim() === '' ||
         formAlimento.un_medida.trim() === ''||
         metaNumber <= 0){
             alert('Preencha todos os campos corretamente');

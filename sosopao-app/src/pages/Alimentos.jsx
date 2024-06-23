@@ -20,8 +20,9 @@ export function Alimentos(){
         abreAddAlimento,//Estado Modal
         loadingPagAlimentos, //Estado local
         toggleModalAddSuperalimento, //Função
-
-        superAlimentos //ESTADO CARD SUPERALIMENTOS
+        handleSearch, //Função
+        //superAlimentos, //ESTADO CARD SUPERALIMENTOS
+        filteredSAlimentos,//ESTADO CARD SUPERALIMENTOS
     }= useContext(AlimentosContext);
 
     return(
@@ -31,7 +32,7 @@ export function Alimentos(){
                 <ButtonAdd  onClick={toggleModalAddSuperalimento}>
                     Adicionar Alimento
                 </ButtonAdd>
-                <ButtonSearch />
+                <ButtonSearch handleSearch={handleSearch}/>
             </div>
 
             {abreDeletar && (
@@ -62,12 +63,13 @@ export function Alimentos(){
                         loadingPagAlimentos?
                         <Loading/>
                         :
-                        superAlimentos?.map((alimento) =>
+                        filteredSAlimentos?.map((alimento) =>
                             <CardAlimentos 
                                 key={alimento.id}
                                 id={alimento.id}
                                 nome={alimento.nome}
                                 meta={alimento.meta}
+                                validade={alimento.menor_validade}
                                 quantidade={alimento.quantidade}
                                 un_medida={alimento.unidade_medida}
                                 url_imagem={alimento.url_imagem}
