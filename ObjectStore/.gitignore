@@ -2,7 +2,7 @@
 .env
 
 # Ignorar o diretório temp do MinIO
-/.minio.sys/temp
+/.minio.sys/tmp
 
 # Compiled source #
 ###################
