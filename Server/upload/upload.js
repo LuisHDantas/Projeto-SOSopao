@@ -1,4 +1,4 @@
-import { S3Client, GetObjectCommand } from "@aws-sdk/client-s3";
+import { S3Client, GetObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import multer from "multer";
 import multerS3 from "multer-s3";
@@ -35,4 +35,30 @@ function getFileUrl(fileName) {
     return minioUrl + bucket + "/" + fileName;
 }
 
-export default { uploadFile, getFileUrl };
+function getFileNameFromUrl(fileUrl) {
+    const prefix = `${minioUrl}${bucket}/`;
+    if (fileUrl.startsWith(prefix)) {
+        return fileUrl.substring(prefix.length);
+    } else {
+        throw new Error('URL da imagem inválida');
+    }
+}
+
+async function deleteFile(fileUrl) {
+    let fileName = getFileNameFromUrl(fileUrl);
+    
+    const command = new DeleteObjectCommand({
+        Bucket: bucket,
+        Key: fileName
+    });
+
+    try {
+        await s3.send(command);
+        console.log(`Arquivo ${fileName} deletado com sucesso`);
+    } catch (error) {
+        console.error(`Erro ao deletar arquivo ${fileName}:`, error);
+        throw new Error('Erro ao apagar a imagem');
+    }
+}
+
+export default { uploadFile, getFileUrl, deleteFile };

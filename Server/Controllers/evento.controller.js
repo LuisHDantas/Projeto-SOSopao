@@ -29,7 +29,7 @@ function findById(request, response) {
 
 function create(request, response) {
   let linkImagem;
-  if(!request.file) { linkImagem = null; }
+  if(!request.file) { linkImagem = request.file; }
   else { linkImagem = upload.getFileUrl(request.file.key) }
 
   Evento
@@ -47,9 +47,19 @@ function create(request, response) {
     });
 }
 
-function deleteByPk(request, response) {
-  // TODO deleta imagem do link
+async function deleteByPk(request, response) {
+  // deleta a imagem armazenada no minio na url da tupla
+  await Evento
+    .findByPk(request.params.id)
+    .then(res => {
+      if (res) {
+        if(res.url_imagem) { upload.deleteFile(res.url_imagem); }
+      } else {
+        response.status(404).json({ error: "Evento não encontrado" });
+      }
+    })
   
+  // deleta a tupla no BD
   Evento
     .destroy({ where: { id_evento: request.params.id } })
     .then(res => {
@@ -64,13 +74,27 @@ function deleteByPk(request, response) {
     });
 }
 
-function update(request, response) {
-  // TODO deleta imagem velha
-
+async function update(request, response) {
+  // testa se a imagem foi atualizada e deleta a imagem antiga caso sim
   let linkImagem;
-  if(!request.file) { linkImagem = null; }
-  else { linkImagem = upload.getFileUrl(request.file.key) }
+  if(!request.file) { 
+    linkImagem = request.file; 
+  } 
+  else { 
+    linkImagem = upload.getFileUrl(request.file.key) 
+
+    await Evento
+    .findByPk(request.params.id)
+    .then(res => {
+      if (res) {
+        if(res.url_imagem) { upload.deleteFile(res.url_imagem); }
+      } else {
+        response.status(404).json({ error: "Evento não encontrado" });
+      }
+    })
+  }
   
+  // atualiza a tupla do evento no bd com os novos dados inseridos
   Evento
     .update(
       {
