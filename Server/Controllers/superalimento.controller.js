@@ -48,12 +48,16 @@ function findByNome(request, response) {
 }
 
 function create(request, response) {
+  let linkImagem;
+  if(!request.file) { linkImagem = null; }
+  else { linkImagem = upload.getFileUrl(request.file.key) }
+
   Superalimento
     .create({
       nome: request.body.nome,
       meta: request.body.meta,
       unidade_medida: request.body.unidade_medida,
-      url_imagem: request.body.url_imagem
+      url_imagem: linkImagem
     })
     .then(res => {
       response.status(201).json(res);
@@ -64,6 +68,8 @@ function create(request, response) {
 }
 
 async function deleteByPk(request, response) {
+  // TODO deleta imagem do link
+  
   try {
     const superalimentoDeleted = await Superalimento.destroy({ where: { id: request.params.id } });
     if (!superalimentoDeleted) {
@@ -76,6 +82,8 @@ async function deleteByPk(request, response) {
 }
 
 async function deleteByNome(request, response) {
+  // TODO deleta imagem do link
+
   try {
     const superalimentoDeleted = await Superalimento.destroy({
       where: {
@@ -94,13 +102,19 @@ async function deleteByNome(request, response) {
 }
 
 function updateByNome(request, response) {
+  // TODO deleta imagem antiga
+
+  let linkImagem;
+  if(!request.file) { linkImagem = null; }
+  else { linkImagem = upload.getFileUrl(request.file.key) }
+
   Superalimento
     .update(
       {
         nome: request.body.nome,
         meta: request.body.meta,
         unidade_medida: request.body.unidade_medida,
-        url_imagem: request.body.url_imagem
+        url_imagem: upload.getFileUrl(request.file.key)
       },
       { where: { nome: request.params.nome } }
     )
@@ -117,13 +131,19 @@ function updateByNome(request, response) {
 }
 
 function updateByID(request, response) {
+  // TODO deleta imagem velha
+
+  let linkImagem;
+  if(!request.file) { linkImagem = null; }
+  else { linkImagem = upload.getFileUrl(request.file.key) }
+
   Superalimento
     .update(
       {
         nome: request.body.nome,
         meta: request.body.meta,
         unidade_medida: request.body.unidade_medida,
-        url_imagem: request.body.url_imagem
+        url_imagem: linkImagem
       },
       { where: { id: request.params.id } }
     )

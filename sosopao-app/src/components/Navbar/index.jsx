@@ -1,4 +1,3 @@
-import logo from '../../assets/images/logo.png'
 import {FaBars, FaTimes} from 'react-icons/fa'
 import { useContext, useState } from 'react'
 import { AuthContext } from '../../Context/AuthContext'

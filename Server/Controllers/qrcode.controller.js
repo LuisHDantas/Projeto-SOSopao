@@ -29,7 +29,7 @@ function findById(request, response) {
 function create(request, response) {
   QrCode
     .create({
-      url_imagem: request.body.url_imagem,
+      url_imagem: upload.getFileUrl(request.file.key),
       funcionalidade: request.body.funcionalidade || null, // Definindo como nulo se não for fornecido
     })
     .then(res => {
@@ -41,6 +41,8 @@ function create(request, response) {
 }
 
 function deleteByPk(request, response) {
+  // TODO deleta imagem do link
+
   QrCode
     .destroy({ where: { id_qr_code: request.params.id } })
     .then(res => {
@@ -56,10 +58,12 @@ function deleteByPk(request, response) {
 }
 
 function update(request, response) {
+  // TODO deleta imagem velha
+
   QrCode
     .update(
       {
-        url_imagem: request.body.url_imagem,
+        url_imagem: upload.getFileUrl(request.file.key),
         funcionalidade: request.body.funcionalidade || null, // Definindo como nulo se não for fornecido
       },
       { where: { id_qr_code: request.params.id } }

@@ -28,12 +28,16 @@ function findById(request, response) {
 }
 
 function create(request, response) {
+  let linkImagem;
+  if(!request.file) { linkImagem = null; }
+  else { linkImagem = upload.getFileUrl(request.file.key) }
+
   Evento
     .create({
       nome: request.body.nome,
       data: request.body.data,
       descricao: request.body.descricao,
-      url_imagem: upload.getFileUrl(request.file.location),
+      url_imagem: linkImagem,
     })
     .then(res => {
       response.status(201).json(res);
@@ -44,6 +48,8 @@ function create(request, response) {
 }
 
 function deleteByPk(request, response) {
+  // TODO deleta imagem do link
+  
   Evento
     .destroy({ where: { id_evento: request.params.id } })
     .then(res => {
@@ -59,13 +65,19 @@ function deleteByPk(request, response) {
 }
 
 function update(request, response) {
+  // TODO deleta imagem velha
+
+  let linkImagem;
+  if(!request.file) { linkImagem = null; }
+  else { linkImagem = upload.getFileUrl(request.file.key) }
+  
   Evento
     .update(
       {
         nome: request.body.nome,
         data: request.body.data,
         descricao: request.body.descricao,
-        url_imagem: upload.getFileUrl(request.file.key),
+        url_imagem: linkImagem,
       },
       { where: { id_evento: request.params.id } }
     )

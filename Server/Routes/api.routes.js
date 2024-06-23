@@ -34,7 +34,7 @@ router.put("/eventos/:id", authController.validateToken, eventoController.update
 // Rotas para a tabela "QrCode"
 router.get("/qrcode", qrcodeController.findAll);
 router.get("/qrcode/:id", qrcodeController.findById);
-router.post("/qrcode", authController.validateToken, qrcodeController.create);
+router.post("/qrcode", authController.validateToken, upload.uploadFile.single("file"), qrcodeController.create);
 router.delete("/qrcode/:id", authController.validateToken, qrcodeController.deleteByPk);
 router.put("/qrcode/:id", authController.validateToken, qrcodeController.update);
 
@@ -69,7 +69,7 @@ router.get('/superalimento', superalimentoController.findAll);
 router.get('/superalimento/id/:id', superalimentoController.findByID);
 router.get('/superalimento/nome/:nome', superalimentoController.findByNome);
 router.get('/superalimento/:id/alimentos', authController.validateToken, superalimentoController.getAlimentosByID);
-router.post('/superalimento', authController.validateToken, superalimentoController.create);
+router.post('/superalimento', authController.validateToken, upload.uploadFile.single("file"), superalimentoController.create);
 router.delete('/superalimento/id/:id', authController.validateToken, superalimentoController.deleteByPk);
 router.delete('/superalimento/nome/:nome', authController.validateToken, superalimentoController.deleteByNome);
 router.put('/superalimento/nome/:nome', authController.validateToken, superalimentoController.updateByNome);

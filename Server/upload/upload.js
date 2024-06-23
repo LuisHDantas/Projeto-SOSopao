@@ -6,7 +6,7 @@ import multerS3 from "multer-s3";
 const accessKeyId = process.env["MINIO_ACCESS_KEY"];
 const secretAccessKey = process.env["MINIO_SECRET_KEY"];
 
-const minioUrl = "http://localhost:9000/";
+const minioUrl = "http://127.0.0.1:9000/";
 const bucket = "image-bucket"
 
 const s3 = new S3Client({
@@ -15,6 +15,7 @@ const s3 = new S3Client({
         accessKeyId: accessKeyId,
         secretAccessKey: secretAccessKey,
     },
+    region: 'us-east-1',
     sslEnabled: false,
     s3ForcePathStyle: true,
 });
@@ -30,7 +31,7 @@ const uploadFile = multer({
     }),
 });
 
-async function getFileUrl(fileName) {
+function getFileUrl(fileName) {
     return minioUrl + bucket + "/" + fileName;
 }
 
