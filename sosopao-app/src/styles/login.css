@@ -9,7 +9,7 @@
     align-items: center;
     justify-content: center;
 
-    background-image: url('../assets/images/loginBg-mobile.png');
+    background-image: url('http://localhost:9000/image-bucket/loginBg-mobile.png');
     background-size: cover; 
     background-position: center; 
     background-repeat: no-repeat; 
@@ -105,7 +105,7 @@
 @media (min-width: 992px){
 
     .login-background{
-        background-image: url('../assets/images/loginBg-web.png');
+        background-image: url('http://localhost:9000/image-bucket/loginBg-web.png');
     }
 
     .login-background h2{

@@ -4,6 +4,7 @@ import { useContext, useState } from 'react'
 import { AuthContext } from '../../Context/AuthContext'
 import {Link} from 'react-router-dom'
 import { useEffect } from 'react';
+import { objectStore } from '../../constants';
 
 import './style.css'
 //import { useLocation } from 'react-router-dom';
@@ -56,7 +57,9 @@ export function Navbar(props){
     return (
         <header>
             <nav className="nav-navbar">
-                <Link to={'/'}><img src={logo} alt="Logo SOS Sopão" /></Link>
+                <Link to={'/'}>
+                    <img src={`${objectStore.MINIOURL}${objectStore.BUCKET}/logo.png`} alt="Logo SOS Sopão" />
+                </Link>
                 <ul id='navbar' 
                     className={
                         mobileButton ?

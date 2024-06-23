@@ -1,4 +1,5 @@
 import Evento from "../Models/evento.model.js";
+import upload from "../upload/upload.js";
 
 function findAll(request, response) {
   Evento
@@ -32,7 +33,7 @@ function create(request, response) {
       nome: request.body.nome,
       data: request.body.data,
       descricao: request.body.descricao,
-      url_imagem: request.body.url_imagem,
+      url_imagem: upload.getFileUrl(request.file.location),
     })
     .then(res => {
       response.status(201).json(res);
@@ -64,7 +65,7 @@ function update(request, response) {
         nome: request.body.nome,
         data: request.body.data,
         descricao: request.body.descricao,
-        url_imagem: request.body.url_imagem,
+        url_imagem: upload.getFileUrl(request.file.key),
       },
       { where: { id_evento: request.params.id } }
     )

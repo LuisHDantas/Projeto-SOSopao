@@ -8,6 +8,7 @@ import pontoParadaController from '../Controllers/pontoParada.controller.js';
 import superalimentoController from '../Controllers/superalimento.controller.js';
 import alimentoController from '../Controllers/alimento.controller.js';
 import authController from "../Controllers/auth.controller.js";
+import upload from "../upload/upload.js";
 
 const router = express.Router();
 
@@ -26,7 +27,7 @@ router.put("/usuarios/:id", authController.validateToken, usuarioController.upda
 // Rotas para a tabela "Eventos"
 router.get("/eventos", eventoController.findAll);
 router.get("/eventos/:id", eventoController.findById);
-router.post("/eventos", authController.validateToken, eventoController.create);
+router.post("/eventos", authController.validateToken, upload.uploadFile.single("file"), eventoController.create);
 router.delete("/eventos/:id", authController.validateToken, eventoController.deleteByPk);
 router.put("/eventos/:id", authController.validateToken, eventoController.update);
 
