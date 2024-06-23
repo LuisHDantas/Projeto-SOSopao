@@ -11,6 +11,7 @@ import { Rotas } from './pages/Rotas'
 import { Login } from './pages/Login';
 import { AuthContext, AuthProvider } from './Context/AuthContext';
 import { useContext } from 'react';
+import { AlimentosProvider } from './Context/AlimentosContext';
 
 //Rota privada impede que um usuário não logado acesse uma página
 function PrivateRoute({children}){
@@ -70,7 +71,9 @@ function App() {
             path='/alimentos' 
             element={
               <PrivateRoute>
-                <Alimentos/>
+                <AlimentosProvider>
+                  <Alimentos/>
+                </AlimentosProvider>
               </PrivateRoute>
             }
           />
