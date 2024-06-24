@@ -17,7 +17,7 @@ export function Footer(){
             const footer = document.querySelector('footer');
             let footerHeight = footer.getBoundingClientRect().height;
 
-            const isFooterFixed = footer.style.position == 'fixed';
+            const isFooterFixed = footer.style.position === 'fixed';
          
             if (!isFooterFixed) {
                 footerHeight = 0;

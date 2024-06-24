@@ -3,6 +3,7 @@ import { MdEdit } from "react-icons/md";
 import { BotaoLaranja } from '../BotaoLaranja';
 import { BotaoCinza } from '../BotaoCinza';
 import { useState } from 'react';
+import axios from 'axios';
 
 export function CadastroAdmin({fechaCadastro, dados, setDados}){
 
@@ -20,6 +21,25 @@ export function CadastroAdmin({fechaCadastro, dados, setDados}){
           [name]: value,
         });
     };
+
+
+    const handleSave = async function(formData, dados) {
+        try {
+            const response = await axios.post(`/signup`, formData );
+
+            if (response.status === 201){
+                const user = await axios.get(`/usuarios/token/${response.data.token}`);
+                const updatedDados = [...dados, user.data];
+
+                setDados(updatedDados);
+                console.log(dados);
+            } else {
+                console.error("Erro ao cadastrar admin", response.statusText);
+            }
+        } catch (err) {
+            console.error("Erro ao cadastrar admin", err);
+        }
+    }
 
     return(
         <div className='cadastrar-admin-modal'>
@@ -44,11 +64,7 @@ export function CadastroAdmin({fechaCadastro, dados, setDados}){
 
                 <div id='container-btns-cadastro-admin'>  
                     <BotaoLaranja onClick={()=>{
-                        /* setDados([...dados, {
-                            nome: formData.nome,
-                            email: formData.email,
-                            senha: formData.senha,
-                        }]); */
+                        handleSave(formData, dados);
                         fechaCadastro();
                     }}
                     >

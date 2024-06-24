@@ -1,7 +1,7 @@
 import './style.css';
 import { ButtonRemoveEstoque } from '../buttomRemoveEstoque';
 
-export function CardAdmin({nome, email, abreDeletar}){
+export function CardAdmin({nome, isSuper, email, abreDeletar}){
 
     return(
     <>
@@ -18,7 +18,7 @@ export function CardAdmin({nome, email, abreDeletar}){
         </div>
 
         <div id="container-icone-deletar-adm">
-            <ButtonRemoveEstoque style={{margin: '10px'}} onClick={abreDeletar} />
+            {isSuper && <ButtonRemoveEstoque style={{margin: '10px'}} onClick={abreDeletar} />}
         </div>
 
     </div>

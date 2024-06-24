@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Navbar } from "../components/Navbar";
 import { Footer } from "../components/Footer";
 import { ButtonAdd } from "../components/buttonAdd";
@@ -8,20 +8,66 @@ import { CadastroAdmin } from '../components/ModalCadastroAdmin';
 import { UpdateQRCode } from '../components/ModalUpdateQRCode';
 import { EditarContaAdmin } from '../components/ModalEditarContaAdmin';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 import '../styles/painelcontrole.css';
+
+const DataFetcher = async (setDados, setLoading, setError, setIsSuper) => {
+    try {
+        const response = await axios.get('/usuarios');
+        setDados(response.data);
+        setLoading(false);
+
+        const admin = await axios.get('/validateSuperToken');
+        
+        if (admin.status === 200) {
+            setIsSuper(true);
+        }else{
+            setIsSuper(false);
+        }
+    } catch (error) {
+        setError(error);
+        setLoading(false);
+    }
+};
 
 export function PainelControle(){
 
-    const [dados] = useState([
-    {nome: 'João da Silva', email:'joao.silva@gmail.com', senha: '0123'},
-    {nome: 'José Santos', email:'jose.santos@gmail.com', senha: '0123'},
-    {nome: 'Bob Nelson Donda Cavalheiro', email: 'bob.nelson.donda.cavalheiro@gmail.com', senha: '0123'},
-    ]);
-
+    const [dados, setDados] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(false);
     const [abreEditarConta, setAbreEditarConta] = useState(false);
     const [abreDeletar, setAbreDeletar] = useState(false);
     const [abreCadastro, setAbreCadastro] = useState(false);
     const [abreUpdate, setAbreUpdate] = useState(false);
+    const [clickedIndex, setClickedIndex] = useState(null);
+    const [isSuper, setIsSuper] = useState(false);
+
+    useEffect(() => {
+        DataFetcher(setDados, setLoading, setError, setIsSuper);
+    }, []);
+
+    const handleDeleteRequest = async (id) => {
+        try {
+            await axios.delete(`usuarios/${id}`);
+            return true;
+        } catch (error) {
+            console.error("Erro ao deletar admin:", error);
+            return false;
+        }
+    };
+
+
+    const handleDelete = async (index) => {
+        const id = dados[index].id_usuario;
+        const deleteSuccess = await handleDeleteRequest(id);
+
+        if (deleteSuccess) {
+            let updatedData = dados.filter((_, i) => i !== index);
+
+            setDados(updatedData);
+            setAbreDeletar(false);
+        }
+    };
 
     return(
         <div>
@@ -30,7 +76,8 @@ export function PainelControle(){
             {abreDeletar && (
                 <ModalDeletar
                     fechaDeletar={() => setAbreDeletar(!abreDeletar)}
-                    // TODO: deletar funcional (simulando BD)
+                    onDelete={handleDelete}
+                    index={clickedIndex}
                 >
                     Deseja EXCLUIR esse administrador?
                 </ModalDeletar>
@@ -39,7 +86,8 @@ export function PainelControle(){
             {abreCadastro && (
                 <CadastroAdmin
                     fechaCadastro={() => setAbreCadastro(!abreCadastro)}
-                    // TODO: Cadastro funcional (simulando BD)
+                    dados={dados}
+                    setDados={setDados}
                 >
                 </CadastroAdmin>
             )}
@@ -55,7 +103,8 @@ export function PainelControle(){
             {abreEditarConta && (
                 <EditarContaAdmin
                     fechaEdicao={() => setAbreEditarConta(!abreEditarConta)}
-                    // TODO: Edicao de conta funcional (simulando BD)
+                    dados={dados}
+                    setDados={setDados}
                 >
                 </EditarContaAdmin>
             )}
@@ -81,13 +130,14 @@ export function PainelControle(){
                     {dados?.map((admin, index) => {
                         return(
                             <CardAdmin 
-                                key={index} 
+                                key={index}
+                                isSuper={isSuper}
                                 nome={admin.nome} 
                                 email={admin.email}
 
                                 abreDeletar={() => {
                                     setAbreDeletar(!abreDeletar);
-                                    // setSelectedCardIndex(index);
+                                    setClickedIndex(index);
                                     } 
                                 }  
                             />

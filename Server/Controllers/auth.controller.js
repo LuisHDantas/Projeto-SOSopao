@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import usuarioController from "./usuario.controller.js";
+import Usuario from "../Models/usuario.model.js";
 
 const secret = process.env["AUTH_SECRET"];
 
@@ -30,7 +31,6 @@ async function register(request, response) {
     usuarioController.create(nome, email, hashedPassword, false, response, getToken);
 }
 
-
 function getToken(id_usuario, email) {    
     const meuToken = jwt.sign(
         {
@@ -44,6 +44,29 @@ function getToken(id_usuario, email) {
     );
     return meuToken;
 }
+
+
+async function testPassword(token, senha) {
+    let decodedToken = '';
+    try {
+        decodedToken = jwt.verify(token, secret);
+    } catch (err) {
+        return false;
+    }
+
+    try {
+        const user = await Usuario.findByPk(decodedToken.sub);
+
+        // Compare passwords
+        const isEqual = bcrypt.compareSync(senha, user.senha);
+       
+        return isEqual;
+    } catch (error) {
+        console.error("Erro ao buscar usuário:", error);
+        return false;
+    }
+}
+
 
 async function login(request, response) {
     // valores vazios
@@ -70,6 +93,22 @@ async function login(request, response) {
         .json({ id: user.id_usuario, nome: user.nome, email: user.email, token: meuToken });
 }
 
+
+function hashSenha(senha){
+      // hashing da senha
+      const salt = bcrypt.genSaltSync();
+      const hashedPassword = bcrypt.hashSync(senha, salt);
+      return hashedPassword;
+}
+
+async function decodeToken(token) {
+    try {
+        const decodedToken = await jwt.verify(token, secret);
+        return decodedToken;
+    } catch (error) {
+        console.error(error);
+    }
+}
 async function validateToken(request, response, next) {
     let token = request.headers.authorization;
     try {
@@ -131,4 +170,4 @@ async function validateExpireToken(request, response) {
     return response.status(200).send({ valid: false });
 }
 
-export default { register, login, validateToken, validateSuperToken, validateExpireToken }
+export default { register, login, validateToken, validateSuperToken, validateExpireToken, decodeToken, testPassword, hashSenha}
