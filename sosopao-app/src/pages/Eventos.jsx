@@ -8,6 +8,7 @@ import { ButtonSearch } from "../components/buttonSearch";
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import '../styles/eventos.css';
+import { Loading } from "../components/Loading";
 
 const DataFetcher = async (setDados, setLoading, setError) => {
     try {
@@ -46,7 +47,7 @@ export function Eventos(){
         }, [dados, searchTerm]);
 
 
-    if (loading) return <p>Loading...</p>;
+    //if (loading) return <p>Loading...</p>;
     if (error) return <p>Error: {error.message}</p>;
 
 
@@ -141,76 +142,82 @@ export function Eventos(){
                 </div>
                 <div>
 
-                <div className='container-eventos'>
-                    {filteredEvents?.map((evento, index) => {
-                        if(new Date(evento.data) > new Date()){
+                {
+                    loading? <Loading/> :
+                    <div className='container-eventos'>
+                        {filteredEvents?.map((evento, index) => {
+                            if(new Date(evento.data) > new Date()){
 
-                            const dados_index = dados.findIndex(item => item.id_evento === evento.id_evento);
+                                const dados_index = dados.findIndex(item => item.id_evento === evento.id_evento);
 
-                            return(
-                                <CardEvento 
-                                    key={evento.id_evento} 
-                                    index={dados_index}
-                                    id_evento={evento.id_evento}
-                                    nome={evento.nome} 
-                                    data={evento.data} 
-                                    descricao={evento.descricao} 
-                                    url_imagem={evento.url_imagem}
-                                    finalizaEdicao={handleUpdateCard}
-                                    
-                                    abreEditar={() => {
-                                        setAbreEditar(!abreEditar);
-                                        setSelectedCardIndex(dados_index);
-                                    }}
-                                    abreDeletar={() => {
-                                        setAbreDeletar(!abreDeletar);
-                                        setSelectedCardIndex(dados_index);
-                                        } 
-                                    }  
-                                    isSelectedEdit={selectedCardIndex === dados_index} 
-                                />
-                            );
-                        }else { return null;}
-                    })}
-                </div>
+                                return(
+                                    <CardEvento 
+                                        key={evento.id_evento} 
+                                        index={dados_index}
+                                        id_evento={evento.id_evento}
+                                        nome={evento.nome} 
+                                        data={evento.data} 
+                                        descricao={evento.descricao} 
+                                        url_imagem={evento.url_imagem}
+                                        finalizaEdicao={handleUpdateCard}
+                                        
+                                        abreEditar={() => {
+                                            setAbreEditar(!abreEditar);
+                                            setSelectedCardIndex(dados_index);
+                                        }}
+                                        abreDeletar={() => {
+                                            setAbreDeletar(!abreDeletar);
+                                            setSelectedCardIndex(dados_index);
+                                            } 
+                                        }  
+                                        isSelectedEdit={selectedCardIndex === dados_index} 
+                                    />
+                                );
+                            }else { return null;}
+                        })}
+                    </div>
+                }
 
                 </div>
                 <div className="titulos-eventos">
                     <h1>Eventos passados</h1>
                 </div>
 
-                <div className='container-eventos'>
-                    {filteredEvents?.map((evento, index) => {
-                        if(new Date(evento.data) <= new Date()){
-        
-                            const dados_index = dados.findIndex(item => item.id_evento === evento.id_evento);
+                {
+                    loading? <Loading/> :
+                    <div className='container-eventos'>
+                        {filteredEvents?.map((evento, index) => {
+                            if(new Date(evento.data) <= new Date()){
+            
+                                const dados_index = dados.findIndex(item => item.id_evento === evento.id_evento);
 
-                            return(
-                                <CardEvento 
-                                    key={evento.id_evento} 
-                                    index={dados_index}
-                                    id_evento={evento.id_evento}
-                                    nome={evento.nome} 
-                                    data={evento.data} 
-                                    descricao={evento.descricao} 
-                                    url_imagem={evento.url_imagem}
-                                    finalizaEdicao={handleUpdateCard}
-                                    
-                                    abreEditar={() => {
-                                        setAbreEditar(!abreEditar);
-                                        setSelectedCardIndex(dados_index);
-                                    }}
-                                    abreDeletar={() => {
-                                        setAbreDeletar(!abreDeletar);
-                                        setSelectedCardIndex(dados_index);
-                                        } 
-                                    }  
-                                    isSelectedEdit={selectedCardIndex === dados_index} 
-                                />
-                            );
-                        }else { return null;}
-                    })}
-                </div>
+                                return(
+                                    <CardEvento 
+                                        key={evento.id_evento} 
+                                        index={dados_index}
+                                        id_evento={evento.id_evento}
+                                        nome={evento.nome} 
+                                        data={evento.data} 
+                                        descricao={evento.descricao} 
+                                        url_imagem={evento.url_imagem}
+                                        finalizaEdicao={handleUpdateCard}
+                                        
+                                        abreEditar={() => {
+                                            setAbreEditar(!abreEditar);
+                                            setSelectedCardIndex(dados_index);
+                                        }}
+                                        abreDeletar={() => {
+                                            setAbreDeletar(!abreDeletar);
+                                            setSelectedCardIndex(dados_index);
+                                            } 
+                                        }  
+                                        isSelectedEdit={selectedCardIndex === dados_index} 
+                                    />
+                                );
+                            }else { return null;}
+                        })}
+                    </div>
+                }
             </div>
 
             

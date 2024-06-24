@@ -4,7 +4,6 @@ import { BotaoLaranja } from '../BotaoLaranja';
 import { BotaoCinza } from '../BotaoCinza';
 import { useContext, useState } from 'react';
 import axios from 'axios';
-import { Loading } from '../Loading';
 import { AlimentosContext } from '../../Context/AlimentosContext';
 
 
@@ -104,15 +103,12 @@ export function AddAlimento(){
 
                 <div id='container-btns-cadastro-evento'>  
 
-                    {
-                        loading ? 
-                        <Loading color='#F27127'/>
-                        :
-                        <>
-                            <BotaoLaranja type='submit'>Confirmar</BotaoLaranja>
-                            <BotaoCinza onClick={toggleModalAddSuperalimento}>Cancelar</BotaoCinza>
-                        </>
-                    }
+                    <BotaoLaranja type='submit' disabled={loading}>
+                        {loading ? 'Carregando...' : 'Confirmar'}
+                    </BotaoLaranja>
+                    <BotaoCinza onClick={toggleModalAddSuperalimento} disabled={loading}>
+                        Cancelar
+                    </BotaoCinza>
                 </div>
             </form>
         </div>

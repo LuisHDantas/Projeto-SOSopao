@@ -1,9 +1,11 @@
 import './style.css';
 import { EditarDeletar } from '../EditarDeletar';
 import { useState, useEffect } from 'react';
+import { Loading } from '../Loading';
 
 export function CardEvento({index, id_evento, nome, data, descricao, url_imagem, finalizaEdicao, abreEditar, abreDeletar, isSelectedEdit}){
     const [toggle, setToggle] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [cardDados, setCardDados] = useState({
         id_evento: id_evento,
         nome: nome,
@@ -61,7 +63,7 @@ export function CardEvento({index, id_evento, nome, data, descricao, url_imagem,
         }));
     };
 
-    const handleSave = () => {
+    const handleSave = async () => {
         // Verifica o formato da data antes de salvar
         if (!cardDados.data.match(/^\d{2}\/\d{2}\/\d{4}$/)) {
             return;
@@ -71,7 +73,9 @@ export function CardEvento({index, id_evento, nome, data, descricao, url_imagem,
             ...cardDados,
             data: formatDateToDB(cardDados.data),
         };
-        finalizaEdicao(index, formattedData);
+        setLoading(true);
+        await finalizaEdicao(index, formattedData);
+        setLoading(false);
     };
 
 
@@ -100,81 +104,86 @@ export function CardEvento({index, id_evento, nome, data, descricao, url_imagem,
                     }
                 }}
             >
-                <img src={cardDados.url_imagem} alt='imagem do evento' />
-                <div>
-                    <div className='card-evento'>
-                        <div className='dado-evento'>
-                            <h3>Nome:</h3>
+                {
+                    loading ? <Loading/> :
+                    <>
+                    <img src={cardDados.url_imagem} alt='imagem do evento' />
+                    <div>
+                        <div className='card-evento'>
+                            <div className='dado-evento'>
+                                <h3>Nome:</h3>
+                                {isSelectedEdit ? (
+                                    <input
+                                        className='input-editavel-card-evento'
+                                        type='text'
+                                        value={cardDados.nome}
+                                        name='nome'
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                ) : (
+                                    <p>{cardDados.nome}</p>
+                                )}
+                            </div>
+                            <div className='dado-evento'>
+                                <h3>Data:</h3>
+                                {isSelectedEdit ? (
+                                    <input
+                                        className='input-editavel-card-evento'
+                                        type='text'
+                                        value={cardDados.data}
+                                        name='data'
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        required
+                                    />
+                                ) : (
+                                    <p>{cardDados.data}</p>
+                                )}
+                            </div>
+                        </div>
+
+                        <div
+                            id='descricao-evento'
+                            style={{
+                                display: toggle ? '' : 'none',
+                            }}
+                        >
+                            <h3>Descrição:</h3>
+                            {isSelectedEdit ? (
+                                <textarea
+                                    className='input-editavel-card-evento'
+                                    value={cardDados.descricao}
+                                    name='descricao'
+                                    onChange={handleChange}
+                                ></textarea>
+                            ) : (
+                                <p>{cardDados.descricao}</p>
+                            )}
+                        </div>
+
+                        <div
+                            id='url-imagem-evento'
+                            style={{
+                                display: isSelectedEdit ? '' : 'none',
+                            }}
+                        >
+                            <h3>URL da imagem:</h3>
                             {isSelectedEdit ? (
                                 <input
                                     className='input-editavel-card-evento'
                                     type='text'
-                                    value={cardDados.nome}
-                                    name='nome'
+                                    value={cardDados.url_imagem}
+                                    name='url_imagem'
                                     onChange={handleChange}
-                                    required
                                 />
                             ) : (
-                                <p>{cardDados.nome}</p>
-                            )}
-                        </div>
-                        <div className='dado-evento'>
-                            <h3>Data:</h3>
-                            {isSelectedEdit ? (
-                                <input
-                                    className='input-editavel-card-evento'
-                                    type='text'
-                                    value={cardDados.data}
-                                    name='data'
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    required
-                                />
-                            ) : (
-                                <p>{cardDados.data}</p>
+                                <p>{cardDados.url_imagem}</p>
                             )}
                         </div>
                     </div>
-
-                    <div
-                        id='descricao-evento'
-                        style={{
-                            display: toggle ? '' : 'none',
-                        }}
-                    >
-                        <h3>Descrição:</h3>
-                        {isSelectedEdit ? (
-                            <textarea
-                                className='input-editavel-card-evento'
-                                value={cardDados.descricao}
-                                name='descricao'
-                                onChange={handleChange}
-                            ></textarea>
-                        ) : (
-                            <p>{cardDados.descricao}</p>
-                        )}
-                    </div>
-
-                    <div
-                        id='url-imagem-evento'
-                        style={{
-                            display: isSelectedEdit ? '' : 'none',
-                        }}
-                    >
-                        <h3>URL da imagem:</h3>
-                        {isSelectedEdit ? (
-                            <input
-                                className='input-editavel-card-evento'
-                                type='text'
-                                value={cardDados.url_imagem}
-                                name='url_imagem'
-                                onChange={handleChange}
-                            />
-                        ) : (
-                            <p>{cardDados.url_imagem}</p>
-                        )}
-                    </div>
-                </div>
+                    </>
+                }
             </button>
             {toggle ? (
                 <EditarDeletar
