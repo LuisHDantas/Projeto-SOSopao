@@ -18,14 +18,19 @@ export function AddAlimento(){
     const [formAlimento, setFormAlimento] = useState({
         nome: '',
         meta: 0,
-        un_medida: '',
-        url_imagem: ''
+        un_medida: ''
     });
+
+    const [file, setFile] = useState(null);
 
     // Lida com evento de mudança do input
     const handleChange = (event) => {
         const { name, value } = event.target;
         setFormAlimento({...formAlimento, [name]: value});
+    };
+
+    const handleFileChange = (e) => {
+        setFile(e.target.files[0]);
     };
 
 
@@ -44,16 +49,21 @@ export function AddAlimento(){
             alert('Meta deve ser um número');
         }else{
             try{
+                // cria uma nova instância de FormData
+                const formData = new FormData();
+                formData.append('nome', formAlimento.nome);
+                formData.append('meta', formAlimento.meta);
+                formData.append('quantidade', 1);
+                formData.append('unidade_medida', formAlimento.un_medida);
+                formData.append('file', file);
+                
                 //tenta uma requisição com o servidor
-                const response = await axios.post('/superalimento',{
-                    nome: formAlimento.nome,
-                    meta: formAlimento.meta,
-                    quantidade: 1,
-                    unidade_medida: formAlimento.un_medida,
-                    url_imagem: formAlimento.url_imagem
+                const response = await axios.post('/superalimento', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
                 });
                 
-                //console.log(response.data);
                 setSuperAlimentos((anteriores) => {
                     return [...anteriores, response.data]
                 });
@@ -83,11 +93,16 @@ export function AddAlimento(){
                 </div>
 
 
-                <div className='campo-add-alimento'>
+                {/* <div className='campo-add-alimento'>
                     <label>URL da imagem:</label>
                     <input placeholder='URL da imagem' name="url_imagem" onChange={handleChange}/>
                     <MdEdit className='icon-cadastro-evento'/>
-                </div>
+                </div> */}
+
+                <div className='campo-add-alimento'>
+                    <label>Adicione uma foto:</label>
+                    <input type="file" name="file" onChange={handleFileChange}/>
+                </div> 
 
                 <div className='campo-add-alimento'>
                     <select id="unMed-item-alimento" defaultValue={""} name="un_medida" onChange={handleChange}>
