@@ -11,12 +11,35 @@ O objetivo do projeto será elaborar e desenvolver um sistema para a ONG S.O.Sop
 
 > ./install.sh
 
-# Guia de inicialização
+# Guia de inicialização do Frontend
 
-1. Acesse o diretório "src/"
+1. Acesse o diretório "sosopao-app" seguido de "src"
 
-> cd src/
+> cd sosopao-app/src
 
-2. Inicialize o app.
+2. Baixe as dependências
+
+> npm i
+
+3. Inicialize o app.
+
+> npm start
+
+# Guia de inicialização do Backend
+
+1. Acesse o diretório "server"
+
+> cd server/
+
+2. Baixe as dependências
+
+> npm i
+
+3. Inicialize o app (em ambiente de desenvolvimento)
+Nesse modo, cada CRTL+S irá reiniciar a API.
+
+> npm run dev
+
+4. Inicialize o app.
 
 > npm start

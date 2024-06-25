@@ -3,109 +3,80 @@ import { CardAlimentos } from "../components/CardAlimentos";
 import { ButtonSearch } from "../components/buttonSearch";
 import { ButtonAdd } from "../components/buttonAdd";
 import {Footer} from "../components/Footer";
-import {ModalDeletar} from "../components/ModalDeletar";
 import '../styles/alimentos.css';
-import { useState } from "react";
+import { useContext } from "react";
 import { AddAlimento } from "../components/ModalAddAlimento";
 import { AddItemAlimento } from "../components/ModalAddItemAlimento";
+import { AlimentosContext } from "../Context/AlimentosContext";
+import { Loading } from "../components/Loading";
+import { ModalDeletarAlimentos } from "../components/ModalDeletarAlimentos";
 
 
 export function Alimentos(){
-    const [abreDeletar, setAbreDeletar] = useState(false);
-    const [abreAddAlimento, setAbreAddAlimento] = useState(false);
-    const [abreAddItemAlimento, setAbreAddItemAlimento] = useState(false);
 
-    function handleDelete(index) {
-        /* const updatedData = dados.filter((_, i) => i !== index);
-        setDados(updatedData); */
-        setAbreDeletar(false);
-
-        /* if (index === selectedCardIndex) {
-            setSelectedCardIndex(null); // Deselect the deleted card
-        } */
-    }
+    const { 
+        abreDeletar, //Estado Modal 
+        abreAddSuperAlimento,//Estado Modal
+        abreAddAlimento,//Estado Modal
+        loadingPagAlimentos, //Estado local
+        toggleModalAddSuperalimento, //Função
+        handleSearch, //Função
+        //superAlimentos, //ESTADO CARD SUPERALIMENTOS
+        filteredSAlimentos,//ESTADO CARD SUPERALIMENTOS
+    }= useContext(AlimentosContext);
 
     return(
         <>
             <Navbar type='alimentos'/>
             <div id="add-search">
-                <ButtonAdd  onClick={() => setAbreAddAlimento(!abreAddAlimento)}>
+                <ButtonAdd  onClick={toggleModalAddSuperalimento}>
                     Adicionar Alimento
                 </ButtonAdd>
-                <ButtonSearch />
+                <ButtonSearch handleSearch={handleSearch}/>
             </div>
 
             {abreDeletar && (
-                <ModalDeletar
-                    fechaDeletar={() => setAbreDeletar(!abreDeletar)}
-                    index={0}
-                    onDelete={handleDelete}
-                >
+                <ModalDeletarAlimentos>
                     Deseja EXCLUIR esse alimento?
-                </ModalDeletar>
+                </ModalDeletarAlimentos>
             )}
 
             {
-                abreAddAlimento && 
-                <AddAlimento 
-                    fechaCadastro={() => setAbreAddAlimento(!abreAddAlimento)} 
-                />
+                abreAddSuperAlimento && 
+                <AddAlimento/>
             }
 
             {
-                abreAddItemAlimento && 
-                <AddItemAlimento 
-                    fechaCadastro={() => setAbreAddItemAlimento(!abreAddItemAlimento)} 
-                />
+                abreAddAlimento && 
+                <AddItemAlimento />
             }
 
 
             <div className='tela-fundo-branco' style={{
                 // borra o fundo quando modal está aberto
-                filter: abreAddItemAlimento || abreAddAlimento || abreDeletar ? 'blur(5px)' : 'none',
+                filter: abreAddSuperAlimento || abreAddAlimento || abreDeletar ? 'blur(5px)' : 'none',
                 margin: 0,
             }}>
-
                 <div id="conteudo-alimentos">
                     <h2 id="titulo-alimentos">Alimentos no Estoque:</h2>
-
-                    <CardAlimentos 
-                        abreDeletar={() => {
-                                setAbreDeletar(!abreDeletar);
-                            } 
-                        } 
-
-                        abreAddItemAlimento={() => {
-                                setAbreAddItemAlimento(!abreAddItemAlimento);
-                            } 
-                        } 
-                         
-                    />
-                    <CardAlimentos 
-                        abreDeletar={() => {
-                                setAbreDeletar(!abreDeletar);
-                            } 
-                        }
-
-                        abreAddItemAlimento={() => {
-                                setAbreAddItemAlimento(!abreAddItemAlimento);
-                            } 
-                        }
-                    />
-                    <CardAlimentos 
-                        abreDeletar={() => {
-                                setAbreDeletar(!abreDeletar);
-                            } 
-                        }
-
-                        abreAddItemAlimento={() => {
-                                setAbreAddItemAlimento(!abreAddItemAlimento);
-                            } 
-                        }
-                    />
-
+                    {
+                        loadingPagAlimentos?
+                        <Loading/>
+                        :
+                        filteredSAlimentos?.map((alimento) =>
+                            <CardAlimentos 
+                                key={alimento.id}
+                                id={alimento.id}
+                                nome={alimento.nome}
+                                meta={alimento.meta}
+                                validade={alimento.menor_validade}
+                                quantidade={alimento.quantidade}
+                                un_medida={alimento.unidade_medida}
+                                url_imagem={alimento.url_imagem}
+                            />
+                        )
+                    }
                 </div>
-
                 <Footer/>
             </div>
         </>

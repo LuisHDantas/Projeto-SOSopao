@@ -29,18 +29,7 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    margin-bottom: 5px;
-}
-
-.campo-item-add-alimento select {
-    border: 1px solid #F27127;
-    border-radius: 8px;
-    height: 4vh;
-    font-size: 12px;
-    padding-left: 10px;
-    font-family: 'Poppins', sans-serif;
-    outline: none;
-    margin-bottom: 1rem;
+    margin-bottom: 1em;
 }
 
 .campo-item-add-alimento input {
@@ -90,9 +79,5 @@ input[type="date"]{
 
     .icon-cadastro-evento {
         left: 95%;
-    }
-
-    .campo-item-add-alimento select {
-        font-size: 16px;
     }
 }

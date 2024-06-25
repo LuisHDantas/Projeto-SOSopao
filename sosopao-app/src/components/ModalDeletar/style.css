@@ -31,15 +31,11 @@
     border: none;
 }
 
-.btns-modal-deletar button .icon-excluir-modal {
-    vertical-align: -10%; 
-}
-
 .btns-modal-deletar > button {
     border-radius: 25px;
     color: white;
     font-family: 'Roboto', sans-serif;
-    font-size: 1rem;
+    font-size: 1.2rem;
     height: 7vh;
     width: 20vw;
     border: none;
@@ -47,6 +43,14 @@
 
 #btn-excluir-modal {
     background-color: #F21616;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#icon-excluir-modal{
+    margin: 0 0.3rem;
+    font-size: 1.4rem;
 }
 
 @media screen and (min-width: 992px) {

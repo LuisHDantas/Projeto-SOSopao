@@ -5,8 +5,52 @@ import { MdAlternateEmail } from "react-icons/md";
 import { IoLocationSharp } from "react-icons/io5";
 import { IoIosGlobe, IoLogoWhatsapp, IoLogoFacebook, IoLogoInstagram } from "react-icons/io";
 import { IconContext } from "react-icons";
+import { useEffect } from 'react';
 
 export function Footer(){
+
+    useEffect(() => {
+        function updateFooterPosition() {
+            const bodyHeight = document.body.clientHeight;
+            const windowHeight = window.innerHeight;
+
+            const footer = document.querySelector('footer');
+            let footerHeight = footer.getBoundingClientRect().height;
+
+            const isFooterFixed = footer.style.position == 'fixed';
+         
+            if (!isFooterFixed) {
+                footerHeight = 0;
+            }
+         
+            if (bodyHeight + footerHeight < windowHeight) {
+                document.querySelector('footer').style.position = 'fixed';
+                document.querySelector('footer').style.bottom = '0';
+            } else {
+                document.querySelector('footer').style.position = 'static';
+                document.querySelector('footer').style.bottom = 'auto';
+            }
+        }
+
+        updateFooterPosition();
+
+        const observer = new MutationObserver(updateFooterPosition);
+
+        observer.observe(document.body, {
+            attributes: true,
+            childList: true,
+            subtree: true,
+            characterData: true,
+        });
+
+        window.addEventListener('resize', updateFooterPosition);
+
+        return () => {
+            observer.disconnect();
+            window.removeEventListener('resize', updateFooterPosition);
+        };
+    }, []);
+
     return(
         <footer>
             <h2>Contato</h2>
