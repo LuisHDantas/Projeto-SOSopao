@@ -27,9 +27,9 @@ O objetivo do projeto será elaborar e desenvolver um sistema para a ONG S.O.Sop
 
 # Guia de inicialização do Backend
 
-1. Acesse o diretório "server"
+1. Acesse o diretório "Server"
 
-> cd server/
+> cd Server/
 
 2. Baixe as dependências
 
@@ -43,3 +43,13 @@ Nesse modo, cada CRTL+S irá reiniciar a API.
 4. Inicialize o app.
 
 > npm start
+
+# Guia de inicialização da Object Store
+
+1. Instale o MinIO Server no host
+
+2. Acesse o diretório raiz do projeto
+
+3. Inicialize o servidor MinIO
+
+> minio server ObjectStore --console-address :9001
