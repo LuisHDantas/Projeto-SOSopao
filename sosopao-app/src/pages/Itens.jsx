@@ -4,23 +4,60 @@ import { ButtonSearch } from "../components/buttonSearch";
 import { ButtonAdd } from "../components/buttonAdd";
 import { ModalDeletar } from "../components/ModalDeletar";
 import { AddItem } from "../components/ModalAddItem";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import '../styles/itens.css';
 import { Footer } from "../components/Footer";
+import axios from "axios";
+import { Loading } from "../components/Loading";
 
 export function Itens(){
+
     const [abreDeletar, setAbreDeletar] = useState(false);
     const [abreAddItem, setAddItem] = useState(false);
+    const [cardId, setCardId] = useState(null);
+    const[item, setItem] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [searchTerm, setSearchTerm] = useState("");
 
-    function handleDelete(index) {
-        /*const updatedData = dados.filter((_, i) => i !== index);
-        setDados(updatedData);*/
+    function getAllItem() {
+        axios.get('/item').then((result) => {
+          if(result.status === 200) {
+            setItem(result.data);
+            setLoading(false);
+          }else{
+            console.log(result.data);
+            setLoading(false);
+          }
+        })
+        .catch((error) => {
+            console.log(error);
+            setLoading(false);
+        });
+      }
+
+    async function deleteItem(id) {
+
+        setLoading(true);
+
+        const result = await axios.delete(`/item/id/${id}`);
+
+        if (result.status === 200) {
+            setItem(anteriores => anteriores.filter(itens => itens.id !== id));
+        }
         setAbreDeletar(false);
-    
-        /*if (index === selectedCardIndex) {
-            setSelectedCardIndex(null); // Deselect the deleted card
-        }*/
+
+        setLoading(false);
     }
+
+    useEffect(getAllItem, []);
+
+    const handleSearch = (event) => {
+        setSearchTerm(event.target.value);
+    };
+
+    const filteredAndSortedItems = item
+        .filter(itens => itens.nome.toLowerCase().includes(searchTerm.toLowerCase()))
+        .sort((a, b) => a.nome.localeCompare(b.nome));
 
     return(
         <div>
@@ -29,21 +66,22 @@ export function Itens(){
                 <ButtonAdd onClick={() => setAddItem(!abreAddItem)}>
                     Adicionar Item
                 </ButtonAdd>
-                <ButtonSearch />
+                <ButtonSearch handleSearch={handleSearch}/>
             </div>
             {abreDeletar && (
                 <ModalDeletar
                     fechaDeletar={() => setAbreDeletar(!abreDeletar)}
-                    index={0}
-                    onDelete={handleDelete}
+                    index={cardId}
+                    onDelete={deleteItem}
                 >
                     Deseja EXCLUIR esse item?
                 </ModalDeletar>
             )} 
 
             {abreAddItem && 
-                <AddItem 
+                <AddItem
                     fechaAddItem={() => setAddItem(!abreAddItem)}
+                    setItem={setItem}
                 />
             }
 
@@ -52,21 +90,27 @@ export function Itens(){
             }}>
                 <div id="conteudo-itens">
                     <h2 id="titulo-itens">Itens no Estoque:</h2>
-                    <CardItens
-                        abreDeletar={() => {
-                            setAbreDeletar(!abreDeletar);
-                        }}
-                    />
-                    <CardItens
-                        abreDeletar={() => {
-                            setAbreDeletar(!abreDeletar);
-                        }}
-                    />
-                    <CardItens
-                        abreDeletar={() => {
-                            setAbreDeletar(!abreDeletar);
-                        }}
-                    />
+                    
+                    {
+                        loading?
+                        <Loading/>
+                        :
+                        filteredAndSortedItems.map((itens) =>
+                            <CardItens
+                                key={itens.id}
+                                id = {itens.id}
+                                nome = {itens.nome}
+                                descricao = {itens.descricao}
+                                quantidade = {itens.quantidade}
+                                abreDeletar={() => {
+                                    setAbreDeletar(!abreDeletar);
+                                    setCardId(itens.id);
+                                    }
+                                }
+                            />
+                        )
+                    }
+
                 </div>
             </div>
             

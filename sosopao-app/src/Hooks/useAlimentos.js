@@ -34,7 +34,7 @@ export default function useAlimentos(){
     const [selectedSAlimento, setSelectedSAlimento] = useState(null);
     const selectSuperAlimento = (id) => setSelectedSAlimento(id);
 
-    const updateStateSuperAlimentoQtd = (id_super, newQtd) => {
+    /* const updateStateSuperAlimentoQtd = (id_super, newQtd) => {
         const updatedState = superAlimentos.map(anteriores =>
             anteriores.id === id_super ? { ...anteriores, quantidade: newQtd } : anteriores
         );
@@ -58,7 +58,29 @@ export default function useAlimentos(){
             console.log("[useAlimentos]Erro updateSuperAlimentoQtd: "+error);
         }
         
+    } */
+
+    async function updateSuperAlimento(id_super){
+        try{
+            const result = await axios.get(`/superalimento/id/${id_super}`)
+
+            if (result.status === 200) {
+                const updatedState = superAlimentos.map(superAlimento =>
+                    superAlimento.id === id_super ? result.data : superAlimento
+                );
+                setSuperAlimentos(updatedState);
+            }else{
+                console.log("[useAlimentos]"+ result.data);
+            }
+
+            setLoadingPagAlimentos(false);
+        }
+        catch(error){
+            console.log("[useAlimentos] Erro updateSuperAlimento: "+error);
+            setLoadingPagAlimentos(false);
+        }
     }
+    
 
 
     function buttonDeletarSuperAlimento(id){
@@ -106,10 +128,14 @@ export default function useAlimentos(){
 
     useEffect(() => {
         getAllSuperAlimentos();
+    },[]);
 
-        const filtered = superAlimentos.filter(sAlimento => sAlimento.nome.toLowerCase().includes(searchTerm.toLowerCase()));
+    useEffect(() => {
+        const filtered = superAlimentos.filter(sAlimento => 
+            sAlimento.nome.toLowerCase().includes(searchTerm.toLowerCase())
+        );
         setFilteredSAlimentos(filtered);
-    },[superAlimentos, searchTerm]);
+    }, [superAlimentos, searchTerm]); 
 
     async function handleSuperAlimentoDelete(id) {
         try{
@@ -126,7 +152,7 @@ export default function useAlimentos(){
 
     async function handleAlimentoDelete(id_super, id_alimento) {
         try{
-            const qtdAlimentoDeletado = alimentos[id_super].find(alimento => alimento.id_alimento === id_alimento)?.quantidade || 0;
+            //const qtdAlimentoDeletado = alimentos[id_super].find(alimento => alimento.id_alimento === id_alimento)?.quantidade || 0;
             const result = await axios.delete(`/alimento/${id_alimento}`);
             if (result.status === 200) {
                 setAlimentos((anteriores) =>{
@@ -138,7 +164,9 @@ export default function useAlimentos(){
                 });
             }
             //Atualiza o estado da quantidade do SuperAlimento
-            updateSuperAlimentoQtd(id_super, qtdAlimentoDeletado, false);
+            //updateSuperAlimentoQtd(id_super, qtdAlimentoDeletado, false);
+            
+            await updateSuperAlimento(id_super);
             setAbreDeletar(false);
         }catch(error){
             console.log("[useAlimentos] Erro DeleteSuperAlimentos: " + error);
@@ -163,7 +191,7 @@ export default function useAlimentos(){
             handleSearch,
             handleSuperAlimentoDelete,
             handleAlimentoDelete,
-            updateSuperAlimentoQtd,
+            updateSuperAlimento,
             toggleModalDeletar,
             toggleModalAddSuperalimento,
             toggleModalAddAlimento,

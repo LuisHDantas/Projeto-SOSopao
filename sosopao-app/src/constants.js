@@ -8,3 +8,7 @@ export const contatos = {
     FACEBOOK: 'https://www.facebook.com/sosopaofraterno/'
 };
 
+export const objectStore = {
+    MINIOURL: "http://localhost:9000/",
+    BUCKET: "image-bucket"
+};

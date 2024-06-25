@@ -3,7 +3,6 @@ import { BotaoLaranja } from '../BotaoLaranja';
 import { BotaoCinza } from '../BotaoCinza';
 import { useContext, useState } from 'react';
 import axios from 'axios';
-import { Loading } from '../Loading';
 import { AlimentosContext } from '../../Context/AlimentosContext';
 
 export function AddItemAlimento(){
@@ -12,7 +11,7 @@ export function AddItemAlimento(){
         toggleModalAddAlimento,
         selectedSAlimento,
         setAlimentos,
-        updateSuperAlimentoQtd,
+        updateSuperAlimento,
         sortByDate
     }= useContext(AlimentosContext);
 
@@ -74,8 +73,10 @@ export function AddItemAlimento(){
                 });
 
                 //Atualizar a quantidade do SuperAlimento
-                updateSuperAlimentoQtd(selectedSAlimento, qtdNumber*qtdMultiplicador, true);
-                
+                //updateSuperAlimentoQtd(selectedSAlimento, qtdNumber*qtdMultiplicador, true);
+                //Atualiza SuperAlimento
+                await updateSuperAlimento(selectedSAlimento);
+
                 toggleModalAddAlimento();
             }catch(error){
                 console.log("Error ModalAddAlimentos:" + error);
@@ -111,16 +112,13 @@ export function AddItemAlimento(){
 
 
                 <div id='container-btns-cadastro-evento'>  
-                    {
-                        loading ? 
-                        <Loading color='#F27127'/>
-                        :
-                        <>
-                            <BotaoLaranja type='submit'>Confirmar</BotaoLaranja>
-                            <BotaoCinza onClick={toggleModalAddAlimento}>Cancelar</BotaoCinza>
-                        </>
-                    }
-                </div>
+                    <BotaoLaranja type='submit' disabled={loading}>
+                        {loading ? 'Carregando...' : 'Confirmar'}
+                    </BotaoLaranja>
+                    <BotaoCinza onClick={toggleModalAddAlimento} disabled={loading}>
+                        Cancelar
+                    </BotaoCinza>
+                </div>    
             </form>
         </div>
     )
