@@ -12,17 +12,20 @@ import upload from "../upload/upload.js";
 
 const router = express.Router();
 
-//Rotas para autenticação
-router.post("/signup", authController.validateToken, authController.register);
+//Rotas para autenticação 
+router.post("/signup", authController.validateSuperToken, authController.register);
 router.post("/signin", authController.login);
 router.get("/expireToken/:token", authController.validateExpireToken);
-
+router.get("/decodeToken/:token", authController.validateToken, authController.decodeToken);
+router.get("/validateSuperToken", authController.validateSuperToken, (request, response) => {response.status(200).send()});
 
 // Rotas para a tabela "Usuarios"
 router.get("/usuarios", authController.validateToken, usuarioController.findAll);
 router.get("/usuarios/:id", authController.validateToken, usuarioController.findById);
 router.delete("/usuarios/:id", authController.validateSuperToken, usuarioController.deleteByPk); //Apenas super admin pode 
 router.put("/usuarios/:id", authController.validateToken, usuarioController.update);
+router.put("/usuarios/admin/:token", authController.validateToken, usuarioController.updateAdmin);
+router.get("/usuarios/token/:token", authController.validateToken, usuarioController.getByToken);
 
 // Rotas para a tabela "Eventos"
 router.get("/eventos", eventoController.findAll);
