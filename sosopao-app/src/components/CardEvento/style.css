@@ -71,7 +71,7 @@
 
 #url-imagem-evento > input {
     width: 98%;
-    height: 4vh;
+    height: 6vh;
 }
 
 #url-imagem-evento h3 {
@@ -123,6 +123,24 @@
     width:fit-content;
     height: 4vh;
 }
+
+#url-imagem-evento input[type="file"]::file-selector-button {
+    content: "Upload";
+    color: white;
+    background-color: #038C8C;
+    border-radius: 8px;
+    height: 6vh;
+    width: 20%;
+    border: 0;
+    font-family: 'Roboto', sans-serif;
+    font-size: medium;
+    white-space: normal;
+}
+
+#url-imagem-evento input[type="file"]:hover {
+    cursor: pointer;
+}
+
 
 @media screen and (min-width: 992px) {
     .btn-evento img {

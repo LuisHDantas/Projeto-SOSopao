@@ -92,14 +92,7 @@ export function AddAlimento(){
                     <input type='number' placeholder="0" name="meta" onChange={handleChange}/>
                 </div>
 
-
-                {/* <div className='campo-add-alimento'>
-                    <label>URL da imagem:</label>
-                    <input placeholder='URL da imagem' name="url_imagem" onChange={handleChange}/>
-                    <MdEdit className='icon-cadastro-evento'/>
-                </div> */}
-
-                <div className='campo-add-alimento'>
+                <div className='campo-add-alimento' id='foto'>
                     <label>Adicione uma foto:</label>
                     <input type="file" name="file" onChange={handleFileChange}/>
                 </div> 

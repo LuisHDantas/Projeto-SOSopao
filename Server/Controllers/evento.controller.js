@@ -107,7 +107,7 @@ async function update(request, response) {
     )
     .then(res => {
       if (res[0] > 0) {
-        response.status(200).send();
+        response.status(200).json({url_imagem: linkImagem});
       } else {
         response.status(404).json({ error: "Evento não encontrado" });
       }
