@@ -12,7 +12,7 @@ import { Loading } from "../components/Loading/";
 import axios from 'axios';
 import '../styles/painelcontrole.css';
 
-const DataFetcher = async (setDados, setLoading, setError, setIsSuper) => {
+const DataFetcher = async (setDados, setLoading, setIsSuper) => {
     try {
         const response = await axios.get('/usuarios');
         setDados(response.data);
@@ -26,7 +26,7 @@ const DataFetcher = async (setDados, setLoading, setError, setIsSuper) => {
             setIsSuper(false);
         }
     } catch (error) {
-        setError(error);
+        //console.log(error);
         setLoading(false);
     }
 };
@@ -35,7 +35,6 @@ export function PainelControle(){
 
     const [dados, setDados] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(false);
     const [abreEditarConta, setAbreEditarConta] = useState(false);
     const [abreDeletar, setAbreDeletar] = useState(false);
     const [abreCadastro, setAbreCadastro] = useState(false);
@@ -44,7 +43,7 @@ export function PainelControle(){
     const [isSuper, setIsSuper] = useState(false);
 
     useEffect(() => {
-        DataFetcher(setDados, setLoading, setError, setIsSuper);
+        DataFetcher(setDados, setLoading, setIsSuper);
     }, []);
 
     const handleDeleteRequest = async (id) => {
@@ -70,7 +69,6 @@ export function PainelControle(){
         }
     };
 
-    if (error) return <p>Error: {error.message}</p>;
     return(
         <div>
             <Navbar type='gerenciar'/>
