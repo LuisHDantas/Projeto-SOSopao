@@ -82,6 +82,35 @@ input[type="date"]{
     max-width: 40%;
 }
 
+.campo-cadastro-evento label{
+    width: 100%;
+}
+
+#foto{
+    margin-bottom: 2vh;
+}
+
+#foto input{
+    border: none;
+}
+
+.campo-cadastro-evento input[type="file"]::file-selector-button {
+    content: "Upload";
+    color: white;
+    background-color: #F27127;
+    border-radius: 8px;
+    height: 4vh;
+    width: 50%;
+    border: 0;
+    font-family: 'Roboto', sans-serif;
+    font-size: medium;
+    white-space: normal;
+}
+
+.campo-cadastro-evento input[type="file"]:hover {
+    cursor: pointer;
+}
+
 @media screen and (min-width: 992px) {
     .cadastrar-evento-modal {
         width: 40%;
