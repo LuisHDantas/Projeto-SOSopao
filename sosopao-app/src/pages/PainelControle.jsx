@@ -129,20 +129,24 @@ export function PainelControle(){
                 <div className='container-admins'>
 
                     {loading ? <Loading/> : dados?.map((admin, index) => {
-                        return(
-                            <CardAdmin 
-                                key={index}
-                                isSuper={isSuper}
-                                nome={admin.nome} 
-                                email={admin.email}
-
-                                abreDeletar={() => {
-                                    setAbreDeletar(!abreDeletar);
-                                    setClickedIndex(index);
-                                    } 
-                                }  
-                            />
-                        );}
+                        if(!admin.ehSuperadmin){
+                            return(
+                                <CardAdmin 
+                                    key={index}
+                                    isSuper={isSuper}
+                                    nome={admin.nome} 
+                                    email={admin.email}
+    
+                                    abreDeletar={() => {
+                                        setAbreDeletar(!abreDeletar);
+                                        setClickedIndex(index);
+                                        } 
+                                    }  
+                                />
+                            );} else {
+                                return null;
+                            }
+                        }
                     )
                     }
                 </div>
