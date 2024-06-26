@@ -70,6 +70,7 @@ export function PainelControle(){
         }
     };
 
+    if (error) return <p>Error: {error.message}</p>;
     return(
         <div>
             <Navbar type='gerenciar'/>
