@@ -3,6 +3,7 @@ import { Navbar } from "../components/Navbar";
 import { Footer } from "../components/Footer";
 import '../styles/inscricoes.css';
 import { CardInscricao } from '../components/cardInscricao';
+import { Loading } from '../components/Loading/';
 import axios from 'axios';
 
 
@@ -39,7 +40,7 @@ export function Inscricoes(){
                 </div>
 
                 <div className='container-admins'>    
-                    {dados?.map((inscricao, index) => {
+                    {loading ? <Loading/> : dados?.map((inscricao, index) => {
                         return(
                             <CardInscricao
                                 key={index}

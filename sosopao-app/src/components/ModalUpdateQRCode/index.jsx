@@ -3,6 +3,7 @@ import { FaFileUpload } from "react-icons/fa";
 import { BotaoLaranja } from '../BotaoLaranja';
 import { BotaoCinza } from '../BotaoCinza';
 import { useState } from 'react';
+import { Loading } from '../Loading/';
 import axios from 'axios';
 
 export function UpdateQRCode({fechaUpdate, dados, setDados}){
@@ -28,7 +29,7 @@ export function UpdateQRCode({fechaUpdate, dados, setDados}){
                 }
             });
 
-
+            setLoading(false);
             fechaUpdate();
         } catch (err) {
             console.error("Erro ao atualizar QRcode:" + err);
@@ -39,6 +40,7 @@ export function UpdateQRCode({fechaUpdate, dados, setDados}){
 
     return(
         <div className='update-qrcode-modal'>
+            { loading ? <Loading/> : ( <>
             <p>Insira a imagem do novo QR Code</p>
             <form onSubmit={send}>
                 <div className='campo-update-qrcode'>
@@ -54,6 +56,8 @@ export function UpdateQRCode({fechaUpdate, dados, setDados}){
                     <BotaoCinza onClick={fechaUpdate} disabled={loading}>Cancelar</BotaoCinza>
                 </div>
             </form>
+            </>
+            )}
         </div>
     );
 

@@ -57,7 +57,7 @@ function create(nome, email, senha, superadmin, response, getToken) {
 }
 
 async function getByToken(request, response){
-    const result = authController.decodeToken(request.params.token);
+    const result = await authController.decodeToken(request.params.token);
     Usuario
     .findByPk(result.sub)
     .then(res => {

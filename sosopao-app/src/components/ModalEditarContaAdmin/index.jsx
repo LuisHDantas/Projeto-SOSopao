@@ -4,10 +4,12 @@ import { BotaoLaranja } from '../BotaoLaranja';
 import { BotaoCinza } from '../BotaoCinza';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Loading } from "../../components/Loading/"; 
 
 
 export function EditarContaAdmin({fechaEdicao, dados, setDados}){
     const [storedToken, setStoredToken] = useState(localStorage.getItem('token'));
+    const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
         nome: '',
         email: '',
@@ -26,7 +28,8 @@ export function EditarContaAdmin({fechaEdicao, dados, setDados}){
 
     const handleSave = async function(formData, dados) {
         try {
-            
+            setLoading(true);
+
             const response = await axios.put(`usuarios/admin/${storedToken}`, {
                 nome: formData.nome,
                 email: formData.email,
@@ -49,6 +52,8 @@ export function EditarContaAdmin({fechaEdicao, dados, setDados}){
                 });
 
                 setDados(updatedDados);
+                fechaEdicao();
+                setLoading(false);
             } else {
                 console.error("Erro ao atualizar dados");
             }
@@ -82,25 +87,28 @@ export function EditarContaAdmin({fechaEdicao, dados, setDados}){
 
                 <div className='campo-edicao-admin'>
                     <label>Antiga senha:</label>
-                    <input placeholder='Antiga senha' name="senha" onChange={handleChange}/>
+                    <input placeholder='Antiga senha' type="password" name="senha" onChange={handleChange}/>
                     <MdEdit className='icon-edicao-admin'/>
                 </div>
 
                 <div className='campo-edicao-admin'>
                     <label>Nova senha:</label>
-                    <input placeholder='Nova senha' name="novaSenha" onChange={handleChange}/>
+                    <input placeholder='Nova senha' type="password" name="novaSenha" onChange={handleChange}/>
                     <MdEdit className='icon-edicao-admin'/>
                 </div>
 
                 <div id='container-btns-edicao-admin'>  
+                    {loading ? <Loading/> : (<>
                     <BotaoLaranja onClick={()=>{
                         handleSave(formData, dados);
-                        fechaEdicao();
                     }}
                     >
                         Confirmar
                     </BotaoLaranja>
                     <BotaoCinza onClick={fechaEdicao}>Cancelar</BotaoCinza>
+                    </>)
+                    }
+                    
                 </div>
             </form>
         </div>

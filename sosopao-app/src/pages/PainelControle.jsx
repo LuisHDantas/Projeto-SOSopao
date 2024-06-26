@@ -8,6 +8,7 @@ import { CadastroAdmin } from '../components/ModalCadastroAdmin';
 import { UpdateQRCode } from '../components/ModalUpdateQRCode';
 import { EditarContaAdmin } from '../components/ModalEditarContaAdmin';
 import { Link } from 'react-router-dom';
+import { Loading } from "../components/Loading/";
 import axios from 'axios';
 import '../styles/painelcontrole.css';
 
@@ -127,7 +128,7 @@ export function PainelControle(){
 
                 <div className='container-admins'>
 
-                    {dados?.map((admin, index) => {
+                    {loading ? <Loading/> : dados?.map((admin, index) => {
                         return(
                             <CardAdmin 
                                 key={index}
