@@ -35,36 +35,9 @@
 .campo-update-qrcode {
     display: flex;
     flex-direction: column;
+    align-items: center;
     width: 100%;
     margin-bottom: 5px;
-}
-
-.campo-update-qrcode textarea {
-    resize: none;
-}
-
-.campo-update-qrcode input {
-    border: 1px solid #F27127;
-    border-radius: 8px;
-    height: 4vh;
-    font-size: 12px;
-    padding-left: 10px;
-    font-family: 'Poppins', sans-serif;
-}
-.campo-update-qrcode textarea {
-    font-family: 'Poppins', sans-serif;
-    border: 1px solid #F27127;
-    border-radius: 8px;
-    height: 17vh;
-    font-size: 12px;
-    padding: 10px 10px;
-}
-
-.icon-update-qrcode {
-    position: relative;
-    left: 90%;
-    bottom: 35%;
-    color: #F27127;
 }
 
 #container-btns-update-qrcode {
@@ -77,6 +50,27 @@
 #container-btns-update-qrcode > button {
     max-width: 40%;
 }
+
+#upload-input {
+    margin-bottom: 1%;
+}
+
+.update-qrcode-modal input[type="file"]::file-selector-button {
+    content: "Upload";
+    color: white;
+    background-color: #F27127;
+    border-radius: 8px;
+    height: 6vh;
+    widht: 50vw;
+    border: 0;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.2rem;
+}
+
+.update-qrcode-modal input[type="file"]:hover {
+    cursor: pointer;
+}
+
 
 @media screen and (min-width: 992px) {
     .update-qrcode-modal {

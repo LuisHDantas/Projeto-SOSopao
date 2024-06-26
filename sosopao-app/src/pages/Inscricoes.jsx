@@ -1,16 +1,33 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Navbar } from "../components/Navbar";
 import { Footer } from "../components/Footer";
 import '../styles/inscricoes.css';
 import { CardInscricao } from '../components/cardInscricao';
+import { Loading } from '../components/Loading/';
+import axios from 'axios';
+
+
+const DataFetcher = async (setDados, setLoading, setError) => {
+    try {
+        const response = await axios.get('/voluntario');
+        setDados(response.data);
+        setLoading(false);
+    } catch (error) {
+        setError(error);
+        setLoading(false);
+    }
+};
+
 
 export function Inscricoes(){
 
-    const [dados] = useState([
-    {nome: 'João da Silva', email:'joao.silva@gmail.com', telefone: '(19) 99999-9999'},
-    {nome: 'Claudinei Santos', email:'claudinei.santos@gmail.com', telefone: '(19) 99999-9999'},
-    {nome: 'Maria de Almeida', email: 'maria.almeida@gmail.com', telefone: '(19) 99999-9999'},
-    ]);
+    const [dados, setDados] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(false);
+
+    useEffect(() => {
+        DataFetcher(setDados, setLoading, setError);
+    }, []);
 
     return(
         <div>
@@ -23,7 +40,7 @@ export function Inscricoes(){
                 </div>
 
                 <div className='container-admins'>    
-                    {dados?.map((inscricao, index) => {
+                    {loading ? <Loading/> : dados?.map((inscricao, index) => {
                         return(
                             <CardInscricao
                                 key={index}

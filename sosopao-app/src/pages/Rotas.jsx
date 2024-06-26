@@ -5,12 +5,13 @@ import { ButtonAdd } from "../components/buttonAdd";
 import { ModalDeletar } from "../components/ModalDeletar";
 import { CadastroParada } from '../components/ModalCardastroParada';
 import { CardParada } from '../components/cardParada';
-import map from '../assets/images/map.png'
 import '../styles/rotas.css';
 import  axios  from 'axios';
+import { Loading } from '../components/Loading';
 
 const DataFetcher = async (setDados, setLoading, setError) => {
     try {
+        setLoading(true);
         const response = await axios.get('pontoparada');
         setDados(response.data);
         setLoading(false);
@@ -23,7 +24,6 @@ const DataFetcher = async (setDados, setLoading, setError) => {
 export function Rotas(){
 
     const [dados, setDados] = useState([]);
-
     const [abreDeletar, setAbreDeletar] = useState(false);
     const [abreAddRota, setAbreAddRota] = useState(false);
     const [loading, setLoading] = useState(true);
@@ -57,13 +57,14 @@ export function Rotas(){
                 }
             });
 
-            console.log(updatedData);
+            //console.log(updatedData);
             setDados(updatedData);
             setAbreDeletar(false);
         }
     };
 
-     return (
+    if (error) return <p>Error: {error.message}</p>;
+    return (
         <div>
             <Navbar type='rotas'/>
 
@@ -101,29 +102,29 @@ export function Rotas(){
                 <div className='titulos-rotas'>
                     <h1>Pontos de parada</h1>
                 </div>
+                {
+                    loading? <Loading/> :
+                    (<div className='container-paradas'>
 
-                <div className='container-paradas'>
+                        {dados?.map((rota, index) => {
+                            return(
+                                <CardParada
+                                    key={index}
+                                    posicao={rota.posicao}
+                                    parada={rota.descricao} 
 
-                    <img src={map} alt="Mapa de rotas" />
+                                    abreDeletar={() => {
+                                        setAbreDeletar(!abreDeletar);
+                                        setClickedIndex(index);
+                                        }
+                                    }  
+                                />
+                            );}
+                        )
+                        }
 
-                    {dados?.map((rota, index) => {
-                        return(
-                            <CardParada
-                                key={index}
-                                posicao={rota.posicao}
-                                parada={rota.descricao} 
-
-                                abreDeletar={() => {
-                                    setAbreDeletar(!abreDeletar);
-                                    setClickedIndex(index);
-                                    }
-                                }  
-                            />
-                        );}
-                    )
-                    }
-
-                </div>
+                    </div>)
+                }
 
                 <Footer />
 

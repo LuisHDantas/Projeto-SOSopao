@@ -70,6 +70,25 @@
 #container-btns-cadastro-evento > button {
     max-width: 40%;
 }
+.campo-add-alimento input[type="file"]{
+    padding: 2vh 0;
+}
+.campo-add-alimento input[type="file"]::file-selector-button {
+    content: "Upload";
+    color: white;
+    background-color: #F27127;
+    border-radius: 8px;
+    height: 6vh;
+    width: 30%;
+    border: 0;
+    font-family: 'Roboto', sans-serif;
+    font-size: medium;
+    white-space: normal;
+}
+
+.campo-add-alimento input[type="file"]:hover {
+    cursor: pointer;
+}
 
 @media screen and (min-width: 992px) {
     .add-alimento-modal {
@@ -86,5 +105,9 @@
 
     .campo-add-alimento select {
         font-size: 16px;
+    }
+
+    .campo-add-alimento input[type="file"]::file-selector-button{
+        width: 45%;
     }
 }

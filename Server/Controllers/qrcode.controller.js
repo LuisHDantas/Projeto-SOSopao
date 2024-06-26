@@ -1,4 +1,5 @@
 import QrCode from "../Models/qrcode.model.js";
+import upload from "../upload/upload.js"; 
 
 function findAll(request, response) {
   QrCode
@@ -27,10 +28,13 @@ function findById(request, response) {
 }
 
 function create(request, response) {
+  let linkImagem;
+  if(!request.file) { linkImagem = request.file; }
+  else { linkImagem = upload.getFileUrl(request.file.key) }
+
   QrCode
     .create({
-      url_imagem: request.body.url_imagem,
-      funcionalidade: request.body.funcionalidade || null, // Definindo como nulo se não for fornecido
+      url_imagem: linkImagem,
     })
     .then(res => {
       response.status(201).json(res);
@@ -40,7 +44,18 @@ function create(request, response) {
     });
 }
 
-function deleteByPk(request, response) {
+async function deleteByPk(request, response) {
+  // deleta a imagem armazenada no minio na url da tupla
+  await QrCode
+    .findByPk(request.params.id)
+    .then(res => {
+      if (res) {
+        if(res.url_imagem) { upload.deleteFile(res.url_imagem); }
+      } else {
+        response.status(404).json({ error: "QR Code não encontrado" });
+      }
+    })
+
   QrCode
     .destroy({ where: { id_qr_code: request.params.id } })
     .then(res => {
@@ -55,12 +70,30 @@ function deleteByPk(request, response) {
     });
 }
 
-function update(request, response) {
+async function update(request, response) {
+  // testa se a imagem foi atualizada e deleta a imagem antiga caso sim
+  let linkImagem;
+  if(!request.file) { 
+    linkImagem = request.file; 
+  } 
+  else { 
+    linkImagem = upload.getFileUrl(request.file.key) 
+
+    await QrCode
+    .findByPk(request.params.id)
+    .then(res => {
+      if (res) {
+        if(res.url_imagem) { upload.deleteFile(res.url_imagem); }
+      } else {
+        response.status(404).json({ error: "QR Code não encontrado" });
+      }
+    })
+  }
+
   QrCode
     .update(
       {
-        url_imagem: request.body.url_imagem,
-        funcionalidade: request.body.funcionalidade || null, // Definindo como nulo se não for fornecido
+        url_imagem: linkImagem,
       },
       { where: { id_qr_code: request.params.id } }
     )

@@ -9,11 +9,11 @@ export function CadastroEvento({ fechaCadastro, dados, setDados }) {
     const [formData, setFormData] = useState({
         nome: '',
         data: '',
-        descricao: '',
-        url_imagem: ''
+        descricao: ''
     });
 
     const [loading, setLoading] = useState(false);
+    const [file, setFile] = useState(null);
 
 const handleChange = (event) => {
     const { name, value } = event.target;
@@ -22,6 +22,11 @@ const handleChange = (event) => {
         [name]: value,
     });
 };
+
+const handleFileChange = (event) => {
+    setFile(event.target.files[0]);
+};
+
 
 const handleBlur = (event) => {
     const { name, value } = event.target;
@@ -45,7 +50,7 @@ const handleBlur = (event) => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-
+    
         // Verifica se os campos obrigatórios estão preenchidos
         if (!formData.nome || !formData.data) {
             alert('Por favor, preencha todos os campos obrigatórios.');
@@ -64,11 +69,19 @@ const handleBlur = (event) => {
         setLoading(true);
 
         try {
-            const response = await axios.post('/eventos', {
-                nome: formData.nome,
-                data: formattedDate,
-                descricao: formData.descricao,
-                url_imagem: formData.url_imagem
+
+            // cria uma nova instância de FormData
+            const form = new FormData();
+            form.append('nome', formData.nome);
+            form.append('data', formattedDate);
+            form.append('descricao', formData.descricao);
+            form.append('file', file);
+            
+            //tenta uma requisição com o servidor
+            const response = await axios.post('/eventos', form, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
             });
 
             // Atualiza o estado com o novo evento
@@ -130,16 +143,11 @@ const handleBlur = (event) => {
                     <MdEdit style={{ bottom: '15%' }} className='icon-cadastro-evento' />
                 </div>
 
-                <div className='campo-cadastro-evento'>
-                    <label htmlFor="url_imagem">URL da imagem:</label>
-                    <input
-                        id="url_imagem"
-                        placeholder='URL da imagem'
-                        name="url_imagem"
-                        value={formData.url_imagem}
-                        onChange={handleChange}
-                    />
-                    <MdEdit className='icon-cadastro-evento' />
+                <div className='campo-cadastro-evento' id='foto'>
+
+                    <label>Adicione uma foto:</label>
+                    <input type="file" name="file" onChange={handleFileChange}/>
+
                 </div>
 
                 <div id='container-btns-cadastro-evento'>

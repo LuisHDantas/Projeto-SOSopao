@@ -46,8 +46,6 @@ export function Eventos(){
 
         }, [dados, searchTerm]);
 
-
-    //if (loading) return <p>Loading...</p>;
     if (error) return <p>Error: {error.message}</p>;
 
 
@@ -82,11 +80,21 @@ export function Eventos(){
     };
 
 
-    const handleUpdateCard = async (index, newDados) => {
+    const handleUpdateCard = async (index, newDados, form) => {
         try {
-            const { id_evento, ...dadosParaAtualizar } = newDados;
-            const response = await axios.put(`eventos/${id_evento}`, dadosParaAtualizar);
-    
+            const { id_evento } = newDados;
+
+            //tenta uma requisição com o servidor
+            const response = await axios.put(`/eventos/${id_evento}`, form, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+            
+            if(response.data.url_imagem){
+                newDados.url_imagem = response.data.url_imagem;
+            }
+
             if (response.status === 200) {
                 // Se a atualização for bem-sucedida, atualiza os dados no estado local
                 updateDados(index, newDados);

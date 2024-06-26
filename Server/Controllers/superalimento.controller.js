@@ -1,5 +1,6 @@
 import Alimento from "../Models/alimento.model.js";
 import Superalimento from "../Models/superalimento.model.js";
+import upload from "../upload/upload.js";
 
 function findAll(request, response) {
   Superalimento
@@ -48,12 +49,16 @@ function findByNome(request, response) {
 }
 
 function create(request, response) {
+  let linkImagem;
+  if(!request.file) { linkImagem = request.file; }
+  else { linkImagem = upload.getFileUrl(request.file.key) }
+
   Superalimento
     .create({
       nome: request.body.nome,
       meta: request.body.meta,
       unidade_medida: request.body.unidade_medida,
-      url_imagem: request.body.url_imagem
+      url_imagem: linkImagem
     })
     .then(res => {
       response.status(201).json(res);
@@ -64,6 +69,17 @@ function create(request, response) {
 }
 
 async function deleteByPk(request, response) {
+  // deleta a imagem armazenada no minio na url da tupla
+  await Superalimento
+    .findByPk(request.params.id)
+    .then(res => {
+      if (res) {
+        if(res.url_imagem) { upload.deleteFile(res.url_imagem); }
+      } else {
+        response.status(404).json({ error: "Superalimento não encontrado" });
+      }
+    })
+  
   try {
     const superalimentoDeleted = await Superalimento.destroy({ where: { id: request.params.id } });
     if (!superalimentoDeleted) {
@@ -76,6 +92,17 @@ async function deleteByPk(request, response) {
 }
 
 async function deleteByNome(request, response) {
+  // deleta a imagem armazenada no minio na url da tupla
+  await Superalimento
+    .findByNome(request.params.nome)
+    .then(res => {
+      if (res) {
+        if(res.url_imagem) { upload.deleteFile(res.url_imagem); }
+      } else {
+        response.status(404).json({ error: "Superalimento não encontrado" });
+      }
+    })
+
   try {
     const superalimentoDeleted = await Superalimento.destroy({
       where: {
@@ -93,14 +120,33 @@ async function deleteByNome(request, response) {
   }
 }
 
-function updateByNome(request, response) {
+async function updateByNome(request, response) {
+  // testa se a imagem foi atualizada e deleta a imagem antiga caso sim
+  let linkImagem;
+  if(!request.file) { 
+    linkImagem = request.file; 
+  } 
+  else { 
+    linkImagem = upload.getFileUrl(request.file.key) 
+
+    await Superalimento
+    .findByNome(request.params.nome)
+    .then(res => {
+      if (res) {
+        if(res.url_imagem) { upload.deleteFile(res.url_imagem); }
+      } else {
+        response.status(404).json({ error: "Superalimento não encontrado" });
+      }
+    })
+  }
+
   Superalimento
     .update(
       {
         nome: request.body.nome,
         meta: request.body.meta,
         unidade_medida: request.body.unidade_medida,
-        url_imagem: request.body.url_imagem
+        url_imagem: linkImagem
       },
       { where: { nome: request.params.nome } }
     )
@@ -116,14 +162,33 @@ function updateByNome(request, response) {
     });
 }
 
-function updateByID(request, response) {
+async function updateByID(request, response) {
+  // testa se a imagem foi atualizada e deleta a imagem antiga caso sim
+  let linkImagem;
+  if(!request.file) { 
+    linkImagem = request.file; 
+  } 
+  else { 
+    linkImagem = upload.getFileUrl(request.file.key) 
+
+    await Superalimento
+    .findByPk(request.params.id)
+    .then(res => {
+      if (res) {
+        if(res.url_imagem) { upload.deleteFile(res.url_imagem); }
+      } else {
+        response.status(404).json({ error: "Superalimento não encontrado" });
+      }
+    })
+  }
+
   Superalimento
     .update(
       {
         nome: request.body.nome,
         meta: request.body.meta,
         unidade_medida: request.body.unidade_medida,
-        url_imagem: request.body.url_imagem
+        url_imagem: linkImagem
       },
       { where: { id: request.params.id } }
     )

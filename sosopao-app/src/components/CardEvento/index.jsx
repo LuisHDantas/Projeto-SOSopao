@@ -54,6 +54,12 @@ export function CardEvento({index, id_evento, nome, data, descricao, url_imagem,
         }
     }
 
+    const [file, setFile] = useState(null);
+
+    const handleFileChange = (event) => {
+        setFile(event.target.files[0]);
+    };
+
     const handleChange = (event) => {
         const { name, value } = event.target;
 
@@ -73,8 +79,15 @@ export function CardEvento({index, id_evento, nome, data, descricao, url_imagem,
             ...cardDados,
             data: formatDateToDB(cardDados.data),
         };
+
+        const form = new FormData();
+        form.append('nome', formattedData.nome);
+        form.append('data', formattedData.data);
+        form.append('descricao', formattedData.descricao);
+        form.append('file', file);
+
         setLoading(true);
-        await finalizaEdicao(index, formattedData);
+        await finalizaEdicao(index, formattedData, form);
         setLoading(false);
     };
 
@@ -168,17 +181,9 @@ export function CardEvento({index, id_evento, nome, data, descricao, url_imagem,
                                 display: isSelectedEdit ? '' : 'none',
                             }}
                         >
-                            <h3>URL da imagem:</h3>
-                            {isSelectedEdit ? (
-                                <input
-                                    className='input-editavel-card-evento'
-                                    type='text'
-                                    value={cardDados.url_imagem}
-                                    name='url_imagem'
-                                    onChange={handleChange}
-                                />
-                            ) : (
-                                <p>{cardDados.url_imagem}</p>
+                            <label>Adicione uma foto:</label>
+                            {isSelectedEdit && (
+                                <input type="file" name="file" onChange={handleFileChange}/>
                             )}
                         </div>
                     </div>
