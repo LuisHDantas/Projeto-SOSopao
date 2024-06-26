@@ -1,4 +1,5 @@
 import QrCode from "../Models/qrcode.model.js";
+import upload from "../upload/upload.js"; 
 
 function findAll(request, response) {
   QrCode
@@ -34,7 +35,6 @@ function create(request, response) {
   QrCode
     .create({
       url_imagem: linkImagem,
-      funcionalidade: request.body.funcionalidade || null, // Definindo como nulo se não for fornecido
     })
     .then(res => {
       response.status(201).json(res);
@@ -94,7 +94,6 @@ async function update(request, response) {
     .update(
       {
         url_imagem: linkImagem,
-        funcionalidade: request.body.funcionalidade || null, // Definindo como nulo se não for fornecido
       },
       { where: { id_qr_code: request.params.id } }
     )
