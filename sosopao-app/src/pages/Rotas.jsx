@@ -23,7 +23,6 @@ const DataFetcher = async (setDados, setLoading, setError) => {
 export function Rotas(){
 
     const [dados, setDados] = useState([]);
-
     const [abreDeletar, setAbreDeletar] = useState(false);
     const [abreAddRota, setAbreAddRota] = useState(false);
     const [loading, setLoading] = useState(true);
@@ -104,7 +103,7 @@ export function Rotas(){
 
                 <div className='container-paradas'>
 
-                    <img src={map} alt="Mapa de rotas" />
+                    {/* <img src={map} alt="Mapa de rotas" />*/}
 
                     {dados?.map((rota, index) => {
                         return(

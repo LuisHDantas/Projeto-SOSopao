@@ -7,7 +7,6 @@ QrCode.init(
     {
         id_qr_code: {type: DataTypes.INTEGER, autoIncrement:true, primaryKey:true},
         url_imagem: {type: DataTypes.STRING, allowNull: false},
-        funcionalidade: {type: DataTypes.STRING, allowNull: true}
     },
     {sequelize: sequelize, timestamps: false }
 );
