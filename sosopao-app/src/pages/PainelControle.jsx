@@ -143,7 +143,9 @@ export function PainelControle(){
                                         } 
                                     }  
                                 />
-                            );}
+                            );} else {
+                                return null;
+                            }
                         }
                     )
                     }
