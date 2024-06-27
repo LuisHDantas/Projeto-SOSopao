@@ -100,7 +100,7 @@ export function Rotas(){
                 </div>
 
                 <div className='titulos-rotas'>
-                    <h1>Pontos de parada</h1>
+                    <h1>Pontos de parada:</h1>
                 </div>
                 {
                     loading? <Loading/> :

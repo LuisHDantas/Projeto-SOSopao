@@ -30,10 +30,28 @@
     margin: 0;
 }
 
+#guia{
+    font-weight: 300;
+}
+
 #conteudoGuia ul{
     margin: 2vh;
 }
 
 #conteudoGuia ul li{
     padding-bottom: 1vh;
+    font-weight: 300;
+}
+
+#inline{
+    display: inline;
+    color: #038C8C;
+    font-weight: bold;
+}
+
+#creditos{
+    padding-left: 2%;
+    color: black;
+    font-weight: 350;
+    font-size: smaller;
 }

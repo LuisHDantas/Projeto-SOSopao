@@ -122,7 +122,7 @@ export function PainelControle(){
                 </div>
 
                 <div className='titulos-admin'>
-                    <h1>Gerenciar Administradores</h1>
+                    <h1>Gerenciar Administradores:</h1>
                 </div>
 
                 <div className='container-admins'>
@@ -156,7 +156,7 @@ export function PainelControle(){
 
                 <div id="container-funcoes-admin">
                     <div className='titulos-admin'>
-                        <h1>Funções do administrador</h1>
+                        <h1>Funções do administrador:</h1>
                     </div>
 
                     <div className='container-btn-funcoes'>
