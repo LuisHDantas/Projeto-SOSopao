@@ -52,7 +52,7 @@ export function Home(){
                 <p>Projeto desenvolvido no curso de Ciências de Computação (ICMC/USP) no ano de 2024</p>
 
                 
-                <p> <strong>Desenvolvedores:</strong> Camila Donda Ronchi, Gabriel Sousa Santos de Almeida, João Gabriel Manfré Nazar, João Pedro Mori Machado,Lucas Piovani Ferreira e Luís Henrique Giorgetti Dantas.</p>
+                <p> <strong>Desenvolvedores:</strong> Camila Donda Ronchi, Gabriel Sousa Santos de Almeida, João Gabriel Manfré Nazar, João Pedro Mori Machado, Lucas Piovani Ferreira e Luís Henrique Giorgetti Dantas.</p>
 
                 <p></p>
             </div>
