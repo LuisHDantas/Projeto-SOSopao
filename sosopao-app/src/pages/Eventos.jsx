@@ -146,7 +146,7 @@ export function Eventos(){
             }}>
                 
                 <div className="titulos-eventos">
-                    <h1>Eventos ativos</h1>
+                    <h1>Eventos ativos:</h1>
                 </div>
                 <div>
 
@@ -188,7 +188,7 @@ export function Eventos(){
 
                 </div>
                 <div className="titulos-eventos">
-                    <h1>Eventos passados</h1>
+                    <h1>Eventos passados:</h1>
                 </div>
 
                 {
