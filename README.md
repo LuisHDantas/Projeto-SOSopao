@@ -58,7 +58,7 @@ Nesse modo, cada CRTL+S irá reiniciar a API.
 
 > minio server ObjectStore --console-address :9001
 
-## Créditos
+# Créditos
 
 Projeto desenvolvido no curso de Ciências de Computação (ICMC/USP) no ano de 2024
 
