@@ -62,4 +62,4 @@ Nesse modo, cada CRTL+S irá reiniciar a API.
 
 Projeto desenvolvido no curso de Ciências de Computação (ICMC/USP) no ano de 2024
 
-Desenvolvedores: Camila Donda Ronchi, Gabriel Sousa Santos de Almeida, João Gabriel Manfré Nazar, João Pedro Mori Machado,Lucas Piovani Ferreira e Luís Henrique Giorgetti Dantas.
+Desenvolvedores: Camila Donda Ronchi, Gabriel Sousa Santos de Almeida, João Gabriel Manfré Nazar, João Pedro Mori Machado, Lucas Piovani Ferreira e Luís Henrique Giorgetti Dantas.
